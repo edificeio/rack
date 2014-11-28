@@ -1,0 +1,53 @@
+<!--
+ ~	Copyright © WebServices pour l'Éducation, 2014
+ ~
+ ~ This file is part of ENT Core. ENT Core is a versatile ENT engine based on the JVM.
+ ~
+ ~ This program is free software; you can redistribute it and/or modify
+ ~ it under the terms of the GNU Affero General Public License as
+ ~ published by the Free Software Foundation (version 3 of the License).
+ ~
+ ~ For the sake of explanation, any module that communicate over native
+ ~ Web protocols, such as HTTP, with ENT Core is outside the scope of this
+ ~ license and could be license under its own terms. This is merely considered
+ ~ normal use of ENT Core, and does not fall under the heading of "covered work".
+ ~
+ ~ This program is distributed in the hope that it will be useful,
+ ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ ~
+ -->
+
+<div>
+	<form id="upload-form" method="post" enctype="multipart/form-data" class="twelve cell" ng-submit="sendRackFiles()">
+		<div class="twelve cell">
+			<h1 translate key="rack.sendRack"></h1>
+			<div class="row">
+				<h3 class="four cell inline" translate key="rack.file"></h3>
+				<div class="eight cell select-file">
+					<div class="hidden-content">
+						<input type="file" multiple files-input-change="setFilesName()" data-ng-model="newFile.files" />
+					</div>
+					<button class="file-button" translate key="choose"></button>
+					<input type="text" data-ng-model="newFile.name" />
+				</div>
+			</div>
+			<div class="row">
+				<h3 class="four cell" translate key="rack.to"></h3>
+				<input class="twelve cell" type="text" ng-model="userFilter" translate-attr="placeholder" placeholder="share.search.placeholder" />
+				<div class="row found-users-list" style="max-height:200px; overflow-y: scroll">
+					<div ng-repeat="user in visibleUsers.all | orderBy: user.username | filter: userFilter" class="row autocomplete">
+						<em ng-click="$parent.userFilter = user.username; setRackTo(user)" class="row" ng-class="{ 'high-importance': user.id === to.id }">
+							<span class="cell reduce-block-two">[[user.username]]</span>
+							<div class="row"></div>
+						</em>
+					</div>
+				</div>
+			</div>
+			<div class="right-magnet">
+				<input type="submit" translate-attr="value" value="upload" />
+				<input type="button" class="cancel" translate-attr="value" value="cancel" />
+			</div>
+		</div>
+	</form>
+</div>

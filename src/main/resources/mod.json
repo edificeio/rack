@@ -1,0 +1,11 @@
+{
+	"main" : "fr.wseduc.rack.Rack",
+	"port" : "8026",
+	"app-name" : "Rack",
+	"app-address" : "/rack",
+	"app-icon" : "rack-large",
+	"app-displayName" : "Rack",
+	"mode": "dev",
+	"entcore.port" : 8090,
+	"auto-redeploy": true
+}

@@ -1,0 +1,50 @@
+<article class="list-view">
+	<table class="twelve">
+		<thead class="tableheader whiteheader">
+    		<tr>
+    			<th class="icon" ng-if="!folder.readOnly">
+    				<input type="checkbox" ng-model="select.all" ng-change="switchAll()"/>
+    			</th>
+    			<th class="icon" />
+    			<th class="content">
+					<a translate content="title" ng-click="orderBy('name')"></a>
+				</th>
+    			<th class="user">
+					<a translate content="from" ng-click="orderBy('fromName')"></a>
+				</th>
+				<th class="user" ng-if="folder.extraColumns.indexOf('to') > -1">
+					<a translate content="to" ng-click="orderBy('toName')"></a>
+				</th>
+    			<th class="date">
+					<a translate content="sentDate" ng-click="orderBy('sent')"></a>
+				</th>
+    		</tr>
+		</thead>
+		<tbody>
+    		<tr ng-repeat="rack in rackList.all | filter:filterRack:true | orderBy:ordering" ng-class="{ checked: rack.selected }">
+    			<td class="icon" ng-if="!folder.readOnly">
+					<input type="checkbox" ng-model="rack.selected"/>
+				</td>
+				<td class="icon">
+					<div class="twelve cell">
+						<i class="[[rack.metadata.contentType]]"></i>
+					</div>
+				</td>
+    			<td class="content">
+                    <a ng-href="[[folder.name === 'mine' ? '/rack/get/'+rack._id : '' ]]">
+						[[rack.name]]
+					</a>
+                </td>
+    			<td class="user">
+                    <a href="/userbook/annuaire#[[rack.from]]">[[rack.fromName]]</a>
+                </td>
+				<td class="user" ng-if="folder.extraColumns.indexOf('to') > -1">
+					<a href="/userbook/annuaire#[[rack.to]]">[[rack.toName]]</a>
+				</td>
+    			<td class="date">
+                    [[$root.longDate(rack.sent)]]
+                </td>
+    		</tr>
+		</tbody>
+	</table>
+</article>

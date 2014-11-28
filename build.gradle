@@ -1,0 +1,46 @@
+apply from: "gradle/vertx.gradle"
+
+dependencies {
+	compile "org.entcore:common:$entCoreVersion"
+}
+
+javadoc {
+  options.encoding = 'UTF-8'
+  classpath  = configurations.provided
+  classpath += configurations.compile
+}
+
+repositories {
+    maven {
+        url "http://maven.web-education.net/nexus/content/groups/public"
+    }
+}
+
+configurations.all {
+	resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+def configurePom(def pom) {
+	pom.project {
+		description 'Rack (ent-core)'
+		inceptionYear '2014'
+		packaging 'zip'
+		url 'http://code.web-education.net/one/rack'
+
+		developers {
+			developer {
+				id 'jeln'
+				name 'Julien Elbaz'
+				email 'julien.elbaz@web-education.net'
+			}
+		}
+
+		scm {
+			url 'git@code.web-education.net:one/rack.git'
+		}
+
+		properties {
+			setProperty('project.build.sourceEncoding', 'UTF8')
+		}
+	}
+}

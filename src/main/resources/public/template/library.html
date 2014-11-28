@@ -1,0 +1,68 @@
+<script type="text/ng-template" id="folder-management">
+	<a ng-class="{ selected: isTargetFolder(folder)}" ng-click="addTargetFolder(folder)">
+		[[folder.name]]
+	</a>
+	<ul class="row">
+		<li data-ng-repeat="folder in folder.children" data-ng-include="'folder-management'"></li>
+	</ul>
+</script>
+
+<div class="row" ng-controller="FolderController">
+	<div class="row">
+		<h1 class="four cell" data-reload>
+			<a><i class="rack"></i><span translate content="rack.title"></span></a>
+		</h1>
+		<nav class="contextual-buttons eight cell">
+			<div class="action-buttons">
+				<button ng-click="openNewRack()" translate content="rack.sendRack" workflow="rack.send"></button>
+			</div>
+			<div class="display-buttons" ng-if="template.contains('list', 'table-list') || template.contains('list', 'icons-list')">
+				<i class="show-list"
+				   ng-class="{ selected: template.contains('list', 'table-list') }"
+				   ng-click="openView('list', 'table-list')"></i>
+				<i class="show-icons"
+				   ng-class="{ selected: template.contains('list', 'icons-list') }"
+				   ng-click="openView('list', 'icons-list')"></i>
+			</div>
+		</nav>
+	</div>
+
+	<div class="row">
+		<section class="vertical four cell">
+			<nav class="vertical">
+				<ul>
+					<li ng-repeat="f in folders">
+						<a ng-if="!f.workflow"
+						   ng-click="refreshListing(f)"
+						   translate content="rack.[[f.name]]"
+						   ng-class="{ selected: f.name === folder.name }"/>
+						<a ng-if="f.workflow"
+						   workflow="[[f.workflow]]"
+						   ng-click="refreshListing(f)"
+						   translate content="rack.[[f.name]]"
+						   ng-class="{ selected: f.name === folder.name }"/>
+					</li>
+				</ul>
+			</nav>
+			<div class="nine row">
+				<hr class="row" />
+				<h2 translate content="rack.usedSpace"></h2>
+				<progress-bar max="quota.max" filled="quota.used" unit="[[quota.unit]]"></progress-bar>
+			</div>
+		</section>
+		<section class="eight cell">
+			<div ng-include="template.containers.list" class="row"></div>
+		</section>
+
+	</div>
+
+	<section class="toggle-buttons" ng-class="{ hide: !folder.bottomBarButtons || rackList.selection().length === 0 }">
+		<div class="toggle">
+			<div class="row">
+				<div class="cell" ng-repeat="button in folder.bottomBarButtons">
+					<button  translate content="[[button.name]]" ng-if="button.showCondition()" ng-click="button.onClick()"/>
+				</div>
+		</div>
+	</section>
+
+</div class="row">
