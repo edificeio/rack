@@ -1,3 +1,5 @@
+var rackResources = {}
+
 Behaviours.register('rack', {
 	rights: {
 		workflow: {

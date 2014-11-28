@@ -32,6 +32,7 @@ import fr.wseduc.webutils.request.RequestUtils;
 import org.entcore.common.http.request.JsonHttpServerRequest;
 import org.entcore.common.mongodb.MongoDbControllerHelper;
 import org.entcore.common.neo4j.Neo4j;
+import org.entcore.common.notification.TimelineHelper;
 import org.entcore.common.user.UserInfos;
 import org.entcore.common.user.UserUtils;
 import org.vertx.java.core.Handler;
@@ -58,10 +59,12 @@ public class RackController extends MongoDbControllerHelper {
 	private final String collection;
 	private int threshold;
 	private String imageResizerAddress;
+	private TimelineHelper timelineHelper;
 
 	private final static String QUOTA_BUS_ADDRESS = "org.entcore.workspace.quota";
 	private final static String WORKSPACE_NAME = "WORKSPACE";
 	private final static String WORKSPACE_COLLECTION ="documents";
+	private final static String NOTIFICATION_TYPE = "RACK";
 	private final static Logger logger = LoggerFactory.getLogger(RackController.class);
 	
 	//Permissions
@@ -89,6 +92,7 @@ public class RackController extends MongoDbControllerHelper {
 		super.init(vertx, container, rm, securedActions);
 		this.threshold = container.config().getInteger("alertStorage", 80);
 		this.imageResizerAddress = container.config().getString("image-resizer-address", "wse.image.resizer");
+		this.timelineHelper = new TimelineHelper(vertx, eb, container);
 	}
 
 	/**
@@ -154,7 +158,7 @@ public class RackController extends MongoDbControllerHelper {
 												emptySize = quota - storage;
 												
 												/* Upload file */
-												uploadFile(request, doc, emptySize);
+												uploadFile(request, doc, emptySize, userInfos);
 											} else {
 												badRequest(request, j.encode());
 											}
@@ -622,7 +626,7 @@ public class RackController extends MongoDbControllerHelper {
 		});
 	}
 	
-	private void uploadFile(final HttpServerRequest request, final JsonObject doc, long allowedSize) {
+	private void uploadFile(final HttpServerRequest request, final JsonObject doc, long allowedSize, final UserInfos userInfos) {
 		FileUtils.gridfsWriteUploadFile(request, eb, gridfsAddress, allowedSize, new Handler<JsonObject>() {
 			@Override
 			public void handle(final JsonObject uploaded) {
@@ -636,6 +640,19 @@ public class RackController extends MongoDbControllerHelper {
 						@Override
 						public void handle(Message<JsonObject> res) {
 							if ("ok".equals(res.body().getString("status"))) {
+								JsonObject params = new JsonObject()
+									.putString("uri", "/userbook/annuaire#" + doc.getString("from"))
+									.putString("username", doc.getString("fromName"))
+									.putString("documentName", doc.getString("name"));
+								List<String> receivers = new ArrayList<>();
+								receivers.add(doc.getString("to"));
+								timelineHelper.notifyTimeline(request, 
+										userInfos, 
+										NOTIFICATION_TYPE, 
+										NOTIFICATION_TYPE + "_POST", 
+										receivers, 
+										userInfos.getUserId() + System.currentTimeMillis() + "postrack", 
+										"notify-rack-post.html", params);
 								renderJson(request, res.body(), 201);
 							} else {
 								renderError(request, res.body());
