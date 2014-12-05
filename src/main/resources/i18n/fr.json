@@ -2,6 +2,8 @@
 	"rack.title"					: "Casier",
 
 	"rack.sent.message"				: "Votre document a bien été envoyé",
+	"rack.sent.message.partial"		: "Certains destinataires n'ont pas pu recevoir votre document",
+	"rack.sent.message.error"		: "Erreur durant l'envoi de votre document",
 	"rack.notify.restored"			: "Le document a été restauré",
 	"rack.notify.trashed"			: "Le document a été mis à la corbeille",
 	"rack.notify.deleted"			: "Le document a été supprimé",
@@ -18,7 +20,7 @@
 	"rack.sendRack"					: "Déposer dans un casier",
 	"rack.file"						: "Fichier",
 	"rack.name"						: "Nom du document",
-	"rack.to"						: "Destinataire",
+	"rack.to"						: "Destinataire(s)",
 	"rack.racktodocs"				: "Copier dans mes documents",
 	"rack.usedSpace"				: "Espace utilisé",
 	"rack.folder.create"			: "Créer",
@@ -26,6 +28,7 @@
 	"rack.root"						: "Mes documents",
 	"rack.move"						: "Déplacer",
 	"rack.copy"						: "Copier",
+	"rack.resetReceivers"			: "Réinitialiser les destinataires",
 
 	"unsetImage"					: "Supprimer l'image",
 

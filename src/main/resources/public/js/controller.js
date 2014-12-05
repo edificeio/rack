@@ -38,8 +38,9 @@ function RackController($scope, $rootScope, $timeout, model, template, route, da
 	}
 
 	$scope.openNewRack = function(){
-		$scope.getVisibleUsers()
-		$scope.newFile = { name: lang.translate('nofile'), chosenFiles: [] }
+		$scope.getRefreshVisible()
+		$scope.resetRackTo()
+		$scope.newFile = { name: lang.translate('nofile'), files: [], chosenFiles: [] }
 		$scope.openView('lightbox', 'send-rack')
 	}
 
@@ -95,11 +96,12 @@ function RackController($scope, $rootScope, $timeout, model, template, route, da
 
 	$scope.getQuota();
 
-	// RACK VISIBLE USERS //
+	// RACK VISIBLE USERS & GROUPS //
 
-	$scope.visibleUsers = model.userCollection.visibleUsers
+	$scope.visibleUsers  = model.visibleCollection.visibleUsers
+	$scope.visibleGroups = model.visibleCollection.visibleGroups
 
-	$scope.getVisibleUsers = function(){
+	$scope.getRefreshVisible = function(){
 		$scope.visibleUsers.sync()
 	}
 
@@ -128,30 +130,66 @@ function RackController($scope, $rootScope, $timeout, model, template, route, da
 		}
 	}
 
-	$scope.to = {
-		id: ''
+	$scope.filters = {
+		itemFilter: ""
 	}
 
-	$scope.setRackTo = function(user){
-		$scope.to.id = user.id
+	$scope.filterRackTo = function(item){
+		var field = item.username ? "username" : "name"
+		return $scope.filters.itemFilter ? lang.removeAccents(item[field].toLowerCase()).indexOf(lang.removeAccents($scope.filters.itemFilter.toLowerCase())) > -1 : true
+	}
+
+	$scope.resetRackTo = function(){
+		$scope.to = []
+	}
+	$scope.resetRackTo()
+
+	$scope.addRackTo = function(item){
+		if(item instanceof VisibleUser)
+			if(!$scope.containsRackTo(item))
+				$scope.to.push(item)
+			else
+				$scope.to.splice($scope.to.indexOf(item), 1)
+		else if(item instanceof VisibleGroup){
+			$scope.visibleUsers.all.forEach(function(user){
+				if(_.findWhere(user.groups, {id: item.id}) !== undefined)
+					$scope.addRackTo(user)
+			})
+		}
+	}
+	$scope.removeRackTo = function(item){
+		$scope.to = _.reject($scope.to, function(elem){
+			return elem.id === item.id
+		})
+	}
+	$scope.containsRackTo = function(item){
+		return _.findWhere($scope.to, {id: item.id}) !== undefined
 	}
 
 	$scope.sendRackFiles = function(){
+		var n = $scope.newFile.files.length
+		var doneFunction = function(response){
+			ui.hideLightbox()
+			$scope.loading = ''
+			if(--n === 0){
+				if(response.failure === 0)
+					notify.info('rack.sent.message')
+				else if(response.success > 0)
+					notify.error('rack.sent.message.partial')
+				else
+					notify.error('rack.sent.message.error')
+			}
+		}
+
 		for(var i = 0; i < $scope.newFile.files.length; i++){
 			var formData = new FormData()
 
 			formData.append('file', $scope.newFile.files[i])
+			formData.append('users', _.pluck($scope.to, "id").join(","))
 
-			var n = $scope.newFile.files.length
-			var url = '/rack/' + $scope.to.id
+			var url = '/rack'
 			$scope.loading = lang.translate('loading')
-			http().postFile(url + '?thumbnail=120x120',  formData, { requestName: 'file-upload' }).done(function(e){
-				ui.hideLightbox()
-				$scope.loading = ''
-				if(--n === 0){
-					notify.info('rack.sent.message')
-				}
-			})
+			http().postFile(url + '?thumbnail=120x120',  formData, { requestName: 'file-upload' }).done(doneFunction)
 		}
 	}
 

@@ -103,11 +103,26 @@ function RackCollection(){
 
 // [VISIBLE USERS]
 function VisibleUser(){}
-function VisibleUserCollection(){
+function VisibleGroup(){}
+function VisibleCollection(){
+	var rootCollection = this
+	this.collection(VisibleGroup,{})
 	this.collection(VisibleUser, {
 		sync: function(){
 			http().get("/rack/users/available").done(function(data){
 				this.load(data)
+				var groups = []
+				data.forEach(function(user){
+					user.groups.forEach(function(group){
+						if(_.findWhere(groups, {id: group.id}) === undefined){
+							groups.push(new VisibleGroup({
+								id: group.id,
+								name: group.name
+							}))
+						}
+					})
+				})
+				rootCollection.visibleGroups.load(groups)
 			}.bind(this))
 		}
 	})
@@ -156,10 +171,10 @@ function FolderCollection(){
 
 model.build = function(){
 	model.me.workflow.load(['rack'])
-	this.makeModels([Rack, RackCollection, VisibleUser, VisibleUserCollection, Folder, FolderCollection])
+	this.makeModels([Rack, RackCollection, VisibleUser, VisibleGroup, VisibleCollection, FolderCollection])
 
 	this.rackCollection 	= new RackCollection()
-	this.userCollection 	= new VisibleUserCollection()
+	this.visibleCollection 	= new VisibleCollection()
 	this.folderCollection 	= new FolderCollection()
 }
 

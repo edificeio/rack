@@ -33,19 +33,29 @@
 				</div>
 			</div>
 			<div class="row">
-				<h3 class="four cell" translate key="rack.to"></h3>
-				<input class="twelve cell" type="text" ng-model="userFilter" translate-attr="placeholder" placeholder="share.search.placeholder" />
-				<div class="row found-users-list" style="max-height:200px; overflow-y: scroll">
-					<div ng-repeat="user in visibleUsers.all | orderBy: user.username | filter: userFilter" class="row autocomplete">
-						<em ng-click="$parent.userFilter = user.username; setRackTo(user)" class="row" ng-class="{ 'high-importance': user.id === to.id }">
-							<span class="cell reduce-block-two">[[user.username]]</span>
-							<div class="row"></div>
-						</em>
+				<h3 class="twelve cell" translate key="rack.to"></h3>
+				<!-- User & group search -->
+				<div class="eight cell">
+					<input class="eleven" type="text" ng-model="filters.itemFilter" translate-attr="placeholder" placeholder="share.search.placeholder" />
+					<div class="eleven found-users-list" style="max-height:200px; overflow-y: scroll">
+						<div ng-repeat="item in combined = visibleUsers.all.concat(visibleGroups.all) | orderBy: item.name | filter: filterRackTo" class="row autocomplete">
+							<em ng-click="addRackTo(item)" class="row" ng-class="{ 'high-importance': containsRackTo(item) }">
+								<span class="cell reduce-block-two">[[item.username ? item.username : item.name]]</span>
+								<div class="row"></div>
+							</em>
+						</div>
 					</div>
 				</div>
+				<!-- User basket -->
+				<nav class="four cell vertical">
+					<ul style="max-height:200px; margin: 10px; overflow-y: scroll">
+						<li ng-repeat="recipient in to | orderBy: recipient.name" ng-click="removeRackTo(recipient)">[[recipient.username]]</li>
+					</ul>
+				</div>
 			</div>
-			<div class="right-magnet">
-				<input type="submit" translate-attr="value" value="upload" />
+			<div class="right-magnet" style="margin: 10px;">
+				<input type="button" translate-attr="value" value="rack.resetReceivers" ng-click="resetRackTo()"/>
+				<input type="submit" translate-attr="value" value="upload" ng-disabled="to.length === 0 || newFile.files.length === 0"/>
 				<input type="button" class="cancel" translate-attr="value" value="cancel" />
 			</div>
 		</div>

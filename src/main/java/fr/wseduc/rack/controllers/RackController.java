@@ -4,6 +4,7 @@ import static fr.wseduc.webutils.Utils.getOrElse;
 import static org.entcore.common.http.response.DefaultResponseHandler.arrayResponseHandler;
 import static org.entcore.common.http.response.DefaultResponseHandler.defaultResponseHandler;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,19 +17,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import fr.wseduc.mongodb.MongoDb;
-import fr.wseduc.mongodb.MongoQueryBuilder;
-import fr.wseduc.rack.services.RackService;
-import fr.wseduc.rack.services.RackServiceMongoImpl;
-import fr.wseduc.rs.*;
-import fr.wseduc.security.ActionType;
-import fr.wseduc.security.SecuredAction;
-import fr.wseduc.webutils.Either;
-import fr.wseduc.webutils.FileUtils;
-import fr.wseduc.webutils.http.ETag;
-import fr.wseduc.webutils.http.Renders;
-import fr.wseduc.webutils.request.RequestUtils;
-
 import org.entcore.common.http.request.JsonHttpServerRequest;
 import org.entcore.common.mongodb.MongoDbControllerHelper;
 import org.entcore.common.neo4j.Neo4j;
@@ -37,7 +25,9 @@ import org.entcore.common.user.UserInfos;
 import org.entcore.common.user.UserUtils;
 import org.vertx.java.core.Handler;
 import org.vertx.java.core.Vertx;
+import org.vertx.java.core.buffer.Buffer;
 import org.vertx.java.core.eventbus.Message;
+import org.vertx.java.core.http.HttpServerFileUpload;
 import org.vertx.java.core.http.HttpServerRequest;
 import org.vertx.java.core.http.RouteMatcher;
 import org.vertx.java.core.json.JsonArray;
@@ -47,6 +37,23 @@ import org.vertx.java.core.logging.impl.LoggerFactory;
 import org.vertx.java.platform.Container;
 
 import com.mongodb.QueryBuilder;
+
+import fr.wseduc.mongodb.MongoDb;
+import fr.wseduc.mongodb.MongoQueryBuilder;
+import fr.wseduc.rack.services.RackService;
+import fr.wseduc.rack.services.RackServiceMongoImpl;
+import fr.wseduc.rs.Delete;
+import fr.wseduc.rs.Get;
+import fr.wseduc.rs.Post;
+import fr.wseduc.rs.Put;
+import fr.wseduc.security.ActionType;
+import fr.wseduc.security.SecuredAction;
+import fr.wseduc.webutils.Either;
+import fr.wseduc.webutils.FileUtils;
+import fr.wseduc.webutils.I18n;
+import fr.wseduc.webutils.http.ETag;
+import fr.wseduc.webutils.http.Renders;
+import fr.wseduc.webutils.request.RequestUtils;
 
 /**
  * Vert.x backend controller for the application using Mongodb.
@@ -66,7 +73,7 @@ public class RackController extends MongoDbControllerHelper {
 	private final static String WORKSPACE_COLLECTION ="documents";
 	private final static String NOTIFICATION_TYPE = "RACK";
 	private final static Logger logger = LoggerFactory.getLogger(RackController.class);
-	
+
 	//Permissions
 	private static final String
 		access	 			= "rack.access",
@@ -86,7 +93,7 @@ public class RackController extends MongoDbControllerHelper {
 		this.gridfsAddress = gridfsAddress;
 		rackService = new RackServiceMongoImpl(collection);
 	}
-	
+
 	@Override
 	public void init(Vertx vertx, Container container, RouteMatcher rm, Map<String, fr.wseduc.webutils.security.SecuredAction> securedActions) {
 		super.init(vertx, container, rm, securedActions);
@@ -108,37 +115,115 @@ public class RackController extends MongoDbControllerHelper {
 	//////////////
 	//// CRUD ////
 	//////////////
-	
+
 	/**
-	 * Post a new document to someone's rack folder.
-	 * @param request Client request containing the user id of the receiver.
+	 * Post a new document to other people's rack folder.
+	 * @param request Client request containing a list of user ids belonging to the receivers & the file.
 	 */
-	@Post(":to")
+	@Post("")
 	@SecuredAction(send)
 	public void postRack(final HttpServerRequest request){
 		UserUtils.getUserInfos(eb, request, new Handler<UserInfos>() {
 			public void handle(final UserInfos userInfos) {
-				if (userInfos != null) {
-					
-					final String to = request.params().get("to");
-					if (to != null && !to.trim().isEmpty()) {
-						
-						/* Query user and check existence */
-						String query =
-								"MATCH (n:User) " +
-								"WHERE n.id = {id} " +
-								"RETURN count(n) as nb, n.displayName as username";
-						Map<String, Object> params = new HashMap<>();
-						params.put("id", to);
-						request.pause();
-						
-						Handler<Message<JsonObject>> existenceHandler = new Handler<Message<JsonObject>>(){
-							public void handle(Message<JsonObject> res) {
-								JsonArray result = res.body().getArray("result");
-								if ("ok".equals(res.body().getString("status")) &&
-										1 == result.size() &&
-										1 == result.<JsonObject>get(0).getInteger("nb")) {
-									
+
+				if (userInfos == null) {
+					badRequest(request);
+					return;
+				}
+
+				request.expectMultiPart(true);
+				final Buffer fileBuffer = new Buffer();
+				final JsonObject save = new JsonObject();
+				final JsonObject metadata = new JsonObject();
+
+				/* Upload file */
+				request.uploadHandler(new Handler<HttpServerFileUpload>() {
+					public void handle(final HttpServerFileUpload upload) {
+						upload.dataHandler(new Handler<Buffer>() {
+							@Override
+							public void handle(Buffer data) {
+								fileBuffer.appendBuffer(data);
+							}
+						});
+						upload.endHandler(new Handler<Void>() {
+							public void handle(Void v) {
+								save.putString("action", "save");
+								save.putString("content-type", upload.contentType());
+								save.putString("filename", upload.filename());
+								metadata.putString("name", upload.name());
+								metadata.putString("filename", upload.filename());
+								metadata.putString("content-type", upload.contentType());
+								metadata.putString("content-transfer-encoding", upload.contentTransferEncoding());
+								metadata.putString("charset", upload.charset().name());
+								metadata.putNumber("size", upload.size());
+								if (metadata.getLong("size", 0l).equals(0l)) {
+									metadata.putNumber("size", fileBuffer.length());
+								}
+								byte [] header = null;
+								try {
+									header = save.toString().getBytes("UTF-8");
+								} catch (UnsupportedEncodingException e) {
+									badRequest(request, e.getMessage());
+								}
+								if(header != null){
+									fileBuffer.appendBytes(header).appendInt(header.length);
+								}
+							}
+						});
+					}
+				});
+
+				/* After upload */
+				request.endHandler(new Handler<Void>() {
+					public void handle(Void v) {
+						String users = request.formAttributes().get("users");
+						if(users == null){
+							badRequest(request);
+							return;
+						}
+
+						String[] userIds = users.split(",");
+
+						final AtomicInteger countdown = new AtomicInteger(userIds.length);
+						final AtomicInteger success = new AtomicInteger(0);
+						final AtomicInteger failure = new AtomicInteger(0);
+
+						/* Final handler - called after each attempt */
+						final Handler<Boolean> finalHandler = new Handler<Boolean>() {
+							public void handle(Boolean event) {
+								if(event == null || !event)
+									failure.addAndGet(1);
+								else
+									success.addAndGet(1);
+								if(countdown.decrementAndGet() == 0){
+									JsonObject result = new JsonObject();
+									result.putNumber("success", success.get());
+									result.putNumber("failure", failure.get());
+									renderJson(request, result);
+								}
+							}
+						};
+
+						for(final String to : userIds){
+							/* Query user and check existence */
+							String query =
+									"MATCH (n:User) " +
+									"WHERE n.id = {id} " +
+									"RETURN count(n) as nb, n.displayName as username";
+							Map<String, Object> params = new HashMap<>();
+							params.put("id", to);
+
+							Handler<Message<JsonObject>> existenceHandler = new Handler<Message<JsonObject>>(){
+								public void handle(Message<JsonObject> res) {
+									JsonArray result = res.body().getArray("result");
+
+									if (!"ok".equals(res.body().getString("status")) ||
+											1 != result.size() ||
+											1 != result.<JsonObject>get(0).getInteger("nb")) {
+										finalHandler.handle(false);
+										return;
+									}
+
 									/* Pre write rack document fields */
 									final JsonObject doc = new JsonObject();
 									doc.putString("to", to);
@@ -147,39 +232,72 @@ public class RackController extends MongoDbControllerHelper {
 									doc.putString("fromName", userInfos.getUsername());
 									String now = MongoDb.formatDate(new Date());
 									doc.putString("sent", now);
-									/* Get user quota */
+
+									/* Rack collection saving */
+									final Handler<Message<JsonObject>> rackSaveHandler = new Handler<Message<JsonObject>>() {
+										@Override
+										public void handle(Message<JsonObject> uploaded) {
+											addAfterUpload(uploaded.body().putObject("metadata", metadata),
+													doc,
+													request.params().get("name"),
+													request.params().get("application"),
+													request.params().getAll("thumbnail"),
+													new Handler<Message<JsonObject>>() {
+														public void handle(Message<JsonObject> res) {
+															if ("ok".equals(res.body().getString("status"))) {
+																JsonObject params = new JsonObject()
+																	.putString("uri", "/userbook/annuaire#" + doc.getString("from"))
+																	.putString("username", doc.getString("fromName"))
+																	.putString("documentName", doc.getString("name"));
+																List<String> receivers = new ArrayList<>();
+																receivers.add(doc.getString("to"));
+																timelineHelper.notifyTimeline(request,
+																		userInfos,
+																		NOTIFICATION_TYPE,
+																		NOTIFICATION_TYPE + "_POST",
+																		receivers,
+																		userInfos.getUserId() + System.currentTimeMillis() + "postrack",
+																		"notify-rack-post.html", params);
+																finalHandler.handle(true);
+															} else {
+																finalHandler.handle(false);
+															}
+														}
+													});
+										}
+									};
+
+									/* Get user quota & check */
 									getUserQuota(to, new Handler<JsonObject>() {
 										public void handle(JsonObject j) {
-											request.resume();
-											if(j != null && !"error".equals(j.getString("status"))){
-												long emptySize = 0l;
-												long quota = j.getLong("quota", 0l);
-												long storage = j.getLong("storage", 0l);
-												emptySize = quota - storage;
-												
-												/* Upload file */
-												uploadFile(request, doc, emptySize, userInfos);
-											} else {
-												badRequest(request, j.encode());
+											if(j == null || "error".equals(j.getString("status"))){
+												finalHandler.handle(false);
+												return;
 											}
+
+											long emptySize = 0l;
+											long quota = j.getLong("quota", 0l);
+											long storage = j.getLong("storage", 0l);
+											emptySize = quota - storage;
+											if (emptySize < metadata.getLong("size", 0l)) {
+												finalHandler.handle(false);
+												return;
+											}
+											//Save file in gridfs
+											eb.send("wse.gridfs.persistor", fileBuffer, rackSaveHandler);
 										}
 									});
-								} else {
-									badRequest(request);
+
 								}
-							}
-						};
-						Neo4j.getInstance().execute(query, params, existenceHandler);
-					} else {
-						badRequest(request);
+							};
+							Neo4j.getInstance().execute(query, params, existenceHandler);
+						}
 					}
-				} else {
-					badRequest(request);
-				}
+				});
 			}
 		});
 	}
-	
+
 	/**
 	 * Delete a document from the user rack.
 	 * @param request Request containing the id of the document to delete.
@@ -212,14 +330,14 @@ public class RackController extends MongoDbControllerHelper {
 				if(event.isRight()){
 					JsonObject result = event.right().getValue();
 					String file;
-					
+
 					if (thumbSize != null && !thumbSize.trim().isEmpty()) {
 						file = result.getObject("thumbnails", new JsonObject())
 								.getString(thumbSize, result.getString("file"));
 					} else {
 						file = result.getString("file");
 					}
-					
+
 					if (file != null && !file.trim().isEmpty()) {
 						boolean inline = inlineDocumentResponse(result, request.params().get("application"));
 						if (inline && ETag.check(request, file)) {
@@ -233,7 +351,7 @@ public class RackController extends MongoDbControllerHelper {
 						notFound(request);
 						request.response().setStatusCode(404).end();
 					}
-					
+
 				} else {
 					JsonObject error = new JsonObject().putString("error", event.left().getValue());
 					Renders.renderJson(request, error, 400);
@@ -284,9 +402,9 @@ public class RackController extends MongoDbControllerHelper {
 		final String id = request.params().get("id");
 		rackService.recoverRack(id, defaultResponseHandler(request));
 	}
-	
+
 	/* File serving */
-	
+
 	private boolean inlineDocumentResponse(JsonObject doc, String application) {
 		JsonObject metadata = doc.getObject("metadata");
 		String storeApplication = doc.getString("application");
@@ -300,24 +418,34 @@ public class RackController extends MongoDbControllerHelper {
 				("application/octet-stream".equals(metadata.getString("content-type")) && application != null)
 			);
 	}
-	
-	/* Userlist */
-	
+
+	/* Userlist & Grouplist */
+
 	private void getVisibleRackUsers(final HttpServerRequest request, final Handler<JsonArray> handler){
 		String customReturn =
 				"MATCH visibles-[:IN]->g-[:AUTHORIZED]->r-[:AUTHORIZE]->a " +
 				"WHERE has(a.name) AND a.name={action} " +
-				"RETURN distinct visibles.id as id, visibles.displayName as username, visibles.lastName as name " +
+				"RETURN distinct visibles.id as id, visibles.displayName as username, visibles.lastName as name, collect({name: g.name, id: g.id, groupDisplayName: g.groupDisplayName}) as groups " +
 				"ORDER BY name ";
 		JsonObject params = new JsonObject().putString("action", "fr.wseduc.rack.controllers.RackController|listRack");
 		UserUtils.findVisibleUsers(eb, request, false, customReturn, params, new Handler<JsonArray>() {
 			@Override
 			public void handle(JsonArray users) {
+				for (Object u : users) {
+					if (!(u instanceof JsonObject)) continue;
+					JsonObject user = (JsonObject) u;
+					JsonArray userGroups = user.getArray("groups");
+					for(Object g : userGroups){
+						if (!(g instanceof JsonObject)) continue;
+						JsonObject group = (JsonObject) g;
+						UserUtils.groupDisplayName(group, I18n.acceptLanguage(request));
+					}
+				}
 				handler.handle(users);
 			}
 		});
 	}
-	
+
 	/**
 	 * Lists the users to which the user can post documents.
 	 * @param request Client request
@@ -331,28 +459,28 @@ public class RackController extends MongoDbControllerHelper {
 			}
 		});
 	}
-	
+
 	/* Quota bus communication & utilities */
-	
+
 	private void getUserQuota(String userId, final Handler<JsonObject> handler){
 		JsonObject message = new JsonObject();
 		message.putString("action", "getUserQuota");
 		message.putString("userId", userId);
-		
+
 		eb.send(QUOTA_BUS_ADDRESS, message, new Handler<Message<JsonObject>>() {
 			public void handle(Message<JsonObject> reply) {
 				handler.handle(reply.body());
 			}
 		});
 	}
-	
+
 	private void updateUserQuota(final String userId, long size){
 		JsonObject message = new JsonObject();
 		message.putString("action", "updateUserQuota");
 		message.putString("userId", userId);
 		message.putNumber("size", size);
 		message.putNumber("threshold", threshold);
-		
+
 		eb.send(QUOTA_BUS_ADDRESS, message, new Handler<Message<JsonObject>>() {
 			public void handle(Message<JsonObject> reply) {
 				JsonObject obj = reply.body();
@@ -362,16 +490,16 @@ public class RackController extends MongoDbControllerHelper {
 				}
 			}
 		});
-		
+
 	}
-	
+
 	private void notifyEmptySpaceIsSmall(String userId) {
 		List<String> recipients = new ArrayList<>();
 		recipients.add(userId);
 		notification.notifyTimeline(new JsonHttpServerRequest(new JsonObject()), null, WORKSPACE_NAME,
 				WORKSPACE_NAME + "_STORAGE", recipients, null, "notify-storage.html", null);
 	}
-	
+
 	private void emptySize(final UserInfos userInfos, final Handler<Long> emptySizeHandler) {
 		try {
 			long quota = Long.valueOf(userInfos.getAttribute("quota").toString());
@@ -391,9 +519,9 @@ public class RackController extends MongoDbControllerHelper {
 			});
 		}
 	}
-	
+
 	/* File operations */
-	
+
 	/**
 	 * Copy a document from the rack to the workspace.
 	 * @param request Client request with file ids & destination folder (optional) in the body using json format.
@@ -417,14 +545,14 @@ public class RackController extends MongoDbControllerHelper {
 			}
 		});
 	}
-	
+
 	private void copyFiles(final HttpServerRequest request, final JsonArray idsArray, final String folder, final UserInfos user, final String destinationCollection) {
-				
+
 		String criteria = "{ \"_id\" : { \"$in\" : " + idsArray.encode() + "}";
 		criteria += ", \"to\" : \"" + user.getUserId() + "\" }";
-		
+
 		mongo.find(collection, new JsonObject(criteria), new Handler<Message<JsonObject>>() {
-			
+
 			private void persist(final JsonArray insert, int remains) {
 				if (remains == 0) {
 					mongo.insert(destinationCollection, insert, new Handler<Message<JsonObject>>() {
@@ -446,19 +574,19 @@ public class RackController extends MongoDbControllerHelper {
 					});
 				}
 			}
-			
+
 			public void handle(Message<JsonObject> r) {
 				JsonObject src = r.body();
 				if ("ok".equals(src.getString("status")) && src.getArray("results") != null) {
 					final JsonArray origs = src.getArray("results");
 					final JsonArray insert = new JsonArray();
 					final AtomicInteger number = new AtomicInteger(origs.size());
-					
+
 					emptySize(user, new Handler<Long>() {
-						
+
 						public void handle(Long emptySize) {
 							long size = 0;
-							
+
 							/* Get total file size */
 							for (Object o: origs) {
 								if (!(o instanceof JsonObject)) continue;
@@ -472,7 +600,7 @@ public class RackController extends MongoDbControllerHelper {
 								badRequest(request, "files.too.large");
 								return;
 							}
-							
+
 							/* Process */
 							for (Object o: origs) {
 								JsonObject orig = (JsonObject) o;
@@ -489,7 +617,7 @@ public class RackController extends MongoDbControllerHelper {
 								dest.removeField("from");
 								dest.removeField("toName");
 								dest.removeField("fromName");
-								
+
 								dest.putString("created", now);
 								dest.putString("modified", now);
 								if (folder != null && !folder.trim().isEmpty()) {
@@ -499,9 +627,9 @@ public class RackController extends MongoDbControllerHelper {
 								}
 								insert.add(dest);
 								final String filePath = orig.getString("file");
-								
+
 								if(folder != null && !folder.trim().isEmpty()){
-									
+
 									//If the document has a new parent folder, replicate sharing rights
 									String parentName, parentFolder;
 									if(folder.lastIndexOf('_') < 0){
@@ -516,11 +644,11 @@ public class RackController extends MongoDbControllerHelper {
 										parentName = splittedPath[splittedPath.length - 2];
 										parentFolder = folder.substring(0, folder.lastIndexOf("_"));
 									}
-									
+
 									QueryBuilder parentFolderQuery = QueryBuilder.start("owner").is(user.getUserId())
 											.and("folder").is(parentFolder)
 											.and("name").is(parentName);
-									
+
 									mongo.findOne(collection,  MongoQueryBuilder.build(parentFolderQuery), new Handler<Message<JsonObject>>(){
 										@Override
 										public void handle(Message<JsonObject> event) {
@@ -528,7 +656,7 @@ public class RackController extends MongoDbControllerHelper {
 												JsonObject parent = event.body().getObject("result");
 												if(parent != null && parent.getArray("shared") != null && parent.getArray("shared").size() > 0)
 													dest.putArray("shared", parent.getArray("shared"));
-												
+
 												if (filePath != null) {
 													FileUtils.gridfsCopyFile(filePath, eb, gridfsAddress, new Handler<JsonObject>() {
 														@Override
@@ -547,7 +675,7 @@ public class RackController extends MongoDbControllerHelper {
 											}
 										}
 									});
-								
+
 								} else if (filePath != null) {
 									FileUtils.gridfsCopyFile(filePath, eb, gridfsAddress, new Handler<JsonObject>() {
 
@@ -570,22 +698,22 @@ public class RackController extends MongoDbControllerHelper {
 				}
 			}
 		});
-		
+
 }
-	
+
 	private void deleteFile(final HttpServerRequest request, final String owner) {
 		final String id = request.params().get("id");
 		rackService.getRack(id, new Handler<Either<String,JsonObject>>() {
 			public void handle(Either<String, JsonObject> event) {
 				if(event.isRight()){
 					final JsonObject result = event.right().getValue();
-					
+
 					String file = result.getString("file");
 					Set<Entry<String, Object>> thumbnails = new HashSet<Entry<String, Object>>();
 					if(result.containsField("thumbnails")){
 						thumbnails = result.getObject("thumbnails").toMap().entrySet();
 					}
-					
+
 					FileUtils.gridfsRemoveFile(file, eb, gridfsAddress, new Handler<JsonObject>() {
 						public void handle(JsonObject event) {
 							if (event != null && "ok".equals(event.getString("status"))) {
@@ -606,7 +734,7 @@ public class RackController extends MongoDbControllerHelper {
 							}
 						}
 					});
-					
+
 					//Delete thumbnails
 					for(final Entry<String, Object> thumbnail : thumbnails){
 						FileUtils.gridfsRemoveFile(thumbnail.getValue().toString(), eb, gridfsAddress, new Handler<JsonObject>(){
@@ -617,7 +745,7 @@ public class RackController extends MongoDbControllerHelper {
 							}
 						});
 					}
-					
+
 				} else {
 					JsonObject error = new JsonObject().putString("error", event.left().getValue());
 					Renders.renderJson(request, error, 400);
@@ -625,47 +753,7 @@ public class RackController extends MongoDbControllerHelper {
 			}
 		});
 	}
-	
-	private void uploadFile(final HttpServerRequest request, final JsonObject doc, long allowedSize, final UserInfos userInfos) {
-		FileUtils.gridfsWriteUploadFile(request, eb, gridfsAddress, allowedSize, new Handler<JsonObject>() {
-			@Override
-			public void handle(final JsonObject uploaded) {
-				if ("ok".equals(uploaded.getString("status"))) {
-					addAfterUpload(uploaded, 
-							doc, 
-							request.params().get("name"), 
-							request.params().get("application"),
-							request.params().getAll("thumbnail"), 
-							new Handler<Message<JsonObject>>() {
-						@Override
-						public void handle(Message<JsonObject> res) {
-							if ("ok".equals(res.body().getString("status"))) {
-								JsonObject params = new JsonObject()
-									.putString("uri", "/userbook/annuaire#" + doc.getString("from"))
-									.putString("username", doc.getString("fromName"))
-									.putString("documentName", doc.getString("name"));
-								List<String> receivers = new ArrayList<>();
-								receivers.add(doc.getString("to"));
-								timelineHelper.notifyTimeline(request, 
-										userInfos, 
-										NOTIFICATION_TYPE, 
-										NOTIFICATION_TYPE + "_POST", 
-										receivers, 
-										userInfos.getUserId() + System.currentTimeMillis() + "postrack", 
-										"notify-rack-post.html", params);
-								renderJson(request, res.body(), 201);
-							} else {
-								renderError(request, res.body());
-							}
-						}
-					});
-				} else {
-					badRequest(request, uploaded.getString("message"));
-				}
-			}
-		});
-	}
-	
+
 	private void addAfterUpload(final JsonObject uploaded, final JsonObject doc, String name, String application, final List<String> thumbs, final Handler<Message<JsonObject>> handler) {
 		//Write additional fields in the document
 		doc.putString("name", getOrElse(name, uploaded.getObject("metadata").getString("filename"), false));
@@ -686,7 +774,7 @@ public class RackController extends MongoDbControllerHelper {
 			}
 		});
 	}
-	
+
 	private void createThumbnailIfNeeded(final String collection, JsonObject srcFile, final String documentId, JsonObject oldThumbnail, List<String> thumbs) {
 		if (documentId != null && thumbs != null && !documentId.trim().isEmpty() && !thumbs.isEmpty() &&
 				srcFile != null && isImage(srcFile) && srcFile.getString("_id") != null) {
@@ -736,7 +824,7 @@ public class RackController extends MongoDbControllerHelper {
 			}
 		}
 	}
-	
+
 	private boolean isImage(JsonObject doc) {
 		if (doc == null) {
 			return false;
