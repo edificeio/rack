@@ -171,7 +171,7 @@ function FolderCollection(){
 
 model.build = function(){
 	model.me.workflow.load(['rack'])
-	this.makeModels([Rack, RackCollection, VisibleUser, VisibleGroup, VisibleCollection, FolderCollection])
+	this.makeModels([Rack, RackCollection, VisibleUser, VisibleGroup, VisibleCollection, Folder, FolderCollection])
 
 	this.rackCollection 	= new RackCollection()
 	this.visibleCollection 	= new VisibleCollection()
