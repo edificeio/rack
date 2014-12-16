@@ -10,7 +10,7 @@
 	"rack.notify.copyToWorkspace"	: "Le document a été copié dans l'espace documentaire",
 
 	"rack.mine"						: "Mon casier",
-	"rack.history"					: "Envois",
+	"rack.history"					: "Historique",
 	"rack.trash"					: "Corbeille",
 
 	"rack.manager"					: "Gestion",
