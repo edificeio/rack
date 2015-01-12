@@ -82,7 +82,7 @@ public class RackController extends MongoDbControllerHelper {
 		list_users			= "rack.list.users",
 		list_groups			= "rack.list.groups",
 		workspacecopy		= "rack.copy.to.workspace",
-		owner				= "rack.document.owner";
+		owner				= "";
 
 	/**
 	 * Creates a new controller.
