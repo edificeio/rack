@@ -1,0 +1,19 @@
+{
+  "name": "fr.wseduc~rack~0.2-SNAPSHOT",
+    "config": {
+      "main":"org.wseduc.rack.Rack",
+      "port": 8031,
+      "auto-redeploy": false,
+      "app-name" : "Rack",
+      "app-address" : "/rack",
+      "app-icon" : "rack-large",
+      "app-displayName" : "Rack",
+      "host": "${host}",
+      "ssl" : $ssl,
+      "userbook-host": "${host}",
+      "integration-mode" : "HTTP",
+      "app-registry.port" : 8012,
+      "mode" : "${mode}",
+      "entcore.port" : 8009
+    }
+}
