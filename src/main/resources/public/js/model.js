@@ -109,20 +109,23 @@ function VisibleCollection(){
 	this.collection(VisibleGroup,{})
 	this.collection(VisibleUser, {
 		sync: function(){
-			http().get("/rack/users/available").done(function(data){
-				this.load(data)
-				var groups = []
-				data.forEach(function(user){
-					user.groups.forEach(function(group){
-						if(_.findWhere(groups, {id: group.id}) === undefined){
-							groups.push(new VisibleGroup({
-								id: group.id,
-								name: group.name
-							}))
-						}
+			http().get("/rack/users/available").done(function(users){
+				this.load(users)
+				http().get("/rack/groups/available").done(function(groupsData){
+					var groups = []
+					users.forEach(function(user){
+						user.groups.forEach(function(group){
+							if(_.findWhere(groups, {id: group.id}) === undefined &&
+							   _.findWhere(groupsData, {id: group.id}) !== undefined){
+								groups.push(new VisibleGroup({
+									id: group.id,
+									name: group.name
+								}))
+							}
+						})
 					})
+					rootCollection.visibleGroups.load(groups)
 				})
-				rootCollection.visibleGroups.load(groups)
 			}.bind(this))
 		}
 	})

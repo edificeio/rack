@@ -80,6 +80,7 @@ public class RackController extends MongoDbControllerHelper {
 		send				= "rack.send.document",
 		list				= "rack.list.documents",
 		list_users			= "rack.list.users",
+		list_groups			= "rack.list.groups",
 		workspacecopy		= "rack.copy.to.workspace",
 		owner				= "rack.document.owner";
 
@@ -423,9 +424,10 @@ public class RackController extends MongoDbControllerHelper {
 
 	private void getVisibleRackUsers(final HttpServerRequest request, final Handler<JsonArray> handler){
 		String customReturn =
-				"MATCH visibles-[:IN]->g-[:AUTHORIZED]->r-[:AUTHORIZE]->a " +
+				"MATCH visibles-[:IN]->(g:ProfileGroup) " +
+				"MATCH visibles-[:IN]->(:ProfileGroup)-[:AUTHORIZED]->(:Role)-[:AUTHORIZE]->(a:Action) " +
 				"WHERE has(a.name) AND a.name={action} AND NOT has(visibles.activationCode) " +
-				"RETURN distinct visibles.id as id, visibles.displayName as username, visibles.lastName as name, collect({name: g.name, id: g.id, groupDisplayName: g.groupDisplayName}) as groups " +
+				"RETURN distinct visibles.id as id, visibles.displayName as username, visibles.lastName as name, collect(DISTINCT {name: g.name, id: g.id, groupDisplayName: g.groupDisplayName}) as groups " +
 				"ORDER BY name ";
 		JsonObject params = new JsonObject().putString("action", "fr.wseduc.rack.controllers.RackController|listRack");
 		UserUtils.findVisibleUsers(eb, request, false, customReturn, params, new Handler<JsonArray>() {
@@ -438,10 +440,19 @@ public class RackController extends MongoDbControllerHelper {
 					for(Object g : userGroups){
 						if (!(g instanceof JsonObject)) continue;
 						JsonObject group = (JsonObject) g;
+						if(group.getString("name") == null) continue;
 						UserUtils.groupDisplayName(group, I18n.acceptLanguage(request));
 					}
 				}
 				handler.handle(users);
+			}
+		});
+	}
+
+	private void getVisibleRackGroups(final HttpServerRequest request, final Handler<JsonArray> handler){
+		UserUtils.findVisibleProfilsGroups(eb, request, new Handler<JsonArray>() {
+			public void handle(JsonArray groups) {
+				handler.handle(groups);
 			}
 		});
 	}
@@ -454,6 +465,20 @@ public class RackController extends MongoDbControllerHelper {
 	@SecuredAction(list_users)
 	public void listUsers(final HttpServerRequest request) {
 		getVisibleRackUsers(request, new Handler<JsonArray>() {
+			public void handle(JsonArray users) {
+				renderJson(request, users);
+			}
+		});
+	}
+
+	/**
+	 * Lists the users to which the user can post documents.
+	 * @param request Client request
+	 */
+	@Get("/groups/available")
+	@SecuredAction(list_groups)
+	public void listGroups(final HttpServerRequest request) {
+		getVisibleRackGroups(request, new Handler<JsonArray>() {
 			public void handle(JsonArray users) {
 				renderJson(request, users);
 			}

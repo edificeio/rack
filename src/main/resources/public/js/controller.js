@@ -152,8 +152,8 @@ function RackController($scope, $rootScope, $timeout, model, template, route, da
 				$scope.to.splice($scope.to.indexOf(item), 1)
 		else if(item instanceof VisibleGroup){
 			$scope.visibleUsers.all.forEach(function(user){
-				if(_.findWhere(user.groups, {id: item.id}) !== undefined)
-					$scope.addRackTo(user)
+				if(_.findWhere(user.groups, {id: item.id}) !== undefined && !$scope.containsRackTo(user))
+					$scope.to.push(user)
 			})
 		}
 	}
