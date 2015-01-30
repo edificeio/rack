@@ -424,7 +424,7 @@ public class RackController extends MongoDbControllerHelper {
 	private void getVisibleRackUsers(final HttpServerRequest request, final Handler<JsonArray> handler){
 		String customReturn =
 				"MATCH visibles-[:IN]->g-[:AUTHORIZED]->r-[:AUTHORIZE]->a " +
-				"WHERE has(a.name) AND a.name={action} " +
+				"WHERE has(a.name) AND a.name={action} AND NOT has(visibles.activationCode) " +
 				"RETURN distinct visibles.id as id, visibles.displayName as username, visibles.lastName as name, collect({name: g.name, id: g.id, groupDisplayName: g.groupDisplayName}) as groups " +
 				"ORDER BY name ";
 		JsonObject params = new JsonObject().putString("action", "fr.wseduc.rack.controllers.RackController|listRack");
