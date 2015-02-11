@@ -1,11 +1,11 @@
 <article class="icons-view">
 	<header>&nbsp;</header>
-	<div class="icons-view">
+	<div>
 		<div ng-repeat="rack in rackList.all | filter:filterRack:true" class="element reduce-block-six">
 			<a ng-href="[[folder.name !== 'history' ? '/rack/get/'+rack._id : '' ]]" class="[[rack.metadata.contentType]] container">
 				<i class="[[folder.name === 'history' && rack.metadata.contentType === 'img' ? 'unknown' : rack.metadata.contentType]]-large" ng-if="rack.metadata.contentType !== 'img' || folder.name === 'history'">
 				</i>
-				<div ng-if="rack.metadata.contentType === 'img' && folder.name !== 'history'" class="twelve cell height-twelve">
+				<div ng-if="rack.metadata.contentType === 'img' && folder.name !== 'history'" class="twelve cell">
 					<div class="clip absolute">
 						<img ng-src="[['/rack/get/'+rack._id+'?thumbnail=120x120']]" alt="thumbnail" />
 					</div>

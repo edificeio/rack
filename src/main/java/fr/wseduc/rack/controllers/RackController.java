@@ -21,6 +21,7 @@ import org.entcore.common.http.request.JsonHttpServerRequest;
 import org.entcore.common.mongodb.MongoDbControllerHelper;
 import org.entcore.common.neo4j.Neo4j;
 import org.entcore.common.notification.TimelineHelper;
+import org.entcore.common.storage.Storage;
 import org.entcore.common.user.UserInfos;
 import org.entcore.common.user.UserUtils;
 import org.vertx.java.core.Handler;
@@ -49,7 +50,6 @@ import fr.wseduc.rs.Put;
 import fr.wseduc.security.ActionType;
 import fr.wseduc.security.SecuredAction;
 import fr.wseduc.webutils.Either;
-import fr.wseduc.webutils.FileUtils;
 import fr.wseduc.webutils.I18n;
 import fr.wseduc.webutils.http.ETag;
 import fr.wseduc.webutils.http.Renders;
@@ -62,11 +62,11 @@ public class RackController extends MongoDbControllerHelper {
 
 	//Computation service
 	private final RackService rackService;
-	private final String gridfsAddress;
 	private final String collection;
 	private int threshold;
 	private String imageResizerAddress;
 	private TimelineHelper timelineHelper;
+	private final Storage storage;
 
 	private final static String QUOTA_BUS_ADDRESS = "org.entcore.workspace.quota";
 	private final static String WORKSPACE_NAME = "WORKSPACE";
@@ -88,10 +88,10 @@ public class RackController extends MongoDbControllerHelper {
 	 * Creates a new controller.
 	 * @param collection Name of the collection stored in the mongoDB database.
 	 */
-	public RackController(String collection, String gridfsAddress) {
+	public RackController(String collection, Storage storage) {
 		super(collection);
 		this.collection = collection;
-		this.gridfsAddress = gridfsAddress;
+		this.storage = storage;
 		rackService = new RackServiceMongoImpl(collection);
 	}
 
@@ -235,36 +235,40 @@ public class RackController extends MongoDbControllerHelper {
 									doc.putString("sent", now);
 
 									/* Rack collection saving */
-									final Handler<Message<JsonObject>> rackSaveHandler = new Handler<Message<JsonObject>>() {
+									final Handler<JsonObject> rackSaveHandler = new Handler<JsonObject>() {
 										@Override
-										public void handle(Message<JsonObject> uploaded) {
-											addAfterUpload(uploaded.body().putObject("metadata", metadata),
-													doc,
-													request.params().get("name"),
-													request.params().get("application"),
-													request.params().getAll("thumbnail"),
-													new Handler<Message<JsonObject>>() {
-														public void handle(Message<JsonObject> res) {
-															if ("ok".equals(res.body().getString("status"))) {
-																JsonObject params = new JsonObject()
-																	.putString("uri", "/userbook/annuaire#" + doc.getString("from"))
-																	.putString("username", doc.getString("fromName"))
-																	.putString("documentName", doc.getString("name"));
-																List<String> receivers = new ArrayList<>();
-																receivers.add(doc.getString("to"));
-																timelineHelper.notifyTimeline(request,
-																		userInfos,
-																		NOTIFICATION_TYPE,
-																		NOTIFICATION_TYPE + "_POST",
-																		receivers,
-																		userInfos.getUserId() + System.currentTimeMillis() + "postrack",
-																		"notify-rack-post.html", params);
-																finalHandler.handle(true);
-															} else {
-																finalHandler.handle(false);
+										public void handle(JsonObject uploaded) {
+											if (uploaded == null || !"ok".equals(uploaded.getString("status"))) {
+												finalHandler.handle(false);
+											} else {
+												addAfterUpload(uploaded.putObject("metadata", metadata),
+														doc,
+														request.params().get("name"),
+														request.params().get("application"),
+														request.params().getAll("thumbnail"),
+														new Handler<Message<JsonObject>>() {
+															public void handle(Message<JsonObject> res) {
+																if ("ok".equals(res.body().getString("status"))) {
+																	JsonObject params = new JsonObject()
+																		.putString("uri", "/userbook/annuaire#" + doc.getString("from"))
+																		.putString("username", doc.getString("fromName"))
+																		.putString("documentName", doc.getString("name"));
+																	List<String> receivers = new ArrayList<>();
+																	receivers.add(doc.getString("to"));
+																	timelineHelper.notifyTimeline(request,
+																			userInfos,
+																			NOTIFICATION_TYPE,
+																			NOTIFICATION_TYPE + "_POST",
+																			receivers,
+																			userInfos.getUserId() + System.currentTimeMillis() + "postrack",
+																			"notify-rack-post.html", params);
+																	finalHandler.handle(true);
+																} else {
+																	finalHandler.handle(false);
+																}
 															}
-														}
-													});
+														});
+											}
 										}
 									};
 
@@ -284,8 +288,8 @@ public class RackController extends MongoDbControllerHelper {
 												finalHandler.handle(false);
 												return;
 											}
-											//Save file in gridfs
-											eb.send("wse.gridfs.persistor", fileBuffer, rackSaveHandler);
+											//Save file
+											RackController.this.storage.writeBuffer(fileBuffer, metadata.getString("content-type"), metadata.getString("name"), rackSaveHandler);
 										}
 									});
 
@@ -344,8 +348,8 @@ public class RackController extends MongoDbControllerHelper {
 						if (inline && ETag.check(request, file)) {
 							notModified(request, file);
 						} else {
-							FileUtils.gridfsSendFile(file,
-									result.getString("name"), eb, gridfsAddress, request.response(),
+							storage.sendFile(file,
+									result.getString("name"), request,
 									inline, result.getObject("metadata"));
 						}
 					} else {
@@ -683,7 +687,7 @@ public class RackController extends MongoDbControllerHelper {
 													dest.putArray("shared", parent.getArray("shared"));
 
 												if (filePath != null) {
-													FileUtils.gridfsCopyFile(filePath, eb, gridfsAddress, new Handler<JsonObject>() {
+													storage.copyFile(filePath, new Handler<JsonObject>() {
 														@Override
 														public void handle(JsonObject event) {
 															if (event != null && "ok".equals(event.getString("status"))) {
@@ -702,7 +706,7 @@ public class RackController extends MongoDbControllerHelper {
 									});
 
 								} else if (filePath != null) {
-									FileUtils.gridfsCopyFile(filePath, eb, gridfsAddress, new Handler<JsonObject>() {
+									storage.copyFile(filePath, new Handler<JsonObject>() {
 
 										@Override
 										public void handle(JsonObject event) {
@@ -739,7 +743,7 @@ public class RackController extends MongoDbControllerHelper {
 						thumbnails = result.getObject("thumbnails").toMap().entrySet();
 					}
 
-					FileUtils.gridfsRemoveFile(file, eb, gridfsAddress, new Handler<JsonObject>() {
+					storage.removeFile(file, new Handler<JsonObject>() {
 						public void handle(JsonObject event) {
 							if (event != null && "ok".equals(event.getString("status"))) {
 									rackService.deleteRack(id, new Handler<Either<String,JsonObject>>() {
@@ -762,7 +766,7 @@ public class RackController extends MongoDbControllerHelper {
 
 					//Delete thumbnails
 					for(final Entry<String, Object> thumbnail : thumbnails){
-						FileUtils.gridfsRemoveFile(thumbnail.getValue().toString(), eb, gridfsAddress, new Handler<JsonObject>(){
+						storage.removeFile(thumbnail.getValue().toString(), new Handler<JsonObject>(){
 							public void handle(JsonObject event) {
 								if (event == null || !"ok".equals(event.getString("status"))) {
 									logger.error("[gridfsRemoveFile] Error while deleting thumbnail "+thumbnail);
@@ -845,7 +849,7 @@ public class RackController extends MongoDbControllerHelper {
 		}
 		if (oldThumbnail != null) {
 			for (String attr: oldThumbnail.getFieldNames()) {
-				FileUtils.gridfsRemoveFile(oldThumbnail.getString(attr), eb, gridfsAddress, null);
+				storage.removeFile(oldThumbnail.getString(attr), null);
 			}
 		}
 	}
