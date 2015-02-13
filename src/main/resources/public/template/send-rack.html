@@ -36,7 +36,7 @@
 				<h3 class="twelve cell" translate key="rack.to"></h3>
 				<!-- User & group search -->
 				<div class="eight cell">
-					<input class="eleven" type="text" ng-model="filters.itemFilter" translate-attr="placeholder" placeholder="share.search.placeholder" />
+					<input class="eleven" type="text" ng-model="filters.itemFilter" i18n-placeholder="share.search.placeholder" />
 					<div class="eleven found-users-list" style="max-height:200px; overflow-y: scroll">
 						<div ng-repeat="item in combined = visibleUsers.all.concat(visibleGroups.all) | orderBy: item.name | filter: filterRackTo" class="row autocomplete">
 							<em ng-click="addRackTo(item)" class="row" ng-class="{ 'high-importance': containsRackTo(item) }">
@@ -54,9 +54,9 @@
 				</div>
 			</div>
 			<div class="right-magnet" style="margin: 10px;">
-				<input type="button" translate-attr="value" value="rack.resetReceivers" ng-click="resetRackTo()"/>
-				<input type="submit" translate-attr="value" value="upload" ng-disabled="to.length === 0 || newFile.files.length === 0"/>
-				<input type="button" class="cancel" translate-attr="value" value="cancel" />
+				<input type="button" i18n-value="rack.resetReceivers" ng-click="resetRackTo()"/>
+				<input type="submit" i18n-value="upload" ng-disabled="to.length === 0 || newFile.files.length === 0"/>
+				<input type="button" class="cancel" i18n-value="cancel" />
 			</div>
 		</div>
 	</form>
