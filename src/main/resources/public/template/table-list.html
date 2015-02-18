@@ -9,7 +9,7 @@
     			<th class="content">
 					<span translate content="title" ng-click="orderBy('name')"></span>
 				</th>
-    			<th class="user">
+    			<th class="user" ng-if="folder.name === 'mine'">
 					<span translate content="from" ng-click="orderBy('fromName')"></span>
 				</th>
 				<th class="user" ng-if="folder.extraColumns.indexOf('to') > -1">
@@ -35,7 +35,7 @@
 						[[rack.name]]
 					</a>
                 </td>
-    			<td class="user">
+    			<td class="user" ng-if="folder.name === 'mine'">
                     <a href="/userbook/annuaire#[[rack.from]]">[[rack.fromName]]</a>
                 </td>
 				<td class="user" ng-if="folder.extraColumns.indexOf('to') > -1">
