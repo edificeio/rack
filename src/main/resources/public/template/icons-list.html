@@ -16,7 +16,7 @@
 				<a ng-href="[[folder.name !== 'history' ? '/rack/get/'+rack._id : '' ]]">
 					[[rack.name]]
 				</a>
-				<a ng-href="/userbook/annuaire#[[rack.from]]"><strong>[[rack.fromName]]</strong></a>
+				<a ng-href="/userbook/annuaire#[[folder.name !== 'history' ? rack.from : rack.to]]"><strong>[[folder.name !== 'history' ? rack.fromName : rack.toName]]</strong></a>
 			</legend>
 		</div>
 		<div class="clear"></div>
