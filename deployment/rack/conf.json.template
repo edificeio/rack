@@ -1,5 +1,5 @@
 {
-  "name": "fr.wseduc~rack~0.2.1",
+  "name": "fr.wseduc~rack~0.2-SNAPSHOT",
     "config": {
       "main":"org.wseduc.rack.Rack",
       "port": 8031,
@@ -14,16 +14,6 @@
       "integration-mode" : "HTTP",
       "app-registry.port" : 8012,
       "mode" : "${mode}",
-      "entcore.port" : 8009,
-      <% if (swiftUri != null && !swiftUri.trim().isEmpty()) { %>
-          "swift" : {
-              "uri" : "${swiftUri}",
-              "container" : "${swiftContainer}",
-              "user" : "${swiftUser}",
-              "key" : "${swiftKey}"
-          }
-      <% } else { %>
-            "gridfs-address" : "wse.gridfs.persistor"
-      <% } %>
+      "entcore.port" : 8009
     }
 }
