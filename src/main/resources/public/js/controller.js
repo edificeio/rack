@@ -169,6 +169,7 @@ function RackController($scope, $rootScope, $timeout, model, template, route, da
 	$scope.sendRackFiles = function(){
 		var n = $scope.newFile.files.length
 		var doneFunction = function(response){
+			$scope.newFile.loading = false;
 			ui.hideLightbox()
 			$scope.loading = ''
 			if(--n === 0){
@@ -188,7 +189,8 @@ function RackController($scope, $rootScope, $timeout, model, template, route, da
 			formData.append('users', _.pluck($scope.to, "id").join(","))
 
 			var url = '/rack'
-			$scope.loading = lang.translate('loading')
+			$scope.loading = lang.translate('loading');
+			$scope.newFile.loading = true;
 			http().postFile(url + '?thumbnail=120x120',  formData, { requestName: 'file-upload' }).done(doneFunction)
 		}
 	}

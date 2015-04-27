@@ -55,7 +55,7 @@
 			</div>
 			<div class="right-magnet" style="margin: 10px;">
 				<input type="button" i18n-value="rack.resetReceivers" ng-click="resetRackTo()"/>
-				<input type="submit" i18n-value="upload" ng-disabled="to.length === 0 || newFile.files.length === 0"/>
+				<input type="submit" i18n-value="upload" ng-disabled="to.length === 0 || newFile.files.length === 0 || newFile.loading"/>
 				<input type="button" class="cancel" i18n-value="cancel" />
 			</div>
 		</div>
