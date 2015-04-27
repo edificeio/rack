@@ -804,53 +804,60 @@ public class RackController extends MongoDbControllerHelper {
 		});
 	}
 
-	private void createThumbnailIfNeeded(final String collection, JsonObject srcFile, final String documentId, JsonObject oldThumbnail, List<String> thumbs) {
+	private void createThumbnailIfNeeded(final String collection, final JsonObject srcFile,
+			final String documentId, JsonObject oldThumbnail, final List<String> thumbs) {
 		if (documentId != null && thumbs != null && !documentId.trim().isEmpty() && !thumbs.isEmpty() &&
 				srcFile != null && isImage(srcFile) && srcFile.getString("_id") != null) {
-			Pattern size = Pattern.compile("([0-9]+)x([0-9]+)");
-			JsonArray outputs = new JsonArray();
-			for (String thumb: thumbs) {
-				Matcher m = size.matcher(thumb);
-				if (m.matches()) {
-					try {
-						int width = Integer.parseInt(m.group(1));
-						int height = Integer.parseInt(m.group(2));
-						if (width == 0 && height == 0) continue;
-						JsonObject j = new JsonObject().putString("dest", "gridfs://fs");
-						if (width != 0) {
-							j.putNumber("width", width);
-						}
-						if (height != 0) {
-							j.putNumber("height", height);
-						}
-						outputs.addObject(j);
-					} catch (NumberFormatException e) {
-						log.error("Invalid thumbnail size.", e);
-					}
-				}
-			}
-			if (outputs.size() > 0) {
-				JsonObject json = new JsonObject()
-						.putString("action", "resizeMultiple")
-						.putString("src", "gridfs://fs:" + srcFile.getString("_id"))
-						.putArray("destinations", outputs);
-				eb.send(imageResizerAddress, json, new Handler<Message<JsonObject>>() {
-					@Override
-					public void handle(Message<JsonObject> event) {
-						JsonObject thumbnails = event.body().getObject("outputs");
-						if ("ok".equals(event.body().getString("status")) && thumbnails != null) {
-							mongo.update(collection, new JsonObject().putString("_id", documentId),
-									new JsonObject().putObject("$set", new JsonObject()
-											.putObject("thumbnails", thumbnails)));
-						}
-				   }
-				});
-			}
+			createThumbnails(thumbs, srcFile, collection, documentId);
 		}
 		if (oldThumbnail != null) {
 			for (String attr: oldThumbnail.getFieldNames()) {
 				storage.removeFile(oldThumbnail.getString(attr), null);
 			}
+		}
+	}
+
+	private void createThumbnails(List<String> thumbs, JsonObject srcFile, final String collection, final String documentId) {
+		Pattern size = Pattern.compile("([0-9]+)x([0-9]+)");
+		JsonArray outputs = new JsonArray();
+		for (String thumb: thumbs) {
+			Matcher m = size.matcher(thumb);
+			if (m.matches()) {
+				try {
+					int width = Integer.parseInt(m.group(1));
+					int height = Integer.parseInt(m.group(2));
+					if (width == 0 && height == 0) continue;
+					JsonObject j = new JsonObject().putString("dest",
+							storage.getProtocol() + "://" + storage.getBucket());
+					if (width != 0) {
+						j.putNumber("width", width);
+					}
+					if (height != 0) {
+						j.putNumber("height", height);
+					}
+					outputs.addObject(j);
+				} catch (NumberFormatException e) {
+					log.error("Invalid thumbnail size.", e);
+				}
+			}
+		}
+		if (outputs.size() > 0) {
+			JsonObject json = new JsonObject()
+					.putString("action", "resizeMultiple")
+					.putString("src", storage.getProtocol() + "://" + storage.getBucket() + ":"
+							+ srcFile.getString("_id"))
+					.putArray("destinations", outputs);
+			eb.send(imageResizerAddress, json, new Handler<Message<JsonObject>>() {
+				@Override
+				public void handle(Message<JsonObject> event) {
+					JsonObject thumbnails = event.body().getObject("outputs");
+					if ("ok".equals(event.body().getString("status")) && thumbnails != null) {
+						mongo.update(collection, new JsonObject().putString("_id", documentId),
+								new JsonObject().putObject("$set", new JsonObject()
+										.putObject("thumbnails", thumbnails)));
+					}
+				}
+			});
 		}
 	}
 
