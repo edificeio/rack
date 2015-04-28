@@ -169,18 +169,22 @@ function RackController($scope, $rootScope, $timeout, model, template, route, da
 	$scope.sendRackFiles = function(){
 		var n = $scope.newFile.files.length
 		var doneFunction = function(response){
+			var plurality = '';
+			if(n > 1){
+				plurality = ".plural";
+			}
 			$scope.newFile.loading = false;
 			ui.hideLightbox()
 			$scope.loading = ''
 			if(--n === 0){
 				if(response.failure === 0)
-					notify.info('rack.sent.message')
+					notify.info('rack.sent.message' + plurality);
 				else if(response.success > 0)
-					notify.error('rack.sent.message.partial')
+					notify.error('rack.sent.message.partial' + plurality);
 				else
-					notify.error('rack.sent.message.error')
+					notify.error('rack.sent.message.error' + plurality);
 			}
-		}
+		};
 
 		for(var i = 0; i < $scope.newFile.files.length; i++){
 			var formData = new FormData()

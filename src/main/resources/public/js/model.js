@@ -55,24 +55,35 @@ function RackCollection(){
 			}.bind(this))
 		},
 		remove: function(){
-			collection = this
+			var collection = this
 			var parsedCount = 0
 			this.selection().forEach(function(item){
 				item.trash().done(function(){
 					if(++parsedCount === collection.selection().length){
-						notify.info('rack.notify.trashed')
+						if(collection.selection().length > 1){
+							notify.info('rack.notify.trashed.plural');
+						}
+						else{
+							notify.info('rack.notify.trashed');
+						}
 						collection.sync()
 					}
 				})
 			})
 		},
 		delete: function(hook){
-			collection = this
+			var collection = this
 			var parsedCount = 0
 			this.selection().forEach(function(item){
 				item.delete().done(function(){
 					if(++parsedCount === collection.selection().length){
-						notify.info('rack.notify.deleted')
+						if(collection.selection().length > 1){
+							notify.info('rack.notify.deleted.plural');
+						}
+						else{
+							notify.info('rack.notify.deleted');
+						}
+
 						collection.sync()
 						if(typeof hook === 'function')
 							hook()
@@ -81,21 +92,31 @@ function RackCollection(){
 			})
 		},
 		restore: function(){
-			collection = this
+			var collection = this
 			var parsedCount = 0
 			this.selection().forEach(function(item){
 				item.restore().done(function(){
 					if(++parsedCount === collection.selection().length){
-						notify.info('rack.notify.restored')
+						if(collection.selection().length > 1){
+							notify.info('rack.notify.restored.plural');
+						}
+						else{
+							notify.info('rack.notify.restored');
+						}
 						collection.sync()
 					}
 				})
 			})
 		},
 		copyToWorkspace : function(folder){
-			collection = this
+			var collection = this
 			return http().postJson('rack/copy', {ids: _.pluck(collection.selection(), '_id'), folder: folder}).done(function(){
-				notify.info('rack.notify.copyToWorkspace')
+				if(collection.selection().length > 1){
+					notify.info('rack.notify.copyToWorkspace.plural');
+				}
+				else{
+					notify.info('rack.notify.copyToWorkspace');
+				}
 			})
 		}
 	})
