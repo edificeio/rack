@@ -6,7 +6,7 @@
 				<i class="[[folder.name === 'history' && rack.metadata.contentType === 'img' ? 'unknown' : rack.metadata.contentType]]-large" ng-if="rack.metadata.contentType !== 'img' || folder.name === 'history'">
 				</i>
 				<div class="clip absolute"ng-if="rack.metadata.contentType === 'img' && folder.name !== 'history'">
-					<img ng-src="[['/rack/get/'+rack._id+'?thumbnail=150x150']]" alt="thumbnail" />
+					<img ng-src="[['/rack/get/'+rack._id+'?thumbnail=120x120']]" alt="thumbnail" />
 				</div>
 			</a>
 			<input type="checkbox" data-ng-model="rack.selected" ng-if="!folder.readOnly"/>
