@@ -17,6 +17,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.entcore.common.events.EventStore;
+import org.entcore.common.events.EventStoreFactory;
 import org.entcore.common.http.request.JsonHttpServerRequest;
 import org.entcore.common.mongodb.MongoDbControllerHelper;
 import org.entcore.common.neo4j.Neo4j;
@@ -41,6 +43,7 @@ import com.mongodb.QueryBuilder;
 
 import fr.wseduc.mongodb.MongoDb;
 import fr.wseduc.mongodb.MongoQueryBuilder;
+import fr.wseduc.rack.Rack;
 import fr.wseduc.rack.services.RackService;
 import fr.wseduc.rack.services.RackServiceMongoImpl;
 import fr.wseduc.rs.Delete;
@@ -74,6 +77,10 @@ public class RackController extends MongoDbControllerHelper {
 	private final static String NOTIFICATION_TYPE = "RACK";
 	private final static Logger logger = LoggerFactory.getLogger(RackController.class);
 
+	//Statistics
+	private EventStore eventStore;
+	private enum RackEvent { ACCESS }
+
 	//Permissions
 	private static final String
 		access	 			= "rack.access",
@@ -101,6 +108,7 @@ public class RackController extends MongoDbControllerHelper {
 		this.threshold = container.config().getInteger("alertStorage", 80);
 		this.imageResizerAddress = container.config().getString("image-resizer-address", "wse.image.resizer");
 		this.timelineHelper = new TimelineHelper(vertx, eb, container);
+		this.eventStore = EventStoreFactory.getFactory().getEventStore(Rack.class.getSimpleName());
 	}
 
 	/**
@@ -111,6 +119,7 @@ public class RackController extends MongoDbControllerHelper {
 	@SecuredAction(access)
 	public void view(HttpServerRequest request) {
 		renderView(request);
+		eventStore.createAndStoreEvent(RackEvent.ACCESS.name(), request);
 	}
 
 	//////////////
@@ -125,6 +134,7 @@ public class RackController extends MongoDbControllerHelper {
 	@SecuredAction(send)
 	public void postRack(final HttpServerRequest request){
 		UserUtils.getUserInfos(eb, request, new Handler<UserInfos>() {
+			@Override
 			public void handle(final UserInfos userInfos) {
 
 				if (userInfos == null) {
@@ -139,6 +149,7 @@ public class RackController extends MongoDbControllerHelper {
 
 				/* Upload file */
 				request.uploadHandler(new Handler<HttpServerFileUpload>() {
+					@Override
 					public void handle(final HttpServerFileUpload upload) {
 						upload.dataHandler(new Handler<Buffer>() {
 							@Override
@@ -147,6 +158,7 @@ public class RackController extends MongoDbControllerHelper {
 							}
 						});
 						upload.endHandler(new Handler<Void>() {
+							@Override
 							public void handle(Void v) {
 								save.putString("action", "save");
 								save.putString("content-type", upload.contentType());
@@ -176,6 +188,7 @@ public class RackController extends MongoDbControllerHelper {
 
 				/* After upload */
 				request.endHandler(new Handler<Void>() {
+					@Override
 					public void handle(Void v) {
 						String users = request.formAttributes().get("users");
 						if(users == null){
@@ -191,6 +204,7 @@ public class RackController extends MongoDbControllerHelper {
 
 						/* Final handler - called after each attempt */
 						final Handler<Boolean> finalHandler = new Handler<Boolean>() {
+							@Override
 							public void handle(Boolean event) {
 								if(event == null || !event)
 									failure.addAndGet(1);
@@ -215,6 +229,7 @@ public class RackController extends MongoDbControllerHelper {
 							params.put("id", to);
 
 							Handler<Message<JsonObject>> existenceHandler = new Handler<Message<JsonObject>>(){
+								@Override
 								public void handle(Message<JsonObject> res) {
 									JsonArray result = res.body().getArray("result");
 
@@ -247,6 +262,7 @@ public class RackController extends MongoDbControllerHelper {
 														request.params().get("application"),
 														request.params().getAll("thumbnail"),
 														new Handler<Message<JsonObject>>() {
+															@Override
 															public void handle(Message<JsonObject> res) {
 																if ("ok".equals(res.body().getString("status"))) {
 																	JsonObject params = new JsonObject()
@@ -274,6 +290,7 @@ public class RackController extends MongoDbControllerHelper {
 
 									/* Get user quota & check */
 									getUserQuota(to, new Handler<JsonObject>() {
+										@Override
 										public void handle(JsonObject j) {
 											if(j == null || "error".equals(j.getString("status"))){
 												finalHandler.handle(false);
@@ -311,6 +328,7 @@ public class RackController extends MongoDbControllerHelper {
 	@SecuredAction(value = owner, type = ActionType.RESOURCE)
 	public void deleteRackDocument(final HttpServerRequest request) {
 		UserUtils.getUserInfos(eb, request, new Handler<UserInfos>() {
+			@Override
 			public void handle(UserInfos user) {
 				if (user != null && user.getUserId() != null) {
 					deleteFile(request, user.getUserId());
@@ -331,6 +349,7 @@ public class RackController extends MongoDbControllerHelper {
 		final String thumbSize = request.params().get("thumbnail");
 		final String id = request.params().get("id");
 		rackService.getRack(id, new Handler<Either<String,JsonObject>>() {
+			@Override
 			public void handle(Either<String, JsonObject> event) {
 				if(event.isRight()){
 					JsonObject result = event.right().getValue();
@@ -373,6 +392,7 @@ public class RackController extends MongoDbControllerHelper {
 	@SecuredAction(value = list)
 	public void listRack(final HttpServerRequest request) {
 		UserUtils.getUserInfos(eb, request, new Handler<UserInfos>() {
+			@Override
 			public void handle(final UserInfos user) {
 				if (user != null) {
 					Handler<Either<String, JsonArray>> handler = arrayResponseHandler(request);
@@ -455,6 +475,7 @@ public class RackController extends MongoDbControllerHelper {
 
 	private void getVisibleRackGroups(final HttpServerRequest request, final Handler<JsonArray> handler){
 		UserUtils.findVisibleProfilsGroups(eb, request, new Handler<JsonArray>() {
+			@Override
 			public void handle(JsonArray groups) {
 				handler.handle(groups);
 			}
@@ -469,6 +490,7 @@ public class RackController extends MongoDbControllerHelper {
 	@SecuredAction(list_users)
 	public void listUsers(final HttpServerRequest request) {
 		getVisibleRackUsers(request, new Handler<JsonArray>() {
+			@Override
 			public void handle(JsonArray users) {
 				renderJson(request, users);
 			}
@@ -483,6 +505,7 @@ public class RackController extends MongoDbControllerHelper {
 	@SecuredAction(list_groups)
 	public void listGroups(final HttpServerRequest request) {
 		getVisibleRackGroups(request, new Handler<JsonArray>() {
+			@Override
 			public void handle(JsonArray users) {
 				renderJson(request, users);
 			}
@@ -497,6 +520,7 @@ public class RackController extends MongoDbControllerHelper {
 		message.putString("userId", userId);
 
 		eb.send(QUOTA_BUS_ADDRESS, message, new Handler<Message<JsonObject>>() {
+			@Override
 			public void handle(Message<JsonObject> reply) {
 				handler.handle(reply.body());
 			}
@@ -511,6 +535,7 @@ public class RackController extends MongoDbControllerHelper {
 		message.putNumber("threshold", threshold);
 
 		eb.send(QUOTA_BUS_ADDRESS, message, new Handler<Message<JsonObject>>() {
+			@Override
 			public void handle(Message<JsonObject> reply) {
 				JsonObject obj = reply.body();
 				UserUtils.addSessionAttribute(eb, userId, "storage", obj.getLong("storage"), null);
@@ -559,9 +584,11 @@ public class RackController extends MongoDbControllerHelper {
 	@SecuredAction(workspacecopy)
 	public void rackToWorkspace(final HttpServerRequest request){
 		UserUtils.getUserInfos(eb, request, new Handler<UserInfos>() {
+			@Override
 			public void handle(final UserInfos user) {
 				if(user != null){
 					RequestUtils.bodyToJson(request, pathPrefix + "rackToWorkspace", new Handler<JsonObject>(){
+						@Override
 						public void handle(JsonObject json) {
 							JsonArray idsArray = json.getArray("ids");
 							final String folder = json.getString("folder", "");
@@ -604,6 +631,7 @@ public class RackController extends MongoDbControllerHelper {
 				}
 			}
 
+			@Override
 			public void handle(Message<JsonObject> r) {
 				JsonObject src = r.body();
 				if ("ok".equals(src.getString("status")) && src.getArray("results") != null) {
@@ -613,6 +641,7 @@ public class RackController extends MongoDbControllerHelper {
 
 					emptySize(user, new Handler<Long>() {
 
+						@Override
 						public void handle(Long emptySize) {
 							long size = 0;
 
@@ -733,6 +762,7 @@ public class RackController extends MongoDbControllerHelper {
 	private void deleteFile(final HttpServerRequest request, final String owner) {
 		final String id = request.params().get("id");
 		rackService.getRack(id, new Handler<Either<String,JsonObject>>() {
+			@Override
 			public void handle(Either<String, JsonObject> event) {
 				if(event.isRight()){
 					final JsonObject result = event.right().getValue();
@@ -744,9 +774,11 @@ public class RackController extends MongoDbControllerHelper {
 					}
 
 					storage.removeFile(file, new Handler<JsonObject>() {
+						@Override
 						public void handle(JsonObject event) {
 							if (event != null && "ok".equals(event.getString("status"))) {
 									rackService.deleteRack(id, new Handler<Either<String,JsonObject>>() {
+										@Override
 										public void handle(Either<String, JsonObject> deletionEvent) {
 											if(deletionEvent.isRight()){
 												JsonObject deletionResult = deletionEvent.right().getValue();
@@ -767,6 +799,7 @@ public class RackController extends MongoDbControllerHelper {
 					//Delete thumbnails
 					for(final Entry<String, Object> thumbnail : thumbnails){
 						storage.removeFile(thumbnail.getValue().toString(), new Handler<JsonObject>(){
+							@Override
 							public void handle(JsonObject event) {
 								if (event == null || !"ok".equals(event.getString("status"))) {
 									logger.error("[gridfsRemoveFile] Error while deleting thumbnail "+thumbnail);
@@ -791,6 +824,7 @@ public class RackController extends MongoDbControllerHelper {
 		doc.putString("application", getOrElse(application, WORKSPACE_NAME));
 		//Save document to mongo
 		mongo.save(collection, doc, new Handler<Message<JsonObject>>() {
+			@Override
 			public void handle(Message<JsonObject> res) {
 				if ("ok".equals(res.body().getString("status"))) {
 					Long size = doc.getObject("metadata", new JsonObject()).getLong("size", 0l);
