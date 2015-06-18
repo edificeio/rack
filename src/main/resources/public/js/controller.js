@@ -168,11 +168,8 @@ function RackController($scope, $rootScope, $timeout, model, template, route, da
 
 	$scope.sendRackFiles = function(){
 		var n = $scope.newFile.files.length
+		var plurality = n > 1 ? ".plural" : ""
 		var doneFunction = function(response){
-			var plurality = '';
-			if(n > 1){
-				plurality = ".plural";
-			}
 			$scope.newFile.loading = false;
 			ui.hideLightbox()
 			$scope.loading = ''
