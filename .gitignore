@@ -6,3 +6,9 @@
 /.gradle
 /.settings
 .jshintrc
+entcore/
+dist/
+temp/
+node_modules/
+bower_components/
+rev-manifest.json

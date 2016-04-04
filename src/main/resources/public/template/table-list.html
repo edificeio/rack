@@ -6,17 +6,17 @@
     				<input type="checkbox" ng-model="select.all" ng-change="switchAll()"/>
     			</th>
     			<th class="icon" />
-    			<th class="content">
-					<span translate content="title" ng-click="orderBy('name')"></span>
+    			<th class="content" ng-click="orderBy('name')">
+                    <i18n>title</i18n>
 				</th>
-    			<th class="user" ng-if="folder.name !== 'history'">
-					<span translate content="from" ng-click="orderBy('fromName')"></span>
+    			<th class="user" ng-if="folder.name !== 'history'" ng-click="orderBy('fromName')">
+                    <i18n>from</i18n>
 				</th>
-				<th class="user" ng-if="folder.extraColumns.indexOf('to') > -1">
-					<span translate content="to" ng-click="orderBy('toName')"></span>
+				<th class="user" ng-if="folder.extraColumns.indexOf('to') > -1" ng-click="orderBy('toName')">
+                    <i18n>to</i18n>
 				</th>
-    			<th class="date">
-					<span translate content="sentDate" ng-click="orderBy('sent')"></span>
+    			<th class="date" ng-click="orderBy('sent')">
+                    <i18n>sentDate</i18n>
 				</th>
     		</tr>
 		</thead>
@@ -42,7 +42,7 @@
 					<a href="/userbook/annuaire#[[rack.to]]">[[rack.toName]]</a>
 				</td>
     			<td class="date">
-                    [[$root.longDate(rack.sent)]]
+                    [[longDate(rack.sent)]]
                 </td>
     		</tr>
 		</tbody>

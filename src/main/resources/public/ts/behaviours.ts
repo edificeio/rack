@@ -1,4 +1,10 @@
+import { Behaviours, model, http } from './entcore/entcore';
+
+declare var _:any;
+
 var rackResources = {}
+
+console.log('rack behaviours loaded');
 
 Behaviours.register('rack', {
 	rights: {

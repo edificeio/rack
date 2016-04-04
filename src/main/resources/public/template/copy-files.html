@@ -18,26 +18,31 @@
  ~
  -->
 
-<form>
-	<div class="row">
-		<h2 translate key="rack.copy"></h2>
-		<nav class="vertical">
-			<nav class="vertical">
-				<ul>
-					<li data-ng-include="'folder-management'"></li>
-				</ul>
-			</nav>
-		</nav>
-		<a ng-if="targetFolder && !newFolderEditing" ng-click="$parent.newFolderEditing = true" translate content="rack.createFolder"></a>
-		<div class="row input-block" ng-if="newFolderEditing">
-			<input type="text" ng-model="newFolder.name" />
-			<button ng-click="$parent.newFolderEditing = false; createEditFolder()" translate content="rack.folder.create"></button>
-		</div>
+<lightbox show="lightboxes.copy">
+    <form ng-submit="copy()">
+        <div class="row">
+            <h2><i18n>rack.copy</i18n></h2>
+            <nav class="vertical">
+                <nav class="vertical">
+                    <ul>
+                        <li data-ng-include="'folder-management'"></li>
+                    </ul>
+                </nav>
+            </nav>
+            <a ng-if="targetFolder && !newFolderEditing" ng-click="$parent.newFolderEditing = true">
+                <i18n>rack.createFolder</i18n>
+            </a>
+            <div class="row input-block" ng-if="newFolderEditing">
+                <input type="text" ng-model="newFolder.name" />
+                <button ng-click="$parent.newFolderEditing = false; createEditFolder()">
+                    <i18n>rack.folder.create</i18n>
+                </button>
+            </div>
 
-		<div class="clear"></div>
-		<div class="lightbox-buttons fluid">
-			<input type="submit" i18n-value="rack.copy" ng-click="copy()"  ng-disabled="!targetFolder" />
-			<input type="button" class="cancel" i18n-value="cancel" />
-		</div>
-	</div>
-</form>
+            <div class="lightbox-buttons fluid">
+                <button ng-disabled="!targetFolder"><i18n>rack.copy</i18n></button>
+                <button type="button" class="cancel"><i18n>cancel</i18n></button>
+            </div>
+        </div>
+    </form>
+</lightbox>

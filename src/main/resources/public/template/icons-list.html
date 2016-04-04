@@ -5,11 +5,11 @@
 			<a ng-href="[[folder.name !== 'history' ? '/rack/get/'+rack._id : '' ]]" class="[[rack.metadata.contentType]] container">
 				<i class="[[folder.name === 'history' && rack.metadata.contentType === 'img' ? 'unknown' : rack.metadata.contentType]]-large" ng-if="rack.metadata.contentType !== 'img' || folder.name === 'history'">
 				</i>
-				<div class="clip absolute"ng-if="rack.metadata.contentType === 'img' && folder.name !== 'history'">
+				<div class="clip absolute" ng-if="rack.metadata.contentType === 'img' && folder.name !== 'history'">
 					<img ng-src="[['/rack/get/'+rack._id+'?thumbnail=120x120']]" alt="thumbnail" />
 				</div>
 			</a>
-			<input type="checkbox" data-ng-model="rack.selected" ng-if="!folder.readOnly"/>
+			<input type="checkbox" ng-model="rack.selected" ng-if="!folder.readOnly"/>
 			<legend>
 				<a ng-href="[[folder.name !== 'history' ? '/rack/get/'+rack._id : '' ]]">
 					[[rack.name]]
@@ -17,6 +17,5 @@
 				<a ng-href="/userbook/annuaire#[[folder.name !== 'history' ? rack.from : rack.to]]"><strong>[[folder.name !== 'history' ? rack.fromName : rack.toName]]</strong></a>
 			</legend>
 		</div>
-		<div class="clear"></div>
 	</div>
 </article>
