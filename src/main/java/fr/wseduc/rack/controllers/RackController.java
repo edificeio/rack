@@ -74,7 +74,6 @@ public class RackController extends MongoDbControllerHelper {
 	private final static String QUOTA_BUS_ADDRESS = "org.entcore.workspace.quota";
 	private final static String WORKSPACE_NAME = "WORKSPACE";
 	private final static String WORKSPACE_COLLECTION ="documents";
-	private final static String NOTIFICATION_TYPE = "RACK";
 	private final static Logger logger = LoggerFactory.getLogger(RackController.class);
 
 	//Statistics
@@ -266,18 +265,17 @@ public class RackController extends MongoDbControllerHelper {
 															public void handle(Message<JsonObject> res) {
 																if ("ok".equals(res.body().getString("status"))) {
 																	JsonObject params = new JsonObject()
-																		.putString("uri", "/userbook/annuaire#" + doc.getString("from"))
+																		.putString("uri", container.config().getString("host", "http://localhost:8090") +
+																				"/userbook/annuaire#" + doc.getString("from"))
+																		.putString("resourceUri", container.config().getString("host", "http://localhost:8031")
+																				+ pathPrefix)
 																		.putString("username", doc.getString("fromName"))
 																		.putString("documentName", doc.getString("name"));
 																	List<String> receivers = new ArrayList<>();
 																	receivers.add(doc.getString("to"));
 																	timelineHelper.notifyTimeline(request,
-																			userInfos,
-																			NOTIFICATION_TYPE,
-																			NOTIFICATION_TYPE + "_POST",
-																			receivers,
-																			userInfos.getUserId() + System.currentTimeMillis() + "postrack",
-																			"notify-rack-post.html", params);
+																			"rack.rack-post", userInfos, receivers,
+																			userInfos.getUserId() + System.currentTimeMillis() + "postrack", params);
 																	finalHandler.handle(true);
 																} else {
 																	finalHandler.handle(false);
@@ -550,8 +548,7 @@ public class RackController extends MongoDbControllerHelper {
 	private void notifyEmptySpaceIsSmall(String userId) {
 		List<String> recipients = new ArrayList<>();
 		recipients.add(userId);
-		notification.notifyTimeline(new JsonHttpServerRequest(new JsonObject()), null, WORKSPACE_NAME,
-				WORKSPACE_NAME + "_STORAGE", recipients, null, "notify-storage.html", null);
+		notification.notifyTimeline(new JsonHttpServerRequest(new JsonObject()), "rack.storage", null, recipients, new JsonObject());
 	}
 
 	private void emptySize(final UserInfos userInfos, final Handler<Long> emptySizeHandler) {

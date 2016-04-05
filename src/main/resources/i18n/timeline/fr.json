@@ -1,3 +1,6 @@
 {
+    "rack": "Casier",
+    "rack.rack-post": "Dépôt de document dans un casier",
+    "rack.storage": "Espace disque faible",
     "timeline.rack.post": " a déposé dans votre casier le document : "
 }
