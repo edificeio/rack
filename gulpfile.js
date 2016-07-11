@@ -86,13 +86,17 @@ gulp.task('ts', ['update-libs'], function () { return compileTs() });
 gulp.task('webpack', ['ts'], function(){ return startWebpack() });
 
 gulp.task('build', ['webpack'], function () {
-    gulp.src('./src/main/resources/public/temp', { read: false })
-		.pipe(clean());
-    return updateRefs();
+    var refs = updateRefs();
+    var copyBehaviours = gulp.src('./src/main/resources/public/temp/behaviours.js')
+        .pipe(gulp.dest('./src/main/resources/public/js'));
+    return merge[refs, copyBehaviours];
 });
 
 gulp.task('build-local', ['webpack-local'], function () {
     //gulp.src('./src/main/resources/public/temp', { read: false })
 		//.pipe(clean());
-    return updateRefs();
+    var refs = updateRefs();
+    var copyBehaviours = gulp.src('./src/main/resources/public/temp/behaviours.js')
+        .pipe(gulp.dest('./src/main/resources/public/js'));
+    return merge[refs, copyBehaviours];
 });
