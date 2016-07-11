@@ -66,7 +66,7 @@ gulp.task('drop-cache', function(){
 });
 
 gulp.task('bower', ['drop-cache'], function(){
-    return bower({ directory: './bower_components', cwd: '.' });
+    return bower({ directory: './bower_components', cwd: '.', force: true });
 });
 
 gulp.task('update-libs', ['bower'], function(){
