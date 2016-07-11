@@ -1,5 +1,6 @@
-import { Behaviours, model, http } from './entcore/entcore';
-
+declare var Behaviours: any;
+declare var http: any;
+declare var model: any;
 declare var _:any;
 
 var rackResources = {}
