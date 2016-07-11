@@ -58,7 +58,7 @@
 			</div>
 		</section>
 		<section class="eight cell">
-			<div ng-include="template.containers.list" class="row"></div>
+			<container template="list"></container>
 		</section>
 
 	</div>
@@ -69,7 +69,8 @@
 				<div class="cell" ng-repeat="button in folder.bottomBarButtons">
 					<button  translate content="[[button.name]]" ng-if="button.showCondition()" ng-click="button.onClick()"/>
 				</div>
+            </div>
 		</div>
 	</section>
 
-</div class="row">
+</div>

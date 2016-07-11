@@ -59,7 +59,9 @@ export var libraryController = ng.controller('LibraryController', [
                     }
                 ]
             }
-        ]
+        ];
+
+        $scope.refreshListing($scope.folders[0]);
 
         $scope.switchAll = function () {
             if ($scope.select.all) {

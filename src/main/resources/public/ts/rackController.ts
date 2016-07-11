@@ -10,10 +10,10 @@ export var rackController = ng.controller('RackController', [
         $scope.rackList = rack.rackFiles;
         $scope.template = template;
         $scope.lang = lang;
-        $scope.lightboxes = {};
         $scope.quota = new Quota();
         $scope.to = [];
-
+        $scope.lightboxes = {};
+        
         template.open('send-rack', 'send-rack');
         template.open('copy-files', 'copy-files');
 
@@ -38,7 +38,7 @@ export var rackController = ng.controller('RackController', [
             $scope.getWorkspaceFolders();
             $scope.newFolder = new Folder("");
 
-            $scope.lighboxes.copy = true;
+            $scope.lightboxes.copy = true;
         };
 
         $scope.visibleUsers = rack.directory.visibleUsers;
