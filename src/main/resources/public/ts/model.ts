@@ -333,11 +333,11 @@ export class Rack extends Model{
             http().postFile('/rack?thumbnail=120x120', formData, { requestName: 'file-upload' })
                 .done((r) => {
                     if (r.success === 0) {
-                        reject();
+                        reject(r);
                         return;
                     }
                     else {
-                        resolve();
+                        resolve(r);
                     }
                 });
         });
