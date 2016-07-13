@@ -23,6 +23,7 @@
     "rack.contrib": "Contribution",
     "rack.copy": "Copier",
     "rack.createFolder": "Créer un nouveau dossier",
+    "rack.download": "Télécharger",
     "rack.file": "Fichier",
     "rack.folder.create": "Créer",
     "rack.history": "Historique",
