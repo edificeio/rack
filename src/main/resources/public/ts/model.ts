@@ -164,7 +164,7 @@ export class Folder extends Model {
 
     create(): Promise<Folder> {
         return new Promise((resolve, reject) => {
-            http().post('/workspace/folder', this).done((newFolder) => {
+            http().post('/workspace/folder', this.toJSON()).done((newFolder) => {
                 this._id = newFolder._id;
                 resolve(this);
             })
@@ -262,6 +262,7 @@ class FoldersCollection {
     findWhere: (props: any) => Folder;
     sync: any;
     all: Folder[];
+    trigger: (eventName: string) => void;
 
     constructor() {
         this.sync = this.syncFolders;
@@ -274,7 +275,7 @@ class FoldersCollection {
     }
 
     syncFolders(hook?: () => void) {
-        this.empty();
+        this.all.splice(0, this.all.length);
         http().get("/workspace/folders?filter=owner").done((folders) => {
             var foldersList = [];
             folders.forEach((path) => {
@@ -289,12 +290,13 @@ class FoldersCollection {
                     this.push(folder, false);
                 }
                 else {
-                    this.findWhere({ path: folder.parent }).children.push(folder);
+                    _.findWhere(foldersList, { name: folder.parent }).children.push(folder);
                 }
             });
             if (hook) {
                 hook()
             }
+            this.trigger('change');
         });
     }
 }

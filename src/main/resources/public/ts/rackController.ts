@@ -5,8 +5,8 @@ import { moment } from './entcore/libs/moment/moment';
 var _ = require('underscore');
 
 export var rackController = ng.controller('RackController', [
-    '$scope', 'route',
-    function ($scope, route) {
+    '$scope', 'route', 'model',
+    function ($scope, route, model) {
         $scope.rackList = rack.rackFiles;
         $scope.template = template;
         $scope.lang = lang;
@@ -124,6 +124,7 @@ export var rackController = ng.controller('RackController', [
         // WORKSPACE FOLDERS //
         $scope.workspaceFolders = rack.folders;
         $scope.getWorkspaceFolders = function (hook: () => void) {
+            $scope.folder = undefined;
             $scope.workspaceFolders.sync(() => {
                 $scope.folder = {
                     name: lang.translate('rack.root'),
