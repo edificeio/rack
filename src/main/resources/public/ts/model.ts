@@ -131,7 +131,12 @@ export class Directory extends Model{
         var directory = this;
         this.collection(VisibleGroup);
         this.collection(VisibleUser, {
-            sync: "/rack/users/available"
+            sync: function () {
+                http().get("/rack/users/available").done((users) => {
+                    rack.directory.visibleGroups.all = [];
+                    this.load(users);
+                });
+            }
         })
     }
 }

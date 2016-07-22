@@ -13,6 +13,9 @@ export var rackController = ng.controller('RackController', [
         $scope.quota = new Quota();
         $scope.to = [];
         $scope.lightboxes = {};
+        $scope.display = {
+            limit: 20
+        };
         
         template.open('send-rack', 'send-rack');
         template.open('copy-files', 'copy-files');
