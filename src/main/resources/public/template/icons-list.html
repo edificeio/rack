@@ -30,7 +30,7 @@
 					</a>
 				</legend>
 
-				<i class="download" tooltip="[['rack.download']]">
+				<i class="download" tooltip="[['rack.download']]" ng-if="folder.name !== 'history'">
 					<a ng-href="[[folder.name !== 'history' ? '/rack/get/'+rack._id : '' ]]"></a>
 				</i>
 
