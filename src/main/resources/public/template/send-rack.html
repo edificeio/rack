@@ -17,51 +17,51 @@
  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  ~
  -->
-
-<lightbox show="lightboxes.sendRack" on-close="lightboxes.sendRack = false">
-    <form class="twelve cell" ng-submit="sendRackFiles()">
-        <div class="twelve cell">
-            <h1><i18n>rack.sendRack</i18n></h1>
-            <div class="row">
-                <h3 class="four cell inline"><i18n>rack.file</i18n></h3>
-                <div class="eight cell select-file input-block">
-                    <div class="hidden-content">
-                        <input type="file" multiple files-input-change="setFilesName()" data-ng-model="newFile.files" />
+<div ng-if="lightboxes.sendRack">
+    <lightbox show="lightboxes.sendRack" on-close="lightboxes.sendRack = false">
+        <form class="twelve cell" ng-submit="sendRackFiles()">
+            <div class="twelve cell">
+                <h1><i18n>rack.sendRack</i18n></h1>
+                <div class="row">
+                    <h3 class="four cell inline"><i18n>rack.file</i18n></h3>
+                    <div class="eight cell select-file input-block">
+                        <div class="hidden-content">
+                            <input type="file" multiple files-input-change="setFilesName()" data-ng-model="newFile.files" />
+                        </div>
+                        <button class="file-button"><i18n>choose</i18n></button>
+                        <input type="text" ng-model="newFile.name" />
                     </div>
-                    <button class="file-button"><i18n>choose</i18n></button>
-                    <input type="text" ng-model="newFile.name" />
                 </div>
-            </div>
-            <div class="row">
-                <h3 class="twelve cell"><i18n>rack.to</i18n></h3>
-                <!-- User & group search -->
-                <div class="eight cell">
-                    <input class="eleven" type="text" ng-model="filters.itemFilter" i18n-placeholder="share.search.placeholder" />
-                    <div class="eleven found-users-list" style="max-height:200px; overflow-y: scroll">
-                        <div ng-repeat="item in combined = visibleUsers.all.concat(visibleGroups.all) | orderBy: item.name | filter: filterRackTo" class="row autocomplete">
-                            <em ng-click="addRackTo(item)" class="row" ng-class="{ 'high-importance': containsRackTo(item) }">
-                                <span class="cell reduce-block-two">[[item.username ? item.username : item.name]]</span>
-                            </em>
+                <div class="row">
+                    <h3 class="twelve cell"><i18n>rack.to</i18n></h3>
+                    <!-- User & group search -->
+                    <div class="eight cell">
+                        <input class="eleven" type="text" ng-model="filters.itemFilter" i18n-placeholder="share.search.placeholder" />
+                        <div class="eleven found-users-list" style="max-height:200px; overflow-y: scroll">
+                            <div ng-repeat="item in combined = visibleUsers.all.concat(visibleGroups.all) | orderBy: item.name | filter: filterRackTo" class="row autocomplete">
+                                <em ng-click="addRackTo(item)" class="row" ng-class="{ 'high-importance': containsRackTo(item) }">
+                                    <span class="cell reduce-block-two">[[item.username ? item.username : item.name]]</span>
+                                </em>
+                            </div>
                         </div>
                     </div>
+                    <!-- User basket -->
+                    <nav class="four cell vertical">
+                        <ul style="max-height:200px; margin: 10px; overflow-y: scroll">
+                            <li ng-repeat="recipient in to | orderBy: recipient.name" ng-click="removeRackTo(recipient)">[[recipient.username]]</li>
+                        </ul>
+                    </nav>
                 </div>
-                <!-- User basket -->
-                <nav class="four cell vertical">
-                    <ul style="max-height:200px; margin: 10px; overflow-y: scroll">
-                        <li ng-repeat="recipient in to | orderBy: recipient.name" ng-click="removeRackTo(recipient)">[[recipient.username]]</li>
-                    </ul>
-                </nav>
+                <div class="right-magnet" style="margin: 10px;">
+                    <button type="button" ng-click="resetRackTo()"><i18n>rack.resetReceivers</i18n></button>
+                    <button ng-disabled="to.length === 0 || newFile.files.length === 0 || newFile.loading">
+                        <i18n>upload</i18n>
+                    </button>
+                    <button type="button" class="cancel">
+                        <i18n>cancel</i18n>
+                    </button>
+                </div>
             </div>
-            <div class="right-magnet" style="margin: 10px;">
-                <button type="button" ng-click="resetRackTo()"><i18n>rack.resetReceivers</i18n></button>
-                <button ng-disabled="to.length === 0 || newFile.files.length === 0 || newFile.loading">
-                    <i18n>upload</i18n>
-                </button>
-                <button type="button" class="cancel">
-                    <i18n>cancel</i18n>
-                </button>
-            </div>
-        </div>
-    </form>
-</lightbox>
-	
+        </form>
+    </lightbox>
+</div>
