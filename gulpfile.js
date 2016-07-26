@@ -61,7 +61,7 @@ gulp.task('copy-local-libs', function(){
 });
 
 gulp.task('drop-cache', function(){
-     gulp.src('./bower_components', { read: false })
+     return gulp.src(['./bower_components', './src/main/resources/public/dist'], { read: false })
 		.pipe(clean());
 });
 
