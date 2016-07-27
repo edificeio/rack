@@ -352,7 +352,6 @@ export class Rack extends Model{
  
     sync(){
         this.rackFiles.sync();
-        this.directory.sync();
     }
 }
 

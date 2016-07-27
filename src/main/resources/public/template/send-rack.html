@@ -53,12 +53,12 @@
                     </nav>
                 </div>
                 <div class="right-magnet" style="margin: 10px;">
+                    <button type="button" class="cancel" ng-click="lightboxes.sendRack = false">
+                        <i18n>cancel</i18n>
+                    </button>
                     <button type="button" ng-click="resetRackTo()"><i18n>rack.resetReceivers</i18n></button>
                     <button ng-disabled="to.length === 0 || newFile.files.length === 0 || newFile.loading">
                         <i18n>upload</i18n>
-                    </button>
-                    <button type="button" class="cancel">
-                        <i18n>cancel</i18n>
                     </button>
                 </div>
             </div>

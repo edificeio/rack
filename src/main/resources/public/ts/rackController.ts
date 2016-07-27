@@ -31,7 +31,7 @@ export var rackController = ng.controller('RackController', [
         }
 
         $scope.openNewRack = function () {
-            rack.directory.visibleUsers.sync();
+            rack.directory.sync();
             $scope.to = [];
             $scope.newFile = { name: lang.translate('nofile'), files: [], chosenFiles: [] };
             $scope.lightboxes.sendRack = true;
