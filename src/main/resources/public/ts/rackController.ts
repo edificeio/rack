@@ -73,6 +73,9 @@ export var rackController = ng.controller('RackController', [
         }
 
         $scope.filterRackTo = function (item) {
+            if(!$scope.filters.itemFilter){
+                return true;
+            }
             var field = item.username ? "username" : "name"
             return $scope.filters.itemFilter ? lang.removeAccents(item[field].toLowerCase()).indexOf(lang.removeAccents($scope.filters.itemFilter.toLowerCase())) > -1 : true
         }

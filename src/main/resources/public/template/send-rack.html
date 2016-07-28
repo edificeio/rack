@@ -38,7 +38,7 @@
                     <div class="eight cell">
                         <input class="eleven" type="text" ng-model="filters.itemFilter" i18n-placeholder="share.search.placeholder" />
                         <div class="eleven found-users-list" bottom-scroll="display.limit = display.limit + 20" style="max-height:200px; overflow-y: scroll">
-                            <div ng-repeat="item in combined = visibleUsers.all.concat(visibleGroups.all) | orderBy: item.name | filter: filterRackTo | limitTo:display.limit" class="row autocomplete">
+                            <div ng-repeat="item in combined = visibleUsers.all.concat(visibleGroups.all) | filter: filterRackTo | limitTo:display.limit | orderBy: item.name" class="row autocomplete">
                                 <em ng-click="addRackTo(item)" class="row" ng-class="{ 'high-importance': containsRackTo(item) }">
                                     <span class="cell reduce-block-two">[[item.username ? item.username : item.name]]</span>
                                 </em>
