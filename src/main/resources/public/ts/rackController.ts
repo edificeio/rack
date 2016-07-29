@@ -13,7 +13,7 @@ export var rackController = ng.controller('RackController', [
                 if(!$scope.filters.itemFilter){
                     return true;
                 }
-                return $scope.filters.itemFilter && lang.removeAccents((item.username || item.name || '').toLowerCase()).indexOf(lang.removeAccents($scope.filters.itemFilter.toLowerCase())) > -1;
+                return item.id && $scope.filters.itemFilter && lang.removeAccents((item.username || item.name || '').toLowerCase()).indexOf(lang.removeAccents($scope.filters.itemFilter.toLowerCase())) > -1;
             });
             $scope.display.pickingList.sort((a, b) => {
                 return (a.name || a.username || '') > (b.name || b.username || '');
