@@ -135,6 +135,7 @@ export class Directory extends Model{
                 http().get("/rack/users/available").done((users) => {
                     rack.directory.visibleGroups.all = [];
                     this.load(users);
+                    directory.trigger('sync');
                 });
             }
         })

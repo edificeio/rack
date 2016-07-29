@@ -7,6 +7,19 @@ var _ = require('underscore');
 export var rackController = ng.controller('RackController', [
     '$scope', 'route', 'model',
     function ($scope, route, model) {
+
+        $scope.refreshPickingList = function (){
+            $scope.display.pickingList = _.filter(rack.directory.visibleUsers.all.concat(rack.directory.visibleGroups.all as any), (item) => {
+                if(!$scope.filters.itemFilter){
+                    return true;
+                }
+                return $scope.filters.itemFilter && lang.removeAccents((item.username || item.name || '').toLowerCase()).indexOf(lang.removeAccents($scope.filters.itemFilter.toLowerCase())) > -1;
+            });
+            $scope.display.pickingList.sort((a, b) => {
+                return (a.name || a.username || '') > (b.name || b.username || '');
+            });
+        };
+
         $scope.rackList = rack.rackFiles;
         $scope.template = template;
         $scope.lang = lang;
@@ -14,9 +27,12 @@ export var rackController = ng.controller('RackController', [
         $scope.to = [];
         $scope.lightboxes = {};
         $scope.display = {
-            limit: 20
+            limit: 20,
+            pickingList: []
         };
         
+        rack.directory.on('sync', $scope.refreshPickingList);
+
         template.open('send-rack', 'send-rack');
         template.open('copy-files', 'copy-files');
 
@@ -32,6 +48,7 @@ export var rackController = ng.controller('RackController', [
 
         $scope.openNewRack = function () {
             rack.directory.sync();
+            
             $scope.to = [];
             $scope.newFile = { name: lang.translate('nofile'), files: [], chosenFiles: [] };
             $scope.lightboxes.sendRack = true;
@@ -70,14 +87,6 @@ export var rackController = ng.controller('RackController', [
 
         $scope.filters = {
             itemFilter: ""
-        }
-
-        $scope.filterRackTo = function (item) {
-            if(!$scope.filters.itemFilter){
-                return true;
-            }
-            var field = item.username ? "username" : "name"
-            return $scope.filters.itemFilter ? lang.removeAccents(item[field].toLowerCase()).indexOf(lang.removeAccents($scope.filters.itemFilter.toLowerCase())) > -1 : true
         }
 
         $scope.addRackTo = function (item) {
