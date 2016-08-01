@@ -101,12 +101,18 @@ export var rackController = ng.controller('RackController', [
                         $scope.to.push(user)
                 })
             }
-        }
+        };
+
         $scope.removeRackTo = function (item) {
             $scope.to = _.reject($scope.to, function (elem) {
                 return elem.id === item.id
             })
-        }
+        };
+
+        $scope.resetRackTo = function (item) {
+            $scope.to = [];
+        };
+
         $scope.containsRackTo = function (item) {
             return _.findWhere($scope.to, { id: item.id }) !== undefined
         }
