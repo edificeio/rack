@@ -117,7 +117,9 @@ export class VisibleUser extends Model {
         
         this.collection(VisibleGroup);
         this.visibleGroups.load(data.groups);
-        rack.directory.visibleGroups.addRange(this.visibleGroups.all);
+        rack.directory.visibleGroups.addRange(_.reject(this.visibleGroups.all, (g) =>
+            _.findWhere(rack.directory.visibleGroups.all, { id: g.id }) !== undefined
+        ));
     }
 }
 
