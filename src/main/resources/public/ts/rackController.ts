@@ -8,12 +8,22 @@ export var rackController = ng.controller('RackController', [
     '$scope', 'route', 'model',
     function ($scope, route, model) {
 
-        $scope.refreshPickingList = function (){
+        $scope.refreshPickingList = function () {
+            if (!$scope.filters.itemFilter) {
+                $scope.display.pickingList = rack.directory.visibleUsers.all.concat(rack.directory.visibleGroups.all as any);
+                $scope.display.pickingList.sort((a, b) => {
+                    return (a.name || a.username || '') > (b.name || b.username || '');
+                });
+                return;
+            }
+
+            $scope.filters.itemFilter = lang.removeAccents($scope.filters.itemFilter.toLowerCase());
+
             $scope.display.pickingList = _.filter(rack.directory.visibleUsers.all.concat(rack.directory.visibleGroups.all as any), (item) => {
                 if(!$scope.filters.itemFilter){
                     return true;
                 }
-                return item.id && $scope.filters.itemFilter && lang.removeAccents((item.username || item.name || '').toLowerCase()).indexOf(lang.removeAccents($scope.filters.itemFilter.toLowerCase())) > -1;
+                return item.id && $scope.filters.itemFilter && lang.removeAccents((item.username || item.name || '').toLowerCase()).indexOf($scope.filters.itemFilter) > -1;
             });
             $scope.display.pickingList.sort((a, b) => {
                 return (a.name || a.username || '') > (b.name || b.username || '');
