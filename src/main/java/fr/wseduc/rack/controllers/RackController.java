@@ -281,10 +281,10 @@ public class RackController extends MongoDbControllerHelper {
 															public void handle(Message<JsonObject> res) {
 																if ("ok".equals(res.body().getString("status"))) {
 																	JsonObject params = new JsonObject()
-																		.putString("uri", container.config().getString("host", "http://localhost:8090") +
+																		.putString("uri", getScheme(request) + "://" + getHost(request) +
 																				"/userbook/annuaire#" + doc.getString("from"))
-																		.putString("resourceUri", container.config().getString("host", "http://localhost:8031")
-																				+ pathPrefix)
+																		.putString("resourceUri", getScheme(request) + "://" + getHost(request) +
+																				pathPrefix)
 																		.putString("username", doc.getString("fromName"))
 																		.putString("documentName", doc.getString("name"));
 																	List<String> receivers = new ArrayList<>();
