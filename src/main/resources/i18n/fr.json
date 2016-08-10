@@ -66,5 +66,10 @@
     "title": "Titre",
     "to": "A",
     "unsetImage": "Supprimer l'image",
-    "upload": "Envoyer"
+    "upload": "Envoyer",
+    "tuto.title": "Naviguez au sein de votre casier en vue vignettes :",
+    "tuto.action.select": "Cliquez",
+    "tuto.text.select": "pour séléctionner et accéder au menu d'options,",
+    "tuto.action.open": "Cliquez sur l'icône",
+    "tuto.text.open": "pour télécharger le document."
 }

@@ -1,19 +1,13 @@
-<p class="row info zero-mobile tuto">
-	<b>Naviguez au sein de votre casier en vue vignettes :</b><br>
-	<b>Cliquez</b> pour séléctionner et accéder au menu d'options, <br>
-	<b>Cliquez sur l'icône</b> pour télécharger le document<br>
+<p class="row info tuto">
+	<b><i18n>tuto.title</i18n></b><br>
+	<b><i18n>tuto.action.select</i18n></b> <i18n>tuto.text.select</i18n><br>
+	<b><i18n>tuto.action.open</i18n></b> <i18n>tuto.text.open</i18n>
 </p>
-<!-- <p class="row info zero tuto">
-	<b>Naviguez au sein de votre casier en vue vignettes sur mobile :</b><br>
-	<b>Cliquez longtemps</b> pour séléctionner et accéder au menu d'options, et cliquez en dehors pour désélectionner<br>
-	<b>Cliquez sur l'icône</b> pour télécharger le document<br>
-</p> -->
 
 <article class="icons-view">
 	<header>&nbsp;</header>
 	<div>
 		<div ng-repeat="rack in rackList.all | filter:filterRack:true" class="element reduce-block-six" ng-class="{ selected: rack.selected }">
-
 			<explorer ng-model="rack.selected">
 				<a class="[[rack.metadata.contentType]] container">
 					<i class="[[folder.name === 'history' && rack.metadata.contentType === 'img' ? 'unknown' : rack.metadata.contentType]]-large" ng-if="rack.metadata.contentType !== 'img' || folder.name === 'history'">
@@ -33,9 +27,7 @@
 				<i class="download" tooltip="[['rack.download']]" ng-if="folder.name !== 'history'">
 					<a ng-href="[[folder.name !== 'history' ? '/rack/get/'+rack._id : '' ]]"></a>
 				</i>
-
 			</explorer>
-
 		</div>
 	</div>
 </article>
