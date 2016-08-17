@@ -1,10 +1,10 @@
 ﻿import { model, notify, http, IModel, Model, Collection, BaseModel } from './entcore/entcore';
 
-declare var _:any;
+declare let _:any;
 
 /// File extension format
-var roleFromFileType = (fileType): string => {
-    var types = {
+let roleFromFileType = (fileType): string => {
+    let types = {
         'doc': (type) => type.indexOf('document') !== -1 && type.indexOf('wordprocessing') !== -1,
         'xls': (type) => (type.indexOf('document') !== -1 && type.indexOf('spreadsheet') !== -1) || (type.indexOf('ms-excel') !== -1),
         'img': (type) => type.indexOf('image') !== -1,
@@ -14,7 +14,7 @@ var roleFromFileType = (fileType): string => {
         'audio': (type) => type.indexOf('audio') !== -1
     };
 
-    for (var type in types) {
+    for (let type in types) {
         if (types[type](fileType)) {
             return type;
         }
@@ -25,12 +25,12 @@ var roleFromFileType = (fileType): string => {
 
 //Deep filtering an Object based on another Object properties
 //Supports "dot notation" for accessing nested objects, ex: ({a {b: 1}} can be filtered using {"a.b": 1})
-var deepObjectFilter = function (object, filter) {
-    for (var prop in filter) {
-        var splittedProp = prop.split(".");
-        var objValue = object;
-        var filterValue = filter[prop];
-        for (var i = 0; i < splittedProp.length; i++) {
+let deepObjectFilter = function (object, filter) {
+    for (let prop in filter) {
+        let splittedProp = prop.split(".");
+        let objValue = object;
+        let filterValue = filter[prop];
+        for (let i = 0; i < splittedProp.length; i++) {
             objValue = objValue[splittedProp[i]];
         }
         if (filterValue instanceof Object && objValue instanceof Object) {
@@ -135,7 +135,7 @@ export class Directory extends Model{
     constructor(){
         super();
         
-        var directory = this;
+        let directory = this;
         this.collection(VisibleGroup);
         this.collection(VisibleUser, {
             sync: function () {
@@ -159,7 +159,7 @@ export class Folder extends Model {
     constructor(path: string) {
         super(path);
 
-        var foldersChain = path.split('_');
+        let foldersChain = path.split('_');
         this.name = foldersChain[foldersChain.length - 1];
         this.path = path;
         if (foldersChain.length > 1) {
@@ -203,7 +203,7 @@ class RackFilesCollection {
     }
 
     trashSelection () {
-        var parsedCount = 0
+        let parsedCount = 0
         this.selection().forEach((item) => {
             item.trash().done(() => {
                 if (++parsedCount === this.selection().length) {
@@ -220,7 +220,7 @@ class RackFilesCollection {
     }
 
     delete (hook?: () => void) {
-        var parsedCount = 0
+        let parsedCount = 0
         this.selection().forEach((item) => {
             item.delete().done(() => {
                 if (++parsedCount === this.selection().length) {
@@ -241,7 +241,7 @@ class RackFilesCollection {
     }
 
     restore () {
-        var parsedCount = 0;
+        let parsedCount = 0;
         this.selection().forEach((item) => {
             item.restore().done(() => {
                 if (++parsedCount === this.selection().length) {
@@ -290,7 +290,7 @@ class FoldersCollection {
     syncFolders(hook?: () => void) {
         this.all.splice(0, this.all.length);
         http().get("/workspace/folders?filter=owner").done((folders) => {
-            var foldersList = [];
+            let foldersList = [];
             folders.forEach((path) => {
                 if (path.indexOf('Trash') !== -1) {
                     return;
@@ -339,7 +339,7 @@ export class Rack extends Model{
 
     sendFile(file: File, to: string[]): Promise<any> {
         return new Promise((resolve, reject) => {
-            var formData = new FormData();
+            let formData = new FormData();
 
             formData.append('file', file)
             formData.append('users', _.pluck(to, "id").join(","))
@@ -363,7 +363,7 @@ export class Rack extends Model{
     }
 }
 
-export var rack = new Rack();
+export let rack = new Rack();
 
 model.build = function () {
     rack.sync();

@@ -4,7 +4,7 @@ import { VisibleGroup, VisibleUser, Directory, rack } from './model';
 import { libraryController} from './libraryController';
 import { rackController } from './rackController';
 
-var moment = require('moment');
+let moment = require('moment');
 
 ng.controllers.push(libraryController);
 ng.controllers.push(rackController);

@@ -2,9 +2,9 @@
 import { rack, VisibleUser, VisibleGroup, Quota, Folder } from './model';
 import { moment } from './entcore/libs/moment/moment';
 
-var _ = require('underscore');
+let _ = require('underscore');
 
-export var rackController = ng.controller('RackController', [
+export let rackController = ng.controller('RackController', [
     '$scope', 'route', 'model',
     function ($scope, route, model) {
 
@@ -77,12 +77,12 @@ export var rackController = ng.controller('RackController', [
         $scope.setFilesName = function () {
             $scope.newFile.name = ''
             $scope.newFile.chosenFiles = []
-            for (var i = 0; i < $scope.newFile.files.length; i++) {
-                var file = $scope.newFile.files[i]
-                var splitList = file.name.split('.')
-                var extension = splitList[splitList.length - 1]
+            for (let i = 0; i < $scope.newFile.files.length; i++) {
+                let file = $scope.newFile.files[i]
+                let splitList = file.name.split('.')
+                let extension = splitList[splitList.length - 1]
 
-                var newFile = { file: file, name: file.name.split('.' + extension)[0], extension: '' }
+                let newFile = { file: file, name: file.name.split('.' + extension)[0], extension: '' }
                 if ($scope.newFile.name !== '') {
                     $scope.newFile.name = $scope.newFile.name + ', '
                 }
@@ -132,11 +132,11 @@ export var rackController = ng.controller('RackController', [
             $scope.loading = lang.translate('loading');
             $scope.newFile.loading = true;
 
-            var n = $scope.newFile.files.length;
-            var plurality = n > 1 ? ".plural" : "";
+            let n = $scope.newFile.files.length;
+            let plurality = n > 1 ? ".plural" : "";
 
-            var awaiter = [];
-            for (var i = 0; i < $scope.newFile.files.length; i++) {
+            let awaiter = [];
+            for (let i = 0; i < $scope.newFile.files.length; i++) {
                 awaiter.push(rack.sendFile($scope.newFile.files[i], $scope.to));
             }
             Promise.all(awaiter).then((responses) => {

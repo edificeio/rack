@@ -1,9 +1,9 @@
 ﻿import { notify, idiom as lang, template, routes, model, ng } from './entcore/entcore';
 import { rack } from './model';
 
-var _ = require('underscore');
+let _ = require('underscore');
 
-export var libraryController = ng.controller('LibraryController', [
+export let libraryController = ng.controller('LibraryController', [
     '$scope',
     function ($scope) {
         $scope.filterRack = () => true;
