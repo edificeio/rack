@@ -93,8 +93,6 @@ gulp.task('build', ['webpack'], function () {
 });
 
 gulp.task('build-local', ['webpack-local'], function () {
-    //gulp.src('./src/main/resources/public/temp', { read: false })
-		//.pipe(clean());
     var refs = updateRefs();
     var copyBehaviours = gulp.src('./src/main/resources/public/temp/behaviours.js')
         .pipe(gulp.dest('./src/main/resources/public/js'));

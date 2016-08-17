@@ -92,6 +92,11 @@ export class RackFile extends Model implements IModel{
         this.metadata.contentType = roleFromFileType(data.metadata['content-type'])
     }
     
+    delete(){
+        return http().delete('/rack/' + this._id)
+            .done(() => notify.info('rack.notify.deleted'));
+    }
+
     trash(){
         return http().put('/rack/' + this._id + '/trash')
             .done(() => notify.info('rack.notify.trashed'));
@@ -216,8 +221,8 @@ class RackFilesCollection {
 
     delete (hook?: () => void) {
         var parsedCount = 0
-        this.selection().forEach(function (item) {
-            item.remove().done(() => {
+        this.selection().forEach((item) => {
+            item.delete().done(() => {
                 if (++parsedCount === this.selection().length) {
                     if (this.selection().length > 1) {
                         notify.info('rack.notify.deleted.plural');
