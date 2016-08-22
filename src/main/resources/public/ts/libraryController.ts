@@ -16,7 +16,7 @@ export let libraryController = ng.controller('LibraryController', [
             rack.rackFiles.sync();
             $scope.folder = folder;
             if (!template.contains('list', 'table-list') && !template.contains('list', 'icons-list')) {
-                template.open('list', 'icons-list');
+                template.open('list', 'table-list');
             }
         }
 
