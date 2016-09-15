@@ -85,7 +85,19 @@ gulp.task('webpack-local', ['ts-local'], function(){ return startWebpack() });
 gulp.task('ts', ['update-libs'], function () { return compileTs() });
 gulp.task('webpack', ['ts'], function(){ return startWebpack() });
 
-gulp.task('build', ['webpack'], function () {
+gulp.task('drop-temp', ['webpack'], () => {
+    return gulp.src([
+        './src/main/resources/public/**/*.map.map',
+        './src/main/resources/public/temp',
+        './src/main/resources/public/dist/entcore/ng-app.js',
+        './src/main/resources/public/dist/entcore/ng-app.js.map',
+        './src/main/resources/public/dist/application.js',
+        './src/main/resources/public/dist/application.js.map'
+    ], { read: false })
+		.pipe(clean());
+})
+
+gulp.task('build', ['drop-temp'], function () {
     var refs = updateRefs();
     var copyBehaviours = gulp.src('./src/main/resources/public/temp/behaviours.js')
         .pipe(gulp.dest('./src/main/resources/public/js'));
