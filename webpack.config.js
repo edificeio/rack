@@ -12,7 +12,7 @@ module.exports = {
     },
     externals: {
         "entcore/entcore": "entcore",
-        "entcore/libs/moment/moment": "moment",
+        "entcore/libs/moment/moment": "entcore",
         "entcore/libs/underscore/underscore": "_"
     },
     resolve: {
