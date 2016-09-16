@@ -1,4 +1,4 @@
-﻿import { model, notify, http, IModel, Model, Collection, BaseModel } from './entcore/entcore';
+﻿import { model, notify, http, IModel, Model, Collection, BaseModel } from 'entcore/entcore';
 
 declare let _:any;
 

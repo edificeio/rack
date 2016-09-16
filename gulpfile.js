@@ -55,9 +55,13 @@ function updateRefs() {
 gulp.task('copy-local-libs', function(){
     var ts = gulp.src(jsInfraPath + '/src/ts/**/*.ts')
         .pipe(gulp.dest('./src/main/resources/public/ts/entcore'));
+
+    var module = gulp.src(jsInfraPath + '/src/ts/**/*.ts')
+        .pipe(gulp.dest('./node_modules/entcore'));
+
     var html = gulp.src(jsInfraPath + '/src/template/**/*.html')
         .pipe(gulp.dest('./src/main/resources/public/template/entcore'));
-    return merge([html, ts]);
+    return merge([html, ts, module]);
 });
 
 gulp.task('drop-cache', function(){
@@ -73,10 +77,13 @@ gulp.task('update-libs', ['bower'], function(){
     var html = gulp.src('./bower_components/entcore/template/**/*.html')
          .pipe(gulp.dest('./src/main/resources/public/template/entcore'));
         
-   var ts = gulp.src('./bower_components/entcore/src/ts/**/*.ts' )
-        .pipe(gulp.dest('./src/main/resources/public/ts/entcore'));
+    var ts = gulp.src('./bower_components/entcore/src/ts/**/*.ts' )
+         .pipe(gulp.dest('./src/main/resources/public/ts/entcore'));
+
+    var module = gulp.src('./bower_components/entcore/src/ts/**/*.ts')
+        .pipe(gulp.dest('./node_modules/entcore'));
         
-   return merge([html, ts]);
+   return merge([html, ts, module]);
 });
 
 gulp.task('ts-local', ['copy-local-libs'], function () { return compileTs() });

@@ -11,9 +11,9 @@ module.exports = {
         path: __dirname + 'dest'
     },
     externals: {
-        "./entcore/entcore": "entcore",
-        "moment": "entcore",
-        "underscore": "_"
+        "entcore/entcore": "entcore",
+        "entcore/libs/moment/moment": "moment",
+        "entcore/libs/underscore/underscore": "_"
     },
     resolve: {
         root: path.resolve(__dirname),
