@@ -1,7 +1,6 @@
 ﻿import { notify, idiom as lang, template, routes, model, ng } from 'entcore/entcore';
 import { rack } from './model';
-
-let _ = require('underscore');
+import { _ } from 'entcore/libs/underscore/underscore';
 
 export let libraryController = ng.controller('LibraryController', [
     '$scope',

@@ -1,6 +1,5 @@
 ﻿import { model, notify, http, IModel, Model, Collection, BaseModel } from 'entcore/entcore';
-
-declare let _:any;
+import { _ } from 'entcore/libs/underscore/underscore';
 
 /// File extension format
 let roleFromFileType = (fileType): string => {
