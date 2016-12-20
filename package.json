@@ -4,7 +4,7 @@
   "description": "This application allows users to send documents to one another, in a different fashion as when using the workspace app.",
   "main": "gulpfile.js",
   "dependencies": {
-    "@types/core-js": "^0.9.34",
+    
     "bower": "^1.7.9",
     "core-js": "^2.4.1",
     "gulp": "^3.9.1",
@@ -19,11 +19,13 @@
     "merge2": "^1.0.2",
     "source-map-loader": "^0.1.5",
     "toolkit": "git+https://git@github.com/entcore/toolkit.git#dev",
-    "typescript": "^2.1.1",
+    "typescript": "2.1.1",
     "webpack": "^1.13.1",
     "webpack-stream": "^3.1.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/core-js": "^0.9.34"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

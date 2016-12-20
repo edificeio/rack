@@ -4,7 +4,9 @@
     "module": "commonjs",
     "declaration": false,
     "moduleResolution": "node",
-    "sourceMap":  true,
-    "noImplicitAny": false
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "typeRoots": [ "../../../../../node_modules/@types" ],
+    "types": [ "core-js" ]
   }
 }
