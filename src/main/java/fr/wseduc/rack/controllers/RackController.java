@@ -27,6 +27,8 @@ import static org.entcore.common.http.response.DefaultResponseHandler.arrayRespo
 import static org.entcore.common.http.response.DefaultResponseHandler.defaultResponseHandler;
 
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -97,6 +99,8 @@ public class RackController extends MongoDbControllerHelper {
 	private final static String WORKSPACE_NAME = "WORKSPACE";
 	private final static String WORKSPACE_COLLECTION ="documents";
 	private final static Logger logger = LoggerFactory.getLogger(RackController.class);
+
+	private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
 
 	//Statistics
 	private EventStore eventStore;
@@ -267,7 +271,7 @@ public class RackController extends MongoDbControllerHelper {
 									doc.putString("toName", result.<JsonObject>get(0).getString("username"));
 									doc.putString("from", userInfos.getUserId());
 									doc.putString("fromName", userInfos.getUsername());
-									String now = MongoDb.formatDate(new Date());
+									String now = dateFormat.format(new Date());
 									doc.putString("sent", now);
 
 									/* Rack collection saving */
