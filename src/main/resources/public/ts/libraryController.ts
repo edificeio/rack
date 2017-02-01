@@ -65,7 +65,11 @@ export let libraryController = ng.controller('LibraryController', [
         $scope.switchAll = function () {
             if ($scope.select.all) {
                 if (typeof $scope.filterRack === 'function') {
-                    $scope.rackList.select($scope.filterRack);
+                    $scope.rackList.forEach((item) => {
+                        if($scope.filterRack(item)){
+                            item.selected = true;
+                        }
+                    });
                 }
             }
             else {

@@ -11,28 +11,31 @@
 <container template="send-rack"></container>
 
 <div class="row" ng-controller="LibraryController">
-	<div class="row">
+	<div class="row rigid-grid">
 		<h1 class="four cell" data-reload>
 			<a><i class="rack"></i><i18n>rack.title</i18n></a>
 		</h1>
-		<nav class="contextual-buttons eight cell">
-			<div class="action-buttons">
-				<button ng-click="openNewRack()" workflow="rack.send">
-                    <i18n>rack.sendRack</i18n>
-                </button>
+		<nav class="contextual-buttons margin-four">
+			<div class="twelve cell">
+				<div class="action-buttons">
+					<button ng-click="openNewRack()" workflow="rack.send">
+						<i18n>rack.sendRack</i18n>
+					</button>
+				</div>
+				<div class="display-buttons" ng-if="template.contains('list', 'table-list') || template.contains('list', 'icons-list')">
+					<i class="show-list"
+					ng-class="{ selected: template.contains('list', 'table-list') }"
+					ng-click="template.open('list', 'table-list')"></i>
+					<i class="show-icons"
+					ng-class="{ selected: template.contains('list', 'icons-list') }"
+					ng-click="template.open('list', 'icons-list')"></i>
+				</div>
 			</div>
-			<div class="display-buttons" ng-if="template.contains('list', 'table-list') || template.contains('list', 'icons-list')">
-				<i class="show-list"
-				   ng-class="{ selected: template.contains('list', 'table-list') }"
-				   ng-click="template.open('list', 'table-list')"></i>
-				<i class="show-icons"
-				   ng-class="{ selected: template.contains('list', 'icons-list') }"
-				   ng-click="template.open('list', 'icons-list')"></i>
-			</div>
+			
 		</nav>
 	</div>
 
-	<div class="row">
+	<div class="row rigid-grid">
 		<section class="vertical four cell">
 			<nav class="vertical">
 				<ul>
@@ -57,10 +60,11 @@
 				<progress-bar max="quota.max" filled="quota.used" unit="[[quota.unit]]"></progress-bar>
 			</div>
 		</section>
-		<section class="eight cell">
-			<container template="list"></container>
+		<section class="margin-four">
+			<div class="twelve cell">
+				<container template="list"></container>
+			</div>
 		</section>
-
 	</div>
 
 	<section class="toggle-buttons" ng-class="{ hide: !folder.bottomBarButtons || rackList.selection().length === 0 }">
