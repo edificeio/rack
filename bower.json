@@ -16,6 +16,6 @@
     "tests"
   ],
   "dependencies": {
-    "entcore": "git://github.com/entcore/infra-front#0.1"
+    "entcore": "git://github.com/entcore/infra-front#0.1.1"
   }
 }
