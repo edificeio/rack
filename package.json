@@ -4,7 +4,7 @@
   "description": "This application allows users to send documents to one another, in a different fashion as when using the workspace app.",
   "main": "gulpfile.js",
   "dependencies": {
-    "@types/core-js": "^0.9.36",
+    "@types/core-js": "0.9.36",
     "axios": "^0.15.3",
     "bower": "^1.7.9",
     "core-js": "^2.4.1",
