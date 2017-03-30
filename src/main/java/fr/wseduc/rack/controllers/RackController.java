@@ -299,7 +299,7 @@ public class RackController extends MongoDbControllerHelper {
 																	receivers.add(doc.getString("to"));
 																	timelineHelper.notifyTimeline(request,
 																			"rack.rack-post", userInfos, receivers,
-																			userInfos.getUserId() + System.currentTimeMillis() + "postrack", null, params, false);
+																			userInfos.getUserId() + System.currentTimeMillis() + "postrack", null, params, true);
 																	finalHandler.handle(true);
 																} else {
 																	finalHandler.handle(false);
