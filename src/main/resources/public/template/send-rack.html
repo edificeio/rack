@@ -21,9 +21,8 @@
     <lightbox show="lightboxes.sendRack" on-close="lightboxes.sendRack = false">
         <form class="twelve cell" ng-submit="sendRackFiles()">
             <div class="twelve cell">
-                <h1><i18n>rack.sendRack</i18n></h1>
+                <h2><i18n>rack.sendRack</i18n></h2>
                 <div class="row">
-                    <h3 class="four cell inline"><i18n>rack.file</i18n></h3>
                     <div class="eight cell select-file input-block">
                         <div class="hidden-content">
                             <input type="file" multiple files-input-change="setFilesName()" data-ng-model="newFile.files" />
@@ -34,31 +33,36 @@
                 </div>
                 <div class="row">
                     <h3 class="twelve cell"><i18n>rack.to</i18n></h3>
-                    <!-- User & group search -->
-                    <div class="eight cell">
-                        <input class="eleven" type="text" ng-model="filters.itemFilter" ng-change="refreshPickingList()" i18n-placeholder="share.search.placeholder" />
-                        <div class="eleven found-users-list" bottom-scroll="display.limit = display.limit + 20" style="max-height:200px; overflow-y: scroll">
-                            <div ng-repeat="item in display.pickingList| limitTo:display.limit" class="row autocomplete">
-                                <em ng-click="addRackTo(item)" class="row" ng-class="{ 'high-importance': containsRackTo(item) }">
-                                    <span class="cell reduce-block-two">[[item.username ? item.username : item.name]]</span>
-                                </em>
+                    <div class="row">
+                        <input class="twelve" type="search" ng-model="filters.itemFilter" ng-change="refreshPickingList()" i18n-placeholder="share.search.placeholder" />
+                    </div>
+                    <div class="row vertical-spacing">
+                        <div class="six cell">
+                            <div bottom-scroll="display.limit = display.limit + 20" style="max-height:200px; overflow-y: scroll">
+                                <div ng-repeat="item in pickingList| limitTo:display.limit" class="row autocomplete">
+                                    <em ng-click="addRackTo(item)" class="row" ng-class="{ 'high-importance': containsRackTo(item) }">
+                                        <span class="cell reduce-block-two">[[item.username ? item.username : item.name]]</span>
+                                    </em>
+                                </div>
                             </div>
                         </div>
+                        <!-- User basket -->
+                        <div class="six cell">
+                            <div class="info" ng-if="to.length === 0">Sélectionnez les destinataires dans la liste de gauche.</div>
+                            <ul class="thought-out-actions" style="max-height: 200px; overflow-y: scroll">
+                                <li ng-repeat="recipient in to | orderBy: recipient.name" ng-click="removeRackTo(recipient)">[[recipient.username]]</li>
+                            </ul>
+                        </nav>
                     </div>
-                    <!-- User basket -->
-                    <nav class="four cell vertical">
-                        <ul style="max-height:200px; margin: 10px; overflow-y: scroll">
-                            <li ng-repeat="recipient in to | orderBy: recipient.name" ng-click="removeRackTo(recipient)">[[recipient.username]]</li>
-                        </ul>
-                    </nav>
+                    
                 </div>
-                <div class="right-magnet" style="margin: 10px;">
-                    <button type="button" class="cancel" ng-click="lightboxes.sendRack = false">
-                        <i18n>cancel</i18n>
-                    </button>
-                    <button type="button" ng-click="resetRackTo()"><i18n>rack.resetReceivers</i18n></button>
-                    <button ng-disabled="to.length === 0 || newFile.files.length === 0 || newFile.loading">
+                <div class="row vertical-spacing">
+                    <button class="right-magnet" ng-disabled="to.length === 0 || newFile.files.length === 0 || newFile.loading">
                         <i18n>upload</i18n>
+                    </button>
+                    <button class="right-magnet" type="button" ng-click="resetRackTo()"><i18n>rack.resetReceivers</i18n></button>
+                    <button type="button" class="cancel right-magnet" ng-click="lightboxes.sendRack = false">
+                        <i18n>cancel</i18n>
                     </button>
                 </div>
             </div>

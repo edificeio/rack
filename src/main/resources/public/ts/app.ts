@@ -1,9 +1,6 @@
-﻿import { notify, idiom as lang, template, ui, http, routes, model, ng } from 'entcore/entcore';
-import { moment } from 'entcore/libs/moment/moment';
-import { VisibleGroup, VisibleUser, Directory, rack } from './model';
-
-import { libraryController} from './libraryController';
-import { rackController } from './rackController';
+﻿import { routes, ng } from 'entcore/entcore';
+import { libraryController} from './controllers/library';
+import { rackController } from './controllers/rack';
 
 ng.controllers.push(libraryController);
 ng.controllers.push(rackController);

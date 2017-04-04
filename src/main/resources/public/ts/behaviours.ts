@@ -17,7 +17,6 @@ Behaviours.register('rack', {
 			workspaceCopy: 'fr.wseduc.rack.controllers.RackController|rackToWorkspace'
 		}
 	},
-	dependencies: {},
 	resource: function(resource){
 		if(!resource.myRights){
 			resource.myRights = {};

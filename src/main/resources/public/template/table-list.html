@@ -2,17 +2,17 @@
 	<table class="twelve">
 		<thead class="tableheader whiteheader">
     		<tr>
-    			<th class="icon" ng-if="!folder.readOnly">
+    			<th class="icon" ng-if="select.folderName !== 'history'">
     				<input type="checkbox" ng-model="select.all" ng-change="switchAll()"/>
     			</th>
     			<th class="icon" />
     			<th class="content" ng-click="orderBy('name')">
                     <i18n>title</i18n>
 				</th>
-    			<th class="user" ng-if="folder.name !== 'history'" ng-click="orderBy('fromName')">
+    			<th class="user" ng-if="select.folderName !== 'history'" ng-click="orderBy('fromName')">
                     <i18n>from</i18n>
 				</th>
-				<th class="user" ng-if="folder.extraColumns.indexOf('to') > -1" ng-click="orderBy('toName')">
+				<th class="user" ng-if="select.folderName === 'history'" ng-click="orderBy('toName')">
                     <i18n>to</i18n>
 				</th>
     			<th class="date" ng-click="orderBy('sent')">
@@ -22,7 +22,7 @@
 		</thead>
 		<tbody>
     		<tr ng-repeat="rack in rackList.all | filter:filterRack:true | orderBy:ordering" ng-class="{ checked: rack.selected }">
-    			<td class="icon" ng-if="!folder.readOnly">
+    			<td class="icon" ng-if="select.folderName !== 'history'">
 					<input type="checkbox" ng-model="rack.selected"/>
 				</td>
 				<td class="icon">
@@ -31,14 +31,14 @@
 					</div>
 				</td>
     			<td class="content">
-                    <a ng-href="[[folder.name === 'mine' ? '/rack/get/'+rack._id : '' ]]">
+                    <a ng-href="[[select.folderName === 'mine' ? '/rack/get/' + rack._id : '' ]]">
 						[[rack.name]]
 					</a>
                 </td>
-    			<td class="user" ng-if="folder.name !== 'history'">
+    			<td class="user" ng-if="select.folderName !== 'history'">
                     <a href="/userbook/annuaire#[[rack.from]]">[[rack.fromName]]</a>
                 </td>
-				<td class="user" ng-if="folder.extraColumns.indexOf('to') > -1">
+				<td class="user" ng-if="select.folderName === 'history'">
 					<a href="/userbook/annuaire#[[rack.to]]">[[rack.toName]]</a>
 				</td>
     			<td class="date">

@@ -22,7 +22,7 @@
 						<i18n>rack.sendRack</i18n>
 					</button>
 				</div>
-				<div class="display-buttons" ng-if="template.contains('list', 'table-list') || template.contains('list', 'icons-list')">
+				<div class="display-buttons">
 					<i class="show-list"
 					ng-class="{ selected: template.contains('list', 'table-list') }"
 					ng-click="template.open('list', 'table-list')"></i>
@@ -39,18 +39,20 @@
 		<section class="vertical four cell">
 			<nav class="vertical">
 				<ul>
-					<li ng-repeat="f in folders">
-						<a ng-if="!f.workflow"
-						   ng-click="refreshListing(f)"
-						   translate content="rack.[[f.name]]"
-						   ng-class="{ selected: f.name === folder.name }">
-                        </a>
-						<a ng-if="f.workflow"
-						   workflow="[[f.workflow]]"
-						   ng-click="refreshListing(f)"
-						   translate content="rack.[[f.name]]"
-						   ng-class="{ selected: f.name === folder.name }">
-                        </a>
+					<li ng-click="open('mine')">
+						<a ng-class="{ selected: select.folderName === 'mine' }">
+							<i18n>rack.mine</i18n>
+							</a>
+					</li>
+					<li ng-click="open('history')">
+						<a ng-class="{ selected: select.folderName === 'history' }">
+							<i18n>rack.history</i18n>
+						</a>
+					</li>
+					<li ng-click="open('trash')">
+						<a ng-class="{ selected: select.folderName === 'trash' }">
+							<i18n>rack.trash</i18n>
+						</a>
 					</li>
 				</ul>
 			</nav>
@@ -67,14 +69,5 @@
 		</section>
 	</div>
 
-	<section class="toggle-buttons" ng-class="{ hide: !folder.bottomBarButtons || rackList.selection().length === 0 }">
-		<div class="toggle">
-			<div class="row">
-				<div class="cell" ng-repeat="button in folder.bottomBarButtons">
-					<button  translate content="[[button.name]]" ng-if="button.showCondition()" ng-click="button.onClick()"/>
-				</div>
-            </div>
-		</div>
-	</section>
-
+	<container template="toaster"></container>
 </div>
