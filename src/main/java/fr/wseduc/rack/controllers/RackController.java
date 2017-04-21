@@ -154,7 +154,7 @@ public class RackController extends MongoDbControllerHelper {
 
 	/**
 	 * Post a new document to other people's rack folder.
-	 * @param request Client request containing a list of user ids belonging to the receivers & the file.
+	 * @param request Client request containing a list of user ids belonging to the receivers and the file.
 	 */
 	@Post("")
 	@SecuredAction(send)
@@ -597,7 +597,7 @@ public class RackController extends MongoDbControllerHelper {
 
 	/**
 	 * Copy a document from the rack to the workspace.
-	 * @param request Client request with file ids & destination folder (optional) in the body using json format.
+	 * @param request Client request with file ids and destination folder (optional) in the body using json format.
 	 */
 	@Post("/copy")
 	@SecuredAction(workspacecopy)
