@@ -51,7 +51,7 @@ function startWebpack(isLocal) {
 }
 
 function updateRefs() {
-    return gulp.src("./src/main/resources/view-src/*.html")
+    return gulp.src("./src/main/resources/view-src/**/*.html")
         .pipe(revReplace({manifest: gulp.src("./rev-manifest.json") }))
         .pipe(gulp.dest("./src/main/resources/view"));
 }
