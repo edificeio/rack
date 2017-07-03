@@ -1,7 +1,7 @@
 import { Directory } from './directory';
 import { RackFiles } from './rackFile';
 import { Folders } from './folder';
-import { Eventer } from 'toolkit';
+import { Eventer } from 'entcore-toolkit';
 import http from 'axios';
 
 export interface SendResult{

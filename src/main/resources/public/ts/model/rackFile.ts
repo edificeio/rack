@@ -1,6 +1,6 @@
 import { workspace, notify } from 'entcore';
 import { deepObjectFilter } from './util';
-import { Selection, Selectable, Mix, Provider } from 'toolkit';
+import { Selection, Selectable, Mix, Provider } from 'entcore-toolkit';
 import http from 'axios';
 
 export class RackFile implements Selectable {

@@ -1,6 +1,6 @@
 import http from 'axios';
 import { Rack } from './rack';
-import { Mix } from 'toolkit';
+import { Mix } from 'entcore-toolkit';
 
 export class Visible{
     id: string;

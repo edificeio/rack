@@ -1,5 +1,5 @@
 import { deepObjectFilter } from './util';
-import { Selection, Selectable } from 'toolkit';
+import { Selection, Selectable } from 'entcore-toolkit';
 import { Rack } from './rack';
 import http from 'axios';
 

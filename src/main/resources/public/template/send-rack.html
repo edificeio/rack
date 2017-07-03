@@ -38,7 +38,7 @@
                     </div>
                     <div class="row vertical-spacing">
                         <div class="six cell">
-                            <div bottom-scroll="display.limit = display.limit + 20" style="max-height:200px; overflow-y: scroll">
+                            <div bottom-scroll="display.limit = display.limit + 20" style="max-height:200px; overflow-y: scroll" scrollable>
                                 <div ng-repeat="item in pickingList| limitTo:display.limit" class="row autocomplete">
                                     <em ng-click="addRackTo(item)" class="row" ng-class="{ 'high-importance': containsRackTo(item) }">
                                         <span class="cell reduce-block-two">[[item.username ? item.username : item.name]]</span>
