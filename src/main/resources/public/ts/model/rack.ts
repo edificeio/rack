@@ -2,6 +2,7 @@ import { Directory } from './directory';
 import { RackFiles } from './rackFile';
 import { Folders } from './folder';
 import { Eventer } from 'entcore-toolkit';
+import { quota } from './quota';
 import http from 'axios';
 
 export interface SendResult{
@@ -59,6 +60,7 @@ export class Rack{
     }
  
     async sync(){
+        await quota.sync()
         await this.files.sync();
         this.eventer.trigger('sync');
     }

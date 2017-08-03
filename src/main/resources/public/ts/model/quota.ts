@@ -1,8 +1,8 @@
 import { model } from 'entcore';
 import http from 'axios';
 
-export class Quota {
-    unit: string;
+class Quota {
+    unit: string = 'Mo';
     max: number;
     used: number;
 
@@ -27,3 +27,5 @@ export class Quota {
         this.used = data.storage;
     }
 }
+
+export const quota = new Quota();

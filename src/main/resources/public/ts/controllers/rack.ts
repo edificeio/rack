@@ -1,5 +1,5 @@
 ﻿import { notify, idiom as lang, template, routes, model, ng } from 'entcore/entcore';
-import { Rack, Visible, User, Group, Quota, Folder, SendResult } from '../model';
+import { Rack, Visible, User, Group, quota, Folder, SendResult } from '../model';
 import { moment } from 'entcore/libs/moment/moment';
 import { _ } from 'entcore/libs/underscore/underscore';
 
@@ -16,7 +16,7 @@ export let rackController = ng.controller('RackController', [
         $scope.workspaceFolders = Rack.instance.folders;
         $scope.template = template;
         $scope.lang = lang;
-        $scope.quota = new Quota();
+        $scope.quota = quota;
         $scope.to = [];
         $scope.lightboxes = {};
 
