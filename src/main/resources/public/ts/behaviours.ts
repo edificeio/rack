@@ -44,16 +44,16 @@ Behaviours.register('rack', {
 	},
 	loadResources: function(callback){
 		http().get('/rack/list').done(function(rack){
-			this.resources = _.map(_.where(rack, { trashed: 0 }), function(rack){
-				rack.icon = rack.icon || '/img/illustrations/rack-default.png';
+			this.resources = rack.filter(i => i.folder !== 'Trash').map(rack => {
+				rack.icon = rack.icon || '/img/illustrations/image-default.svg';
 				return {
-					title: rack.title,
-					owner: rack.owner,
-					icon: rack.icon,
-					path: '/rack#/view-rack/' + rack._id,
-					_id: rack._id
+				    title: rack.name,
+				    owner: { name: rack.fromName, userId: rack.to },
+				    icon: rack.icon,
+				    path: '/rack#/view-rack/' + rack._id,
+				    _id: rack._id
 				};
-			});
+			    });
 			callback(this.resources);
 		}.bind(this));
 	}
