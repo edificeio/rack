@@ -29,6 +29,8 @@ import org.entcore.common.storage.StorageFactory;
 
 import fr.wseduc.rack.controllers.RackController;
 import fr.wseduc.rack.security.RackResourcesProvider;
+import org.entcore.common.storage.impl.MongoDBApplicationStorage;
+import org.vertx.java.core.json.JsonObject;
 
 public class Rack extends BaseServer {
 
@@ -37,7 +39,9 @@ public class Rack extends BaseServer {
 	@Override
 	public void start() {
 		super.start();
-		Storage storage = new StorageFactory(vertx, config).getStorage();
+		Storage storage = new StorageFactory(vertx, config,
+				new MongoDBApplicationStorage(RACK_COLLECTION, Rack.class.getSimpleName(),
+				new JsonObject().putString("owner", "from"))).getStorage();
 		RackController rackController = new RackController(RACK_COLLECTION, storage);
 		MongoDbConf.getInstance().setCollection(RACK_COLLECTION);
 		setDefaultResourceFilter(new RackResourcesProvider());
