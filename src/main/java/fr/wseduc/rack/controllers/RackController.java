@@ -170,7 +170,6 @@ public class RackController extends MongoDbControllerHelper {
 
 				request.expectMultiPart(true);
 				final Buffer fileBuffer = new Buffer();
-				final JsonObject save = new JsonObject();
 				final JsonObject metadata = new JsonObject();
 
 				/* Upload file */
@@ -186,9 +185,6 @@ public class RackController extends MongoDbControllerHelper {
 						upload.endHandler(new Handler<Void>() {
 							@Override
 							public void handle(Void v) {
-								save.putString("action", "save");
-								save.putString("content-type", upload.contentType());
-								save.putString("filename", upload.filename());
 								metadata.putString("name", upload.name());
 								metadata.putString("filename", upload.filename());
 								metadata.putString("content-type", upload.contentType());
@@ -197,15 +193,6 @@ public class RackController extends MongoDbControllerHelper {
 								metadata.putNumber("size", upload.size());
 								if (metadata.getLong("size", 0l).equals(0l)) {
 									metadata.putNumber("size", fileBuffer.length());
-								}
-								byte [] header = null;
-								try {
-									header = save.toString().getBytes("UTF-8");
-								} catch (UnsupportedEncodingException e) {
-									badRequest(request, e.getMessage());
-								}
-								if(header != null){
-									fileBuffer.appendBytes(header).appendInt(header.length);
 								}
 							}
 						});
