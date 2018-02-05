@@ -1,7 +1,7 @@
-﻿import { notify, idiom as lang, template, routes, model, ng } from 'entcore/entcore';
+﻿import { notify, idiom as lang, template, routes, model, ng } from 'entcore';
 import { Rack, Visible, User, Group, quota, Folder, SendResult } from '../model';
-import { moment } from 'entcore/libs/moment/moment';
-import { _ } from 'entcore/libs/underscore/underscore';
+import { moment } from 'entcore';
+import { _ } from 'entcore';
 
 export let rackController = ng.controller('RackController', [
     '$scope', 'route', 'model',

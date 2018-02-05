@@ -1,4 +1,4 @@
-﻿import { routes, ng } from 'entcore/entcore';
+﻿import { routes, ng } from 'entcore';
 import { libraryController} from './controllers/library';
 import { rackController } from './controllers/rack';
 
