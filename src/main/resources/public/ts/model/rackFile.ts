@@ -1,4 +1,4 @@
-import { workspace, notify } from 'entcore';
+import { Document, notify } from 'entcore';
 import { deepObjectFilter } from './util';
 import { Selection, Selectable, Mix, Provider } from 'entcore-toolkit';
 import http from 'axios';
@@ -12,7 +12,7 @@ export class RackFile implements Selectable {
     folder: string;
 
     fromJSON(data: any){
-        this.metadata.contentType = workspace.Document.role(data.metadata['content-type']);
+        this.metadata.contentType = Document.role(data.metadata['content-type']);
     }
     
     async delete(): Promise<void>{
