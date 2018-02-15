@@ -22,12 +22,11 @@
 
 package fr.wseduc.rack.services;
 
-import org.entcore.common.user.UserInfos;
-import org.vertx.java.core.Handler;
-import org.vertx.java.core.json.JsonArray;
-import org.vertx.java.core.json.JsonObject;
-
 import fr.wseduc.webutils.Either;
+import io.vertx.core.Handler;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import org.entcore.common.user.UserInfos;
 
 /**
  * Generic REST service for Rack.

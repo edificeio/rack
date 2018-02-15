@@ -22,17 +22,16 @@
 
 package fr.wseduc.rack.security;
 
-import org.entcore.common.http.filter.ResourcesProvider;
-import org.entcore.common.user.UserInfos;
-import org.vertx.java.core.Handler;
-import org.vertx.java.core.eventbus.Message;
-import org.vertx.java.core.http.HttpServerRequest;
-import org.vertx.java.core.json.JsonObject;
-
 import fr.wseduc.mongodb.MongoDb;
 import fr.wseduc.rack.Rack;
 import fr.wseduc.rack.controllers.RackController;
 import fr.wseduc.webutils.http.Binding;
+import io.vertx.core.Handler;
+import io.vertx.core.eventbus.Message;
+import io.vertx.core.http.HttpServerRequest;
+import io.vertx.core.json.JsonObject;
+import org.entcore.common.http.filter.ResourcesProvider;
+import org.entcore.common.user.UserInfos;
 
 public class RackResourcesProvider implements ResourcesProvider{
 	
@@ -68,7 +67,7 @@ public class RackResourcesProvider implements ResourcesProvider{
 				handler.handle(
 					res != null &&
 					"ok".equals(res.getString("status")) &&
-					res.getInteger("count") == 1
+					res.getLong("count") == 1
 				);
 			}
 		});

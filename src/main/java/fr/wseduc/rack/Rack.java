@@ -22,26 +22,25 @@
 
 package fr.wseduc.rack;
 
+import fr.wseduc.rack.controllers.RackController;
+import fr.wseduc.rack.security.RackResourcesProvider;
+import io.vertx.core.json.JsonObject;
 import org.entcore.common.http.BaseServer;
 import org.entcore.common.mongodb.MongoDbConf;
 import org.entcore.common.storage.Storage;
 import org.entcore.common.storage.StorageFactory;
-
-import fr.wseduc.rack.controllers.RackController;
-import fr.wseduc.rack.security.RackResourcesProvider;
 import org.entcore.common.storage.impl.MongoDBApplicationStorage;
-import org.vertx.java.core.json.JsonObject;
 
 public class Rack extends BaseServer {
 
 	public final static String RACK_COLLECTION = "racks";
 
 	@Override
-	public void start() {
+	public void start() throws Exception {
 		super.start();
 		Storage storage = new StorageFactory(vertx, config,
 				new MongoDBApplicationStorage(RACK_COLLECTION, Rack.class.getSimpleName(),
-				new JsonObject().putString("owner", "from"))).getStorage();
+				new JsonObject().put("owner", "from"))).getStorage();
 		RackController rackController = new RackController(RACK_COLLECTION, storage);
 		MongoDbConf.getInstance().setCollection(RACK_COLLECTION);
 		setDefaultResourceFilter(new RackResourcesProvider());

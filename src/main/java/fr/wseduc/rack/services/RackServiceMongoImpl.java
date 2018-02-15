@@ -22,20 +22,18 @@
 
 package fr.wseduc.rack.services;
 
-import static org.entcore.common.mongodb.MongoDbResult.validActionResultHandler;
-
-import org.entcore.common.mongodb.MongoDbResult;
-import org.entcore.common.service.impl.MongoDbCrudService;
-import org.entcore.common.user.UserInfos;
-import org.vertx.java.core.Handler;
-import org.vertx.java.core.json.JsonArray;
-import org.vertx.java.core.json.JsonObject;
-
 import com.mongodb.QueryBuilder;
-
 import fr.wseduc.mongodb.MongoDb;
 import fr.wseduc.mongodb.MongoQueryBuilder;
 import fr.wseduc.webutils.Either;
+import io.vertx.core.Handler;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import org.entcore.common.mongodb.MongoDbResult;
+import org.entcore.common.service.impl.MongoDbCrudService;
+import org.entcore.common.user.UserInfos;
+
+import static org.entcore.common.mongodb.MongoDbResult.validActionResultHandler;
 
 /**
  * MongoDB implementation of the REST service.
@@ -71,7 +69,7 @@ public class RackServiceMongoImpl extends MongoDbCrudService implements RackServ
 
 	public void trashRack(String id, Handler<Either<String, JsonObject>> handler) {
 		JsonObject modifider = new JsonObject();
-		modifider.putString("folder", "Trash");
+		modifider.put("folder", "Trash");
 
 		super.update(id, modifider, handler);
 	}

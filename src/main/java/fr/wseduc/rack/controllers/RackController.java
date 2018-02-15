@@ -22,51 +22,7 @@
 
 package fr.wseduc.rack.controllers;
 
-import static fr.wseduc.webutils.Utils.getOrElse;
-import static org.entcore.common.http.response.DefaultResponseHandler.arrayResponseHandler;
-import static org.entcore.common.http.response.DefaultResponseHandler.defaultResponseHandler;
-import static org.entcore.common.user.UserUtils.findVisibleUsers;
-
-import java.io.UnsupportedEncodingException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.entcore.common.events.EventStore;
-import org.entcore.common.events.EventStoreFactory;
-import org.entcore.common.http.request.JsonHttpServerRequest;
-import org.entcore.common.mongodb.MongoDbControllerHelper;
-import org.entcore.common.neo4j.Neo4j;
-import org.entcore.common.notification.TimelineHelper;
-import org.entcore.common.storage.Storage;
-import org.entcore.common.user.UserInfos;
-import org.entcore.common.user.UserUtils;
-import org.vertx.java.core.AsyncResult;
-import org.vertx.java.core.Handler;
-import org.vertx.java.core.Vertx;
-import org.vertx.java.core.buffer.Buffer;
-import org.vertx.java.core.eventbus.Message;
-import org.vertx.java.core.http.HttpServerFileUpload;
-import org.vertx.java.core.http.HttpServerRequest;
-import org.vertx.java.core.http.RouteMatcher;
-import org.vertx.java.core.json.JsonArray;
-import org.vertx.java.core.json.JsonObject;
-import org.vertx.java.core.logging.Logger;
-import org.vertx.java.core.logging.impl.LoggerFactory;
-import org.vertx.java.platform.Container;
-
 import com.mongodb.QueryBuilder;
-
 import fr.wseduc.mongodb.MongoDb;
 import fr.wseduc.mongodb.MongoQueryBuilder;
 import fr.wseduc.rack.Rack;
@@ -83,6 +39,40 @@ import fr.wseduc.webutils.I18n;
 import fr.wseduc.webutils.http.ETag;
 import fr.wseduc.webutils.http.Renders;
 import fr.wseduc.webutils.request.RequestUtils;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
+import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.eventbus.Message;
+import io.vertx.core.http.HttpServerFileUpload;
+import io.vertx.core.http.HttpServerRequest;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
+import org.entcore.common.events.EventStore;
+import org.entcore.common.events.EventStoreFactory;
+import org.entcore.common.http.request.JsonHttpServerRequest;
+import org.entcore.common.mongodb.MongoDbControllerHelper;
+import org.entcore.common.neo4j.Neo4j;
+import org.entcore.common.notification.TimelineHelper;
+import org.entcore.common.storage.Storage;
+import org.entcore.common.user.UserInfos;
+import org.entcore.common.user.UserUtils;
+import org.vertx.java.core.http.RouteMatcher;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static fr.wseduc.webutils.Utils.getOrElse;
+import static org.entcore.common.http.response.DefaultResponseHandler.arrayResponseHandler;
+import static org.entcore.common.http.response.DefaultResponseHandler.defaultResponseHandler;
+import static org.entcore.common.user.UserUtils.findVisibleUsers;
 
 /**
  * Vert.x backend controller for the application using Mongodb.
@@ -130,11 +120,11 @@ public class RackController extends MongoDbControllerHelper {
 	}
 
 	@Override
-	public void init(Vertx vertx, Container container, RouteMatcher rm, Map<String, fr.wseduc.webutils.security.SecuredAction> securedActions) {
-		super.init(vertx, container, rm, securedActions);
-		this.threshold = container.config().getInteger("alertStorage", 80);
-		this.imageResizerAddress = container.config().getString("image-resizer-address", "wse.image.resizer");
-		this.timelineHelper = new TimelineHelper(vertx, eb, container);
+	public void init(Vertx vertx, JsonObject config, RouteMatcher rm, Map<String, fr.wseduc.webutils.security.SecuredAction> securedActions) {
+		super.init(vertx, config, rm, securedActions);
+		this.threshold = config.getInteger("alertStorage", 80);
+		this.imageResizerAddress = config.getString("image-resizer-address", "wse.image.resizer");
+		this.timelineHelper = new TimelineHelper(vertx, eb, config);
 		this.eventStore = EventStoreFactory.getFactory().getEventStore(Rack.class.getSimpleName());
 	}
 
@@ -169,8 +159,8 @@ public class RackController extends MongoDbControllerHelper {
 					return;
 				}
 
-				request.expectMultiPart(true);
-				final Buffer fileBuffer = new Buffer();
+				request.setExpectMultipart(true);
+				final Buffer fileBuffer = Buffer.buffer();
 				final JsonObject metadata = new JsonObject();
 
 				/* Upload file */
@@ -202,8 +192,8 @@ public class RackController extends MongoDbControllerHelper {
 									success.addAndGet(1);
 								if(countdown.decrementAndGet() == 0){
 									JsonObject result = new JsonObject();
-									result.putNumber("success", success.get());
-									result.putNumber("failure", failure.get());
+									result.put("success", success.get());
+									result.put("failure", failure.get());
 									renderJson(request, result);
 								}
 							}
@@ -221,23 +211,23 @@ public class RackController extends MongoDbControllerHelper {
 							Handler<Message<JsonObject>> existenceHandler = new Handler<Message<JsonObject>>(){
 								@Override
 								public void handle(Message<JsonObject> res) {
-									JsonArray result = res.body().getArray("result");
+									JsonArray result = res.body().getJsonArray("result");
 
 									if (!"ok".equals(res.body().getString("status")) ||
 											1 != result.size() ||
-											1 != result.<JsonObject>get(0).getInteger("nb")) {
+											1 != result.getJsonObject(0).getInteger("nb")) {
 										finalHandler.handle(false);
 										return;
 									}
 
 									/* Pre write rack document fields */
 									final JsonObject doc = new JsonObject();
-									doc.putString("to", to);
-									doc.putString("toName", result.<JsonObject>get(0).getString("username"));
-									doc.putString("from", userInfos.getUserId());
-									doc.putString("fromName", userInfos.getUsername());
+									doc.put("to", to);
+									doc.put("toName", result.getJsonObject(0).getString("username"));
+									doc.put("from", userInfos.getUserId());
+									doc.put("fromName", userInfos.getUsername());
 									String now = dateFormat.format(new Date());
-									doc.putString("sent", now);
+									doc.put("sent", now);
 
 									/* Rack collection saving */
 									final Handler<JsonObject> rackSaveHandler = new Handler<JsonObject>() {
@@ -246,7 +236,7 @@ public class RackController extends MongoDbControllerHelper {
 											if (uploaded == null || !"ok".equals(uploaded.getString("status"))) {
 												finalHandler.handle(false);
 											} else {
-												addAfterUpload(uploaded.putObject("metadata", metadata),
+												addAfterUpload(uploaded.put("metadata", metadata),
 														doc,
 														request.params().get("name"),
 														request.params().get("application"),
@@ -256,10 +246,10 @@ public class RackController extends MongoDbControllerHelper {
 															public void handle(Message<JsonObject> res) {
 																if ("ok".equals(res.body().getString("status"))) {
 																	JsonObject params = new JsonObject()
-																		.putString("uri", "/userbook/annuaire#" + doc.getString("from"))
-																		.putString("resourceUri", pathPrefix)
-																		.putString("username", doc.getString("fromName"))
-																		.putString("documentName", doc.getString("name"));
+																		.put("uri", "/userbook/annuaire#" + doc.getString("from"))
+																		.put("resourceUri", pathPrefix)
+																		.put("username", doc.getString("fromName"))
+																		.put("documentName", doc.getString("name"));
 																	List<String> receivers = new ArrayList<>();
 																	receivers.add(doc.getString("to"));
 																	timelineHelper.notifyTimeline(request,
@@ -311,7 +301,7 @@ public class RackController extends MongoDbControllerHelper {
 		return new Handler<HttpServerFileUpload>() {
             @Override
             public void handle(final HttpServerFileUpload upload) {
-                upload.dataHandler(new Handler<Buffer>() {
+                upload.handler(new Handler<Buffer>() {
                     @Override
                     public void handle(Buffer data) {
                         fileBuffer.appendBuffer(data);
@@ -320,14 +310,14 @@ public class RackController extends MongoDbControllerHelper {
                 upload.endHandler(new Handler<Void>() {
                     @Override
                     public void handle(Void v) {
-                        metadata.putString("name", upload.name());
-                        metadata.putString("filename", upload.filename());
-                        metadata.putString("content-type", upload.contentType());
-                        metadata.putString("content-transfer-encoding", upload.contentTransferEncoding());
-                        metadata.putString("charset", upload.charset().name());
-                        metadata.putNumber("size", upload.size());
+                        metadata.put("name", upload.name());
+                        metadata.put("filename", upload.filename());
+                        metadata.put("content-type", upload.contentType());
+                        metadata.put("content-transfer-encoding", upload.contentTransferEncoding());
+                        metadata.put("charset", upload.charset());
+                        metadata.put("size", upload.size());
                         if (metadata.getLong("size", 0l).equals(0l)) {
-                            metadata.putNumber("size", fileBuffer.length());
+                            metadata.put("size", fileBuffer.length());
                         }
 
 						if (storage.getValidator() != null) {
@@ -386,7 +376,7 @@ public class RackController extends MongoDbControllerHelper {
 					String file;
 
 					if (thumbSize != null && !thumbSize.trim().isEmpty()) {
-						file = result.getObject("thumbnails", new JsonObject())
+						file = result.getJsonObject("thumbnails", new JsonObject())
 								.getString(thumbSize, result.getString("file"));
 					} else {
 						file = result.getString("file");
@@ -399,7 +389,7 @@ public class RackController extends MongoDbControllerHelper {
 						} else {
 							storage.sendFile(file,
 									result.getString("name"), request,
-									inline, result.getObject("metadata"));
+									inline, result.getJsonObject("metadata"));
 						}
 					} else {
 						notFound(request);
@@ -407,7 +397,7 @@ public class RackController extends MongoDbControllerHelper {
 					}
 
 				} else {
-					JsonObject error = new JsonObject().putString("error", event.left().getValue());
+					JsonObject error = new JsonObject().put("error", event.left().getValue());
 					Renders.renderJson(request, error, 400);
 				}
 			}
@@ -461,7 +451,7 @@ public class RackController extends MongoDbControllerHelper {
 	/* File serving */
 
 	private boolean inlineDocumentResponse(JsonObject doc, String application) {
-		JsonObject metadata = doc.getObject("metadata");
+		JsonObject metadata = doc.getJsonObject("metadata");
 		String storeApplication = doc.getString("application");
 		return metadata != null && !"WORKSPACE".equals(storeApplication) && (
 				"image/jpeg".equals(metadata.getString("content-type")) ||
@@ -482,7 +472,7 @@ public class RackController extends MongoDbControllerHelper {
 				"WHERE has(a.name) AND a.name={action} AND NOT has(visibles.activationCode) " +
 				"RETURN distinct visibles.id as id, visibles.displayName as username, visibles.lastName as name " +
 				"ORDER BY name ";
-		final JsonObject params = new JsonObject().putString("action", "fr.wseduc.rack.controllers.RackController|listRack");
+		final JsonObject params = new JsonObject().put("action", "fr.wseduc.rack.controllers.RackController|listRack");
 		UserUtils.findVisibleProfilsGroups(eb, request, new Handler<JsonArray>() {
 			@Override
 			public void handle(final JsonArray visibleGroups) {
@@ -495,8 +485,8 @@ public class RackController extends MongoDbControllerHelper {
 					@Override
 					public void handle(JsonArray visibleUsers) {
 						JsonObject visibles = new JsonObject()
-								.putArray("groups", visibleGroups)
-								.putArray("users", visibleUsers);
+								.put("groups", visibleGroups)
+								.put("users", visibleUsers);
 						handler.handle(visibles);
 					}
 				});
@@ -528,7 +518,7 @@ public class RackController extends MongoDbControllerHelper {
 				"RETURN distinct visibles.id as id, visibles.displayName as username, visibles.lastName as name " +
 				"ORDER BY name ";
 		final JsonObject params = new JsonObject()
-				.putString("groupId", groupId);
+				.put("groupId", groupId);
 
 		UserUtils.findVisibleUsers(eb, request, false, false, null, customReturn, params, new Handler<JsonArray>() {
 			@Override
@@ -543,28 +533,28 @@ public class RackController extends MongoDbControllerHelper {
 
 	private void getUserQuota(String userId, final Handler<JsonObject> handler){
 		JsonObject message = new JsonObject();
-		message.putString("action", "getUserQuota");
-		message.putString("userId", userId);
+		message.put("action", "getUserQuota");
+		message.put("userId", userId);
 
-		eb.send(QUOTA_BUS_ADDRESS, message, new Handler<Message<JsonObject>>() {
+		eb.send(QUOTA_BUS_ADDRESS, message, new Handler<AsyncResult<Message<JsonObject>>>() {
 			@Override
-			public void handle(Message<JsonObject> reply) {
-				handler.handle(reply.body());
+			public void handle(AsyncResult<Message<JsonObject>> reply) {
+				handler.handle(reply.result().body());
 			}
 		});
 	}
 
 	private void updateUserQuota(final String userId, long size){
 		JsonObject message = new JsonObject();
-		message.putString("action", "updateUserQuota");
-		message.putString("userId", userId);
-		message.putNumber("size", size);
-		message.putNumber("threshold", threshold);
+		message.put("action", "updateUserQuota");
+		message.put("userId", userId);
+		message.put("size", size);
+		message.put("threshold", threshold);
 
-		eb.send(QUOTA_BUS_ADDRESS, message, new Handler<Message<JsonObject>>() {
+		eb.send(QUOTA_BUS_ADDRESS, message, new Handler<AsyncResult<Message<JsonObject>>>() {
 			@Override
-			public void handle(Message<JsonObject> reply) {
-				JsonObject obj = reply.body();
+			public void handle(AsyncResult<Message<JsonObject>> reply) {
+				JsonObject obj = reply.result().body();
 				UserUtils.addSessionAttribute(eb, userId, "storage", obj.getLong("storage"), null);
 				if (obj.getBoolean("notify", false)) {
 					notifyEmptySpaceIsSmall(userId);
@@ -591,7 +581,7 @@ public class RackController extends MongoDbControllerHelper {
 				public void handle(JsonObject j) {
 					long quota = j.getLong("quota", 0l);
 					long storage = j.getLong("storage", 0l);
-					for (String attr : j.getFieldNames()) {
+					for (String attr : j.fieldNames()) {
 						UserUtils.addSessionAttribute(eb, userInfos.getUserId(), attr, j.getLong(attr), null);
 					}
 					emptySizeHandler.handle(quota - storage);
@@ -616,7 +606,7 @@ public class RackController extends MongoDbControllerHelper {
 					RequestUtils.bodyToJson(request, pathPrefix + "rackToWorkspace", new Handler<JsonObject>(){
 						@Override
 						public void handle(JsonObject json) {
-							JsonArray idsArray = json.getArray("ids");
+							JsonArray idsArray = json.getJsonArray("ids");
 							final String folder = json.getString("folder", "");
 							copyFiles(request, idsArray, folder, user, WORKSPACE_COLLECTION);
 						}
@@ -645,7 +635,7 @@ public class RackController extends MongoDbControllerHelper {
 								long totalSize = 0l;
 								for(Object insertion : insert){
 									JsonObject added = (JsonObject) insertion;
-									totalSize +=  added.getObject("metadata", new JsonObject()).getLong("size", 0l);
+									totalSize +=  added.getJsonObject("metadata", new JsonObject()).getLong("size", 0l);
 								}
 								updateUserQuota(user.getUserId(), totalSize);
 								renderJson(request, inserted.body());
@@ -660,8 +650,8 @@ public class RackController extends MongoDbControllerHelper {
 			@Override
 			public void handle(Message<JsonObject> r) {
 				JsonObject src = r.body();
-				if ("ok".equals(src.getString("status")) && src.getArray("results") != null) {
-					final JsonArray origs = src.getArray("results");
+				if ("ok".equals(src.getString("status")) && src.getJsonArray("results") != null) {
+					final JsonArray origs = src.getJsonArray("results");
 					final JsonArray insert = new JsonArray();
 					final AtomicInteger number = new AtomicInteger(origs.size());
 
@@ -674,7 +664,7 @@ public class RackController extends MongoDbControllerHelper {
 							/* Get total file size */
 							for (Object o: origs) {
 								if (!(o instanceof JsonObject)) continue;
-								JsonObject metadata = ((JsonObject) o).getObject("metadata");
+								JsonObject metadata = ((JsonObject) o).getJsonObject("metadata");
 								if (metadata != null) {
 									size += metadata.getLong("size", 0l);
 								}
@@ -690,24 +680,24 @@ public class RackController extends MongoDbControllerHelper {
 								JsonObject orig = (JsonObject) o;
 								final JsonObject dest = orig.copy();
 								String now = MongoDb.formatDate(new Date());
-								dest.removeField("_id");
-								dest.removeField("protected");
-								dest.removeField("comments");
-								dest.putString("application", WORKSPACE_NAME);
+								dest.remove("_id");
+								dest.remove("protected");
+								dest.remove("comments");
+								dest.put("application", WORKSPACE_NAME);
 
-								dest.putString("owner", user.getUserId());
-								dest.putString("ownerName", dest.getString("toName"));
-								dest.removeField("to");
-								dest.removeField("from");
-								dest.removeField("toName");
-								dest.removeField("fromName");
+								dest.put("owner", user.getUserId());
+								dest.put("ownerName", dest.getString("toName"));
+								dest.remove("to");
+								dest.remove("from");
+								dest.remove("toName");
+								dest.remove("fromName");
 
-								dest.putString("created", now);
-								dest.putString("modified", now);
+								dest.put("created", now);
+								dest.put("modified", now);
 								if (folder != null && !folder.trim().isEmpty()) {
-									dest.putString("folder", folder);
+									dest.put("folder", folder);
 								} else {
-									dest.removeField("folder");
+									dest.remove("folder");
 								}
 								insert.add(dest);
 								final String filePath = orig.getString("file");
@@ -737,16 +727,16 @@ public class RackController extends MongoDbControllerHelper {
 										@Override
 										public void handle(Message<JsonObject> event) {
 											if ("ok".equals(event.body().getString("status"))){
-												JsonObject parent = event.body().getObject("result");
-												if(parent != null && parent.getArray("shared") != null && parent.getArray("shared").size() > 0)
-													dest.putArray("shared", parent.getArray("shared"));
+												JsonObject parent = event.body().getJsonObject("result");
+												if(parent != null && parent.getJsonArray("shared") != null && parent.getJsonArray("shared").size() > 0)
+													dest.put("shared", parent.getJsonArray("shared"));
 
 												if (filePath != null) {
 													storage.copyFile(filePath, new Handler<JsonObject>() {
 														@Override
 														public void handle(JsonObject event) {
 															if (event != null && "ok".equals(event.getString("status"))) {
-																dest.putString("file", event.getString("_id"));
+																dest.put("file", event.getString("_id"));
 																persist(insert, number.decrementAndGet());
 															}
 														}
@@ -766,7 +756,7 @@ public class RackController extends MongoDbControllerHelper {
 										@Override
 										public void handle(JsonObject event) {
 											if (event != null && "ok".equals(event.getString("status"))) {
-												dest.putString("file", event.getString("_id"));
+												dest.put("file", event.getString("_id"));
 												persist(insert, number.decrementAndGet());
 											}
 										}
@@ -795,8 +785,8 @@ public class RackController extends MongoDbControllerHelper {
 
 					String file = result.getString("file");
 					Set<Entry<String, Object>> thumbnails = new HashSet<Entry<String, Object>>();
-					if(result.containsField("thumbnails")){
-						thumbnails = result.getObject("thumbnails").toMap().entrySet();
+					if(result.containsKey("thumbnails")){
+						thumbnails = result.getJsonObject("thumbnails").getMap().entrySet();
 					}
 
 					storage.removeFile(file, new Handler<JsonObject>() {
@@ -808,7 +798,7 @@ public class RackController extends MongoDbControllerHelper {
 										public void handle(Either<String, JsonObject> deletionEvent) {
 											if(deletionEvent.isRight()){
 												JsonObject deletionResult = deletionEvent.right().getValue();
-												long size = -1l * result.getObject("metadata", new JsonObject()).getLong("size", 0l);
+												long size = -1l * result.getJsonObject("metadata", new JsonObject()).getLong("size", 0l);
 												updateUserQuota(owner, size);
 												renderJson(request, deletionResult, 204);
 											} else {
@@ -835,7 +825,7 @@ public class RackController extends MongoDbControllerHelper {
 					}
 
 				} else {
-					JsonObject error = new JsonObject().putString("error", event.left().getValue());
+					JsonObject error = new JsonObject().put("error", event.left().getValue());
 					Renders.renderJson(request, error, 400);
 				}
 			}
@@ -844,16 +834,16 @@ public class RackController extends MongoDbControllerHelper {
 
 	private void addAfterUpload(final JsonObject uploaded, final JsonObject doc, String name, String application, final List<String> thumbs, final Handler<Message<JsonObject>> handler) {
 		//Write additional fields in the document
-		doc.putString("name", getOrElse(name, uploaded.getObject("metadata").getString("filename"), false));
-		doc.putObject("metadata", uploaded.getObject("metadata"));
-		doc.putString("file", uploaded.getString("_id"));
-		doc.putString("application", getOrElse(application, WORKSPACE_NAME));
+		doc.put("name", getOrElse(name, uploaded.getJsonObject("metadata").getString("filename"), false));
+		doc.put("metadata", uploaded.getJsonObject("metadata"));
+		doc.put("file", uploaded.getString("_id"));
+		doc.put("application", getOrElse(application, WORKSPACE_NAME));
 		//Save document to mongo
 		mongo.save(collection, doc, new Handler<Message<JsonObject>>() {
 			@Override
 			public void handle(Message<JsonObject> res) {
 				if ("ok".equals(res.body().getString("status"))) {
-					Long size = doc.getObject("metadata", new JsonObject()).getLong("size", 0l);
+					Long size = doc.getJsonObject("metadata", new JsonObject()).getLong("size", 0l);
 					updateUserQuota(doc.getString("to"), size);
 					createThumbnailIfNeeded(collection, uploaded, res.body().getString("_id"), null, thumbs);
 				}
@@ -871,7 +861,7 @@ public class RackController extends MongoDbControllerHelper {
 			createThumbnails(thumbs, srcFile, collection, documentId);
 		}
 		if (oldThumbnail != null) {
-			for (String attr: oldThumbnail.getFieldNames()) {
+			for (String attr: oldThumbnail.fieldNames()) {
 				storage.removeFile(oldThumbnail.getString(attr), null);
 			}
 		}
@@ -887,15 +877,15 @@ public class RackController extends MongoDbControllerHelper {
 					int width = Integer.parseInt(m.group(1));
 					int height = Integer.parseInt(m.group(2));
 					if (width == 0 && height == 0) continue;
-					JsonObject j = new JsonObject().putString("dest",
+					JsonObject j = new JsonObject().put("dest",
 							storage.getProtocol() + "://" + storage.getBucket());
 					if (width != 0) {
-						j.putNumber("width", width);
+						j.put("width", width);
 					}
 					if (height != 0) {
-						j.putNumber("height", height);
+						j.put("height", height);
 					}
-					outputs.addObject(j);
+					outputs.add(j);
 				} catch (NumberFormatException e) {
 					log.error("Invalid thumbnail size.", e);
 				}
@@ -903,18 +893,18 @@ public class RackController extends MongoDbControllerHelper {
 		}
 		if (outputs.size() > 0) {
 			JsonObject json = new JsonObject()
-					.putString("action", "resizeMultiple")
-					.putString("src", storage.getProtocol() + "://" + storage.getBucket() + ":"
+					.put("action", "resizeMultiple")
+					.put("src", storage.getProtocol() + "://" + storage.getBucket() + ":"
 							+ srcFile.getString("_id"))
-					.putArray("destinations", outputs);
-			eb.send(imageResizerAddress, json, new Handler<Message<JsonObject>>() {
+					.put("destinations", outputs);
+			eb.send(imageResizerAddress, json, new Handler<AsyncResult<Message<JsonObject>>>() {
 				@Override
-				public void handle(Message<JsonObject> event) {
-					JsonObject thumbnails = event.body().getObject("outputs");
-					if ("ok".equals(event.body().getString("status")) && thumbnails != null) {
-						mongo.update(collection, new JsonObject().putString("_id", documentId),
-								new JsonObject().putObject("$set", new JsonObject()
-										.putObject("thumbnails", thumbnails)));
+				public void handle(AsyncResult<Message<JsonObject>> event) {
+					JsonObject thumbnails = event.result().body().getJsonObject("outputs");
+					if ("ok".equals(event.result().body().getString("status")) && thumbnails != null) {
+						mongo.update(collection, new JsonObject().put("_id", documentId),
+								new JsonObject().put("$set", new JsonObject()
+										.put("thumbnails", thumbnails)));
 					}
 				}
 			});
@@ -925,7 +915,7 @@ public class RackController extends MongoDbControllerHelper {
 		if (doc == null) {
 			return false;
 		}
-		JsonObject metadata = doc.getObject("metadata");
+		JsonObject metadata = doc.getJsonObject("metadata");
 		return metadata != null && (
 				"image/jpeg".equals(metadata.getString("content-type")) ||
 				"image/gif".equals(metadata.getString("content-type"))  ||
