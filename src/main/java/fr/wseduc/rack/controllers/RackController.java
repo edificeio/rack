@@ -51,6 +51,7 @@ import org.entcore.common.notification.TimelineHelper;
 import org.entcore.common.storage.Storage;
 import org.entcore.common.user.UserInfos;
 import org.entcore.common.user.UserUtils;
+import org.vertx.java.core.AsyncResult;
 import org.vertx.java.core.Handler;
 import org.vertx.java.core.Vertx;
 import org.vertx.java.core.buffer.Buffer;
@@ -173,31 +174,7 @@ public class RackController extends MongoDbControllerHelper {
 				final JsonObject metadata = new JsonObject();
 
 				/* Upload file */
-				request.uploadHandler(new Handler<HttpServerFileUpload>() {
-					@Override
-					public void handle(final HttpServerFileUpload upload) {
-						upload.dataHandler(new Handler<Buffer>() {
-							@Override
-							public void handle(Buffer data) {
-								fileBuffer.appendBuffer(data);
-							}
-						});
-						upload.endHandler(new Handler<Void>() {
-							@Override
-							public void handle(Void v) {
-								metadata.putString("name", upload.name());
-								metadata.putString("filename", upload.filename());
-								metadata.putString("content-type", upload.contentType());
-								metadata.putString("content-transfer-encoding", upload.contentTransferEncoding());
-								metadata.putString("charset", upload.charset().name());
-								metadata.putNumber("size", upload.size());
-								if (metadata.getLong("size", 0l).equals(0l)) {
-									metadata.putNumber("size", fileBuffer.length());
-								}
-							}
-						});
-					}
-				});
+				request.uploadHandler(getUploadHandler(fileBuffer, metadata, request));
 
 				/* After upload */
 				request.endHandler(new Handler<Void>() {
@@ -328,6 +305,49 @@ public class RackController extends MongoDbControllerHelper {
 				});
 			}
 		});
+	}
+
+	private Handler<HttpServerFileUpload> getUploadHandler(final Buffer fileBuffer, final JsonObject metadata, final HttpServerRequest request) {
+		return new Handler<HttpServerFileUpload>() {
+            @Override
+            public void handle(final HttpServerFileUpload upload) {
+                upload.dataHandler(new Handler<Buffer>() {
+                    @Override
+                    public void handle(Buffer data) {
+                        fileBuffer.appendBuffer(data);
+                    }
+                });
+                upload.endHandler(new Handler<Void>() {
+                    @Override
+                    public void handle(Void v) {
+                        metadata.putString("name", upload.name());
+                        metadata.putString("filename", upload.filename());
+                        metadata.putString("content-type", upload.contentType());
+                        metadata.putString("content-transfer-encoding", upload.contentTransferEncoding());
+                        metadata.putString("charset", upload.charset().name());
+                        metadata.putNumber("size", upload.size());
+                        if (metadata.getLong("size", 0l).equals(0l)) {
+                            metadata.putNumber("size", fileBuffer.length());
+                        }
+
+						if (storage.getValidator() != null) {
+                            request.pause();
+                            storage.getValidator().process(metadata, new JsonObject(), new Handler<AsyncResult<Void>>() {
+                                @Override
+                                public void handle(AsyncResult<Void> voidAsyncResult) {
+                                    if (voidAsyncResult.succeeded()) {
+                                        request.resume();
+                                    } else {
+                                        badRequest(request, voidAsyncResult.cause().getMessage());
+                                        return;
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        };
 	}
 
 	/**

@@ -8,6 +8,7 @@ import http from 'axios';
 export interface SendResult{
     success: number;
     failure: number;
+    error: string;
 }
 
 export class Rack{
@@ -54,7 +55,8 @@ export class Rack{
             console.log(e);
             return {
                 success: 0,
-                failure: to.length
+                failure: to.length,
+                error: e.response.data.error
             };
         }
     }

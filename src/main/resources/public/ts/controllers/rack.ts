@@ -131,7 +131,11 @@ export let rackController = ng.controller('RackController', [
                 let result = await Rack.instance.sendFile(file, $scope.to);
                 results.push(result);
             }
-            
+
+            if(results.find(r => r.error !== undefined)){
+                notify.error(results.find(r => r.error !== undefined).error);
+            }
+
             if(!results.find(r => r.success > 0)){
                 notify.error('rack.sent.message.error' + plurality);
             }
