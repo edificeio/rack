@@ -900,11 +900,15 @@ public class RackController extends MongoDbControllerHelper {
 			eb.send(imageResizerAddress, json, new Handler<AsyncResult<Message<JsonObject>>>() {
 				@Override
 				public void handle(AsyncResult<Message<JsonObject>> event) {
-					JsonObject thumbnails = event.result().body().getJsonObject("outputs");
-					if ("ok".equals(event.result().body().getString("status")) && thumbnails != null) {
-						mongo.update(collection, new JsonObject().put("_id", documentId),
-								new JsonObject().put("$set", new JsonObject()
-										.put("thumbnails", thumbnails)));
+					if (event.succeeded()) {
+						JsonObject thumbnails = event.result().body().getJsonObject("outputs");
+						if ("ok".equals(event.result().body().getString("status")) && thumbnails != null) {
+							mongo.update(collection, new JsonObject().put("_id", documentId),
+									new JsonObject().put("$set", new JsonObject()
+											.put("thumbnails", thumbnails)));
+						}
+					} else {
+						log.error("Error when resize image.", event.cause());
 					}
 				}
 			});
