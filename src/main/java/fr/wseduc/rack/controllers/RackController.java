@@ -123,7 +123,11 @@ public class RackController extends MongoDbControllerHelper {
 	public void init(Vertx vertx, JsonObject config, RouteMatcher rm, Map<String, fr.wseduc.webutils.security.SecuredAction> securedActions) {
 		super.init(vertx, config, rm, securedActions);
 		this.threshold = config.getInteger("alertStorage", 80);
-		this.imageResizerAddress = config.getString("image-resizer-address", "wse.image.resizer");
+		String node = (String) vertx.sharedData().getLocalMap("server").get("node");
+		if (node == null) {
+			node = "";
+		}
+		this.imageResizerAddress = node + config.getString("image-resizer-address", "wse.image.resizer");
 		this.timelineHelper = new TimelineHelper(vertx, eb, config);
 		this.eventStore = EventStoreFactory.getFactory().getEventStore(Rack.class.getSimpleName());
 	}
