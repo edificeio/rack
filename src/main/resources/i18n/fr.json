@@ -26,7 +26,7 @@
     "rack.contrib": "Contribution",
     "rack.copy": "Copier",
     "rack.createFolder": "Créer un nouveau dossier",
-    "rack.download": "Télécharger",
+    "rack.download": "Télécharger le document",
     "rack.file": "Fichier",
     "rack.folder.create": "Créer",
     "rack.history": "Historique",
