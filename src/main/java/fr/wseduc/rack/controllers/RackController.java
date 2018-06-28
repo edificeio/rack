@@ -256,6 +256,19 @@ public class RackController extends MongoDbControllerHelper {
 																		.put("documentName", doc.getString("name"));
 																	List<String> receivers = new ArrayList<>();
 																	receivers.add(doc.getString("to"));
+
+                                                                    JsonObject pushNotif = new JsonObject()
+                                                                            .put("title", "rack.push.notif.rack-post")
+                                                                            .put("body", I18n.getInstance()
+                                                                                    .translate(
+                                                                                            "rack.push.notif.rack-post.body",
+                                                                                            getHost(request),
+                                                                                            I18n.acceptLanguage(request),
+                                                                                            doc.getString("fromName"),
+                                                                                            doc.getString("name")
+                                                                                    ));
+                                                                    params.put("pushNotif", pushNotif);
+
 																	timelineHelper.notifyTimeline(request,
 																			"rack.rack-post", userInfos, receivers,
 																			userInfos.getUserId() + System.currentTimeMillis() + "postrack", null, params, true);
