@@ -13,3 +13,5 @@ node_modules/
 bower_components/
 rev-manifest.json
 **/view
+.idea
+rack.iml

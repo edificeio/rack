@@ -74,5 +74,6 @@
     "tuto.action.select": "Cliquez",
     "tuto.text.select": "pour séléctionner et accéder au menu d'options,",
     "tuto.action.open": "Cliquez sur l'icône",
-    "tuto.text.open": "pour télécharger le document."
+    "tuto.text.open": "pour télécharger le document.",
+    "rack.push.notif.rack-post.body" : "{0} a déposé le document {1} dans votre casier"
 }
