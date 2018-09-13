@@ -1,6 +1,7 @@
 import http from 'axios';
 import { Rack } from './rack';
 import { Mix } from 'entcore-toolkit';
+import { idiom as lang } from 'entcore';
 
 export class Visible{
     id: string;
@@ -45,9 +46,9 @@ export class Directory {
     }
 
     search(text: string){
-        let lowerText = text.toLowerCase();
+        let lowerText = lang.removeAccents(text).toLowerCase();
         this.found = this.visibles.filter((v) => 
-            (v.username || v.name).toLowerCase().indexOf(lowerText) !== -1
+            lang.removeAccents(v.username || v.name).toLowerCase().indexOf(lowerText) !== -1
         );
         this.found.sort((v1, v2) => (v1.username || v1.name).localeCompare(v2.username || v2.name));
     }
