@@ -487,7 +487,7 @@ public class RackController extends MongoDbControllerHelper {
 		final String customReturn =
 				"MATCH visibles-[:IN]->(:Group)-[:AUTHORIZED]->(:Role)-[:AUTHORIZE]->(a:Action) " +
 				"WHERE has(a.name) AND a.name={action} AND NOT has(visibles.activationCode) " +
-				"RETURN distinct visibles.id as id, visibles.displayName as username, visibles.lastName as name " +
+				"RETURN distinct visibles.id as id, visibles.displayName as username, visibles.lastName as name, HEAD(visibles.profiles) as profile " +
 				"ORDER BY name ";
 		final JsonObject params = new JsonObject().put("action", "fr.wseduc.rack.controllers.RackController|listRack");
 		UserUtils.findVisibleProfilsGroups(eb, request, new Handler<JsonArray>() {
@@ -532,7 +532,7 @@ public class RackController extends MongoDbControllerHelper {
 		final String groupId = request.params().get("groupId");
 		final String customReturn =
 				"MATCH visibles-[:IN]->(:Group {id : {groupId}}) " +
-				"RETURN distinct visibles.id as id, visibles.displayName as username, visibles.lastName as name " +
+				"RETURN distinct visibles.id as id, visibles.displayName as username, visibles.lastName as name, HEAD(visibles.profiles) as profile " +
 				"ORDER BY name ";
 		final JsonObject params = new JsonObject()
 				.put("groupId", groupId);

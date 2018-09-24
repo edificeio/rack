@@ -1,24 +1,23 @@
 ﻿import { notify, idiom as lang, template, routes, model, ng } from 'entcore';
-import { Rack, Visible, User, Group, quota, Folder, SendResult } from '../model';
+import { Rack, Visible, User, Group, quota, Folder, SendResult, Sharebookmark } from '../model';
 import { moment } from 'entcore';
 import { _ } from 'entcore';
 
 export let rackController = ng.controller('RackController', [
     '$scope', 'route', 'model',
     function ($scope, route, model) {
-        $scope.refreshPickingList = function () {
-            Rack.instance.directory.search($scope.filters.itemFilter);
-            $scope.pickingList = Rack.instance.directory.found;
-        };
-
         $scope.rackList = Rack.instance.files;
         $scope.visibles = Rack.instance.directory.visibles;
         $scope.workspaceFolders = Rack.instance.folders;
         $scope.template = template;
         $scope.lang = lang;
         $scope.quota = quota;
-        $scope.to = [];
         $scope.lightboxes = {};
+        
+        $scope.search = {};
+        $scope.selector = {
+            loading: false
+        };
 
         $scope.display = {
             limit: 20
@@ -29,7 +28,6 @@ export let rackController = ng.controller('RackController', [
         };
 
         Rack.instance.sync();
-        Rack.instance.eventer.on('directory.sync', $scope.refreshPickingList);
         Rack.instance.eventer.on('sync', () => $scope.$apply());
 
         template.open('send-rack', 'send-rack');
@@ -49,14 +47,14 @@ export let rackController = ng.controller('RackController', [
 
         $scope.openNewRack = async () => {
             $scope.lightboxes.sendRack = true;
-            await Rack.instance.directory.sync();
-            $scope.pickingList = Rack.instance.directory.found;
-            $scope.to = [];
             $scope.newFile = { 
                 name: lang.translate('nofile'), 
                 files: [], 
-                chosenFiles: [] 
+                chosenFiles: [],
+                selectedGroups: [],
+                selectedUsers: [],
             };
+            await Rack.instance.directory.sync();
             $scope.$apply();
         };
 
@@ -66,56 +64,55 @@ export let rackController = ng.controller('RackController', [
             await $scope.getWorkspaceFolders();
         };
 
-        $scope.setFilesName = function () {
-            $scope.newFile.name = ''
-            $scope.newFile.chosenFiles = []
-            for (let i = 0; i < $scope.newFile.files.length; i++) {
-                let file = $scope.newFile.files[i]
-                let splitList = file.name.split('.')
-                let extension = splitList[splitList.length - 1]
-
-                let newFile = { file: file, name: file.name.split('.' + extension)[0], extension: '' }
-                if ($scope.newFile.name !== '') {
-                    $scope.newFile.name = $scope.newFile.name + ', '
-                }
-                $scope.newFile.name = $scope.newFile.name + file.name.split('.' + extension)[0]
-                if (splitList.length > 1) {
-                    newFile.extension = extension
-                }
-
-                $scope.newFile.chosenFiles.push(newFile)
+        $scope.updateFoundUsersGroups = () => {
+            var searchTerm =  lang.removeAccents($scope.search.search).toLowerCase();
+                        
+            if(!searchTerm){
+                return [];
             }
+            
+            $scope.search.found = _.filter(Rack.instance.directory.visibles, function(item) {
+                let titleTest = lang.removeAccents(item.toString()).toLowerCase();
+                return titleTest.indexOf(searchTerm) !== -1;
+            });
         }
 
-        $scope.addRackTo = async (item: Visible) => {
-            if(item instanceof User){
-                if (!$scope.containsRackTo(item)){
-                    $scope.to.push(item);
-                }
-                else{
-                    $scope.to.splice($scope.to.indexOf(item), 1);
-                }
+        $scope.clearSearch = function(){
+            if ($scope.search) {
+                $scope.search.found = [];
+                $scope.search.search = '';
+                $scope.selector.search = '';
             }
-            else if(item instanceof Group){
+        };
+
+        $scope.selectGroupOrUserItem = async (item: Visible) => {
+            if($scope.selector.loading) {
+                return;
+            }
+
+            $scope.selector.loading = true;
+            $scope.clearSearch();
+
+            if (item instanceof Group) {
+                if($scope.newFile.selectedGroups.indexOf(item) < 0) {
+                    $scope.newFile.selectedGroups.push(item);
+    
+                    await item.sync();
+                    $scope.newFile.selectedUsers = $scope.newFile.selectedUsers.concat(item.users);
+                }
+            } else if(item instanceof User) {
+                if($scope.newFile.selectedUsers.indexOf(item) < 0) {
+                    $scope.newFile.selectedUsers.push(item);
+                }
+            } else if(item instanceof Sharebookmark) {
                 await item.sync();
-                let added = item.users.filter(u => u.id !== undefined && !$scope.containsRackTo(u));
-                $scope.to = $scope.to.concat(added);
-                $scope.$apply();
+
+                $scope.newFile.selectedGroups = $scope.newFile.selectedGroups.concat(item.groups);
+                item.groups.forEach(group => $scope.newFile.selectedUsers = $scope.newFile.selectedUsers.concat(group.users));
+                $scope.newFile.selectedUsers = $scope.newFile.selectedUsers.concat(item.users);
             }
-        };
 
-        $scope.removeRackTo = function (item) {
-            $scope.to = _.reject($scope.to, function (elem) {
-                return elem.id === item.id
-            });
-        };
-
-        $scope.resetRackTo = function (item) {
-            $scope.to = [];
-        };
-
-        $scope.containsRackTo = function (item) {
-            return _.findWhere($scope.to, { id: item.id }) !== undefined
+            $scope.selector.loading = false;
         }
 
         $scope.sendRackFiles =  async () => {
@@ -128,7 +125,7 @@ export let rackController = ng.controller('RackController', [
 
             let results: SendResult[] = [];
             for(let file of $scope.newFile.files){
-                let result = await Rack.instance.sendFile(file, $scope.to);
+                let result = await Rack.instance.sendFile(file, $scope.newFile.selectedUsers);
                 results.push(result);
             }
 
