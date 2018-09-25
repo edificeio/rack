@@ -1,4 +1,4 @@
-﻿import { notify, idiom as lang, template, routes, model, ng } from 'entcore';
+﻿import { notify, idiom as lang, template, routes, model, ng, $ } from 'entcore';
 import { Rack, Visible, User, Group, quota, Folder, SendResult, Sharebookmark } from '../model';
 import { moment } from 'entcore';
 import { _ } from 'entcore';
@@ -83,6 +83,15 @@ export let rackController = ng.controller('RackController', [
                 $scope.search.search = '';
                 $scope.selector.search = '';
             }
+
+            if ($scope.newFile.selectedGroups && !$scope.selector.selectedGroup) {
+                clearSelectedList(undefined);
+            } else {
+                $scope.selector.selectedGroup = false;
+            }
+
+            $('[data-drop-down]').height("");
+            $('[data-drop-down]').addClass('hidden');
         };
 
         $scope.selectGroupOrUserItem = async (item: Visible) => {
@@ -180,5 +189,16 @@ export let rackController = ng.controller('RackController', [
             $scope.lightboxes.copy = false;
             Rack.instance.files.copyToWorkspace($scope.targetFolder.path);
         };
+
+        function clearSelectedList(selectedGroupItem) {
+            _.forEach($scope.newFile.selectedGroups, group => {
+                if (selectedGroupItem && selectedGroupItem._id === group._id) return;
+                group.selected = false; 
+             });
+
+             _.forEach($scope.newFile.selectedUsers, user => {
+                 user.selected = false;
+             });
+         }
     }
 ]);
