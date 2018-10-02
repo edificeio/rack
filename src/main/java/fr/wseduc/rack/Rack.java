@@ -22,14 +22,16 @@
 
 package fr.wseduc.rack;
 
-import fr.wseduc.rack.controllers.RackController;
-import fr.wseduc.rack.security.RackResourcesProvider;
-import io.vertx.core.json.JsonObject;
 import org.entcore.common.http.BaseServer;
 import org.entcore.common.mongodb.MongoDbConf;
 import org.entcore.common.storage.Storage;
 import org.entcore.common.storage.StorageFactory;
 import org.entcore.common.storage.impl.MongoDBApplicationStorage;
+
+import fr.wseduc.rack.controllers.RackController;
+import fr.wseduc.rack.security.RackResourcesProvider;
+import fr.wseduc.rack.services.RackRepositoryEvent;
+import io.vertx.core.json.JsonObject;
 
 public class Rack extends BaseServer {
 
@@ -38,14 +40,15 @@ public class Rack extends BaseServer {
 	@Override
 	public void start() throws Exception {
 		super.start();
-		Storage storage = new StorageFactory(vertx, config,
-				new MongoDBApplicationStorage(RACK_COLLECTION, Rack.class.getSimpleName(),
-				new JsonObject().put("owner", "from"))).getStorage();
+		Storage storage = new StorageFactory(vertx, config, new MongoDBApplicationStorage(RACK_COLLECTION,
+				Rack.class.getSimpleName(), new JsonObject().put("owner", "from"))).getStorage();
 		RackController rackController = new RackController(RACK_COLLECTION, storage);
 		MongoDbConf.getInstance().setCollection(RACK_COLLECTION);
 		setDefaultResourceFilter(new RackResourcesProvider());
 
 		addController(rackController);
+		setRepositoryEvents(new RackRepositoryEvent(vertx, storage));
+
 	}
 
 }
