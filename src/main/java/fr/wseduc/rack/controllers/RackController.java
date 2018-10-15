@@ -490,24 +490,22 @@ public class RackController extends MongoDbControllerHelper {
 				"RETURN distinct visibles.id as id, visibles.displayName as username, visibles.lastName as name, HEAD(visibles.profiles) as profile " +
 				"ORDER BY name ";
 		final JsonObject params = new JsonObject().put("action", "fr.wseduc.rack.controllers.RackController|listRack");
-		UserUtils.findVisibleProfilsGroups(eb, request, new Handler<JsonArray>() {
-			@Override
-			public void handle(final JsonArray visibleGroups) {
-				for (Object u : visibleGroups) {
-					if (!(u instanceof JsonObject)) continue;
-					JsonObject group = (JsonObject) u;
-					UserUtils.groupDisplayName(group, I18n.acceptLanguage(request));
-				}
-				findVisibleUsers(eb, request, false, customReturn, params, new Handler<JsonArray>() {
-					@Override
-					public void handle(JsonArray visibleUsers) {
-						JsonObject visibles = new JsonObject()
-								.put("groups", visibleGroups)
-								.put("users", visibleUsers);
-						handler.handle(visibles);
-					}
-				});
+		final String queryGroups =
+				"RETURN distinct profileGroup.id as id, profileGroup.name as name, " +
+				"profileGroup.groupDisplayName as groupDisplayName, profileGroup.structureName as structureName " +
+				"ORDER BY name ";
+		UserUtils.findVisibleProfilsGroups(eb, request, queryGroups, new JsonObject(), visibleGroups -> {
+			for (Object u : visibleGroups) {
+				if (!(u instanceof JsonObject)) continue;
+				JsonObject group = (JsonObject) u;
+				UserUtils.groupDisplayName(group, I18n.acceptLanguage(request));
 			}
+			findVisibleUsers(eb, request, false, customReturn, params, visibleUsers -> {
+				JsonObject visibles = new JsonObject()
+						.put("groups", visibleGroups)
+						.put("users", visibleUsers);
+				handler.handle(visibles);
+			});
 		});
 	}
 
