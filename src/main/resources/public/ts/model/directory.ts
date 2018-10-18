@@ -19,11 +19,13 @@ export class Visible{
 
 export class Group extends Visible {
     users: User[];
+    structureName: string;
     isSynced: boolean;
     
-    constructor(id: string, name: string) {
+    constructor(id: string, name: string, structureName: string) {
         super(id, name);
         this.groupOrUser = 'group';
+        this.structureName = structureName;
     }
 
     async sync(){
@@ -67,7 +69,7 @@ export class Sharebookmark extends Visible {
         if(response.data && response.data.groups) {
             for (let i = 0; i < response.data.groups.length; i++) {
                 const group = response.data.groups[i];
-                let newGroup: Group = new Group(group.id, group.name);
+                let newGroup: Group = new Group(group.id, group.name, group.structureName);
                 await newGroup.sync();
                 this.groups.push(newGroup);
             }
@@ -94,6 +96,6 @@ export class Directory {
         // users and groups
         response = await http.get('/rack/users/available');
         response.data.users.forEach(user => this.visibles.push(new User(user.id, user.username, user.profile)));
-        response.data.groups.forEach(group => this.visibles.push(new Group(group.id, group.name)));
+        response.data.groups.forEach(group => this.visibles.push(new Group(group.id, group.name, group.structureName)));
     }
 }
