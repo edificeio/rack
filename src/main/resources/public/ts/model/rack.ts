@@ -44,8 +44,13 @@ export class Rack{
         this.files.provider.isSynced = false;
         let formData = new FormData();
 
+        // Remove excluded users from to-list
+        let filteredTo = _.reject(to, function(user) {
+            return user.exclude
+        })
+
         formData.append('file', file);
-        formData.append('users', _.pluck(to, "id").join(","));
+        formData.append('users', _.pluck(filteredTo, "id").join(","));
 
         try{
             let response = await http.post('/rack?thumbnail=120x120', formData);
