@@ -76,7 +76,7 @@ export class Sharebookmark extends Visible {
         }
         if(response.data && response.data.users) {
             response.data.users.forEach(user => {
-                if(user.activationCode == null) {
+                if(!user.activationCode) {
                     this.users.push(new User(user.id, user.displayName, user.profile))
                 }
             });
