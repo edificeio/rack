@@ -111,7 +111,7 @@ public class RackRepositoryEvent implements RepositoryEvents {
 
 	private void createExportDirectory(String exportPath, String locale, final Handler<String> handler) {
 		final String path = exportPath + File.separator
-				+ I18n.getInstance().translate("workspace.title", I18n.DEFAULT_DOMAIN, locale);
+				+ I18n.getInstance().translate("rack.title", I18n.DEFAULT_DOMAIN, locale);
 		vertx.fileSystem().mkdir(path, new Handler<AsyncResult<Void>>() {
 			@Override
 			public void handle(AsyncResult<Void> event) {
