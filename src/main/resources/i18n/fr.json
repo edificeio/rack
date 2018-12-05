@@ -78,5 +78,10 @@
     "tuto.text.select": "pour séléctionner et accéder au menu d'options,",
     "tuto.action.open": "Cliquez sur l'icône",
     "tuto.text.open": "pour télécharger le document.",
-    "rack.push.notif.rack-post.body" : "{0} a déposé le document {1} dans votre casier"
+    "rack.push.notif.rack-post.body" : "{0} a déposé le document {1} dans votre casier",
+    "rack.copy.title":"Copier de(s) fichier(s) et/ou dossier(s)",
+    "rack.copy.info":"Rechercher et/ou sélectionner le dossier où vous voulez copier",
+    "rack.copy.action":"Copier",
+    "rack.copy.processing":"Copie en cours...",
+    "rack.copy.finished":"Copie effectuée avec succès!"
 }

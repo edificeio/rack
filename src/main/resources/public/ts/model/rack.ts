@@ -1,36 +1,33 @@
 import { Directory } from './directory';
 import { RackFiles } from './rackFile';
-import { Folders } from './folder';
 import { Eventer } from 'entcore-toolkit';
 import { quota } from './quota';
 import http from 'axios';
 
-export interface SendResult{
+export interface SendResult {
     success: number;
     failure: number;
     error: string;
 }
 
-export class Rack{
+export class Rack {
     files: RackFiles;
-    folders: Folders;
     directory: Directory;
     eventer: Eventer;
     filters: any;
- 
+
     private static _instance: Rack;
 
-    static get instance(): Rack{
-        if(!this._instance){
+    static get instance(): Rack {
+        if (!this._instance) {
             this._instance = new Rack();
         }
         return this._instance;
     }
 
-    constructor(){
+    constructor() {
         this.directory = new Directory();
         this.files = new RackFiles();
-        this.folders = new Folders();
         this.eventer = new Eventer();
 
         this.filters = {
@@ -52,11 +49,11 @@ export class Rack{
         formData.append('file', file);
         formData.append('users', _.pluck(filteredTo, "id").join(","));
 
-        try{
+        try {
             let response = await http.post('/rack?thumbnail=120x120', formData);
             return response.data;
         }
-        catch(e){
+        catch (e) {
             console.log(e);
             return {
                 success: 0,
@@ -65,8 +62,7 @@ export class Rack{
             };
         }
     }
- 
-    async sync(){
+    async sync() {
         await quota.sync()
         await this.files.sync();
         this.eventer.trigger('sync');
