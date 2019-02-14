@@ -23,15 +23,13 @@
 					</button>
 				</div>
 				<div class="display-buttons">
-					<i class="show-list"
-					ng-class="{ selected: template.contains('list', 'table-list') }"
-					ng-click="template.open('list', 'table-list')"></i>
-					<i class="show-icons"
-					ng-class="{ selected: template.contains('list', 'icons-list') }"
-					ng-click="template.open('list', 'icons-list')"></i>
+					<div class="choice-view">
+						<i class="show-icons" ng-class="{ selected: template.contains('list', 'icons-list') }" ng-click="template.open('list', 'icons-list')"></i>
+						<i class="show-list" ng-class="{ selected: template.contains('list', 'table-list') }" ng-click="template.open('list', 'table-list')"></i>
+					</div>
 				</div>
 			</div>
-			
+
 		</nav>
 	</div>
 
