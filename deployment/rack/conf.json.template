@@ -1,5 +1,5 @@
 {
-  "name": "fr.wseduc~rack~1.4.1",
+  "name": "fr.wseduc~rack~1.4-SNAPSHOT",
     "config": {
       "main":"org.wseduc.rack.Rack",
       "port": 8031,
