@@ -3,9 +3,10 @@ import { Rack } from '../model/rack';
 import { _ } from 'entcore';
 
 export let libraryController = ng.controller('LibraryController', [
-    '$scope',
-    function ($scope) {
+    '$scope', '$filter',
+    function ($scope, $filter) {
         $scope.filterRack = Rack.instance.filters.mine;
+        $scope.totalDisplayed = 0;
         $scope.select = { 
             all: false,
             folderName: 'mine'
@@ -56,5 +57,11 @@ export let libraryController = ng.controller('LibraryController', [
         };
 
         $scope.orderBy = (what) => $scope.ordering = ($scope.ordering === what ? '-' + what : what);
+
+        Rack.instance.eventer.on('sync', () => {
+            $scope.totalDisplayed =
+                $filter('filter')($scope.rackList.all, $scope.filterRack, true).length;
+            $scope.$apply();
+        });
     }
 ]);

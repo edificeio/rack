@@ -4,7 +4,7 @@
 	<strong><i18n>tuto.action.open</i18n></strong> <i18n>tuto.text.open</i18n>
 </infotip>
 
-<article class="icons-view">
+<article class="icons-view" ng-if="totalDisplayed">
 	<header>&nbsp;</header>
 	<div>
 		<div ng-repeat="rack in rackList.all | filter:filterRack:true" class="element reduce-block-six" ng-class="{ selected: rack.selected }">

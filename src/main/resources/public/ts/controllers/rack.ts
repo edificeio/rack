@@ -71,7 +71,9 @@ export let rackController = ng.controller('RackController', [
         };
 
         Rack.instance.sync();
-        Rack.instance.eventer.on('sync', () => $scope.$apply());
+        Rack.instance.eventer.on('sync', () => {
+            $scope.$apply()
+        });
 
         template.open('send-rack', 'send-rack');
         template.open('copy-files', 'copy-files');
