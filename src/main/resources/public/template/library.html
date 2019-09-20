@@ -18,7 +18,7 @@
 		<nav class="contextual-buttons margin-four">
 			<div class="twelve cell">
 				<div class="action-buttons">
-					<button ng-click="openNewRack()" workflow="rack.send">
+					<button ng-click="openNewRack()" workflow="rack.send" ng-if="totalDisplayed">
 						<i18n>rack.sendRack</i18n>
 					</button>
 				</div>
