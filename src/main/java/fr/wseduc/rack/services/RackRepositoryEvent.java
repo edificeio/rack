@@ -176,16 +176,27 @@ public class RackRepositoryEvent implements RepositoryEvents {
 	}
 
 	@Override
-	public void exportResources(String exportId, String userId, JsonArray g, String exportPath, String locale,
+	public void exportResources(JsonArray resourcesIds, String exportId, String userId, JsonArray g, String exportPath, String locale,
 			String host, Handler<Boolean> handler)
 	{
 		QueryBuilder b = QueryBuilder.start("to").is(userId).put("file").exists(true);
-		final JsonObject q = MongoQueryBuilder.build(b);
+
+		JsonObject query;
+
+		if(resourcesIds == null)
+			query = MongoQueryBuilder.build(b);
+		else
+		{
+			QueryBuilder limitToResources = b.and(
+				QueryBuilder.start("_id").in(resourcesIds).get()
+			);
+			query = MongoQueryBuilder.build(limitToResources);
+		}
 
 		final AtomicBoolean exported = new AtomicBoolean(false);
 		final JsonObject keys = new JsonObject().put("file", 1).put("name", 1);
 
-		mongo.find(Rack.RACK_COLLECTION, q, null, keys, new Handler<Message<JsonObject>>()
+		mongo.find(Rack.RACK_COLLECTION, query, null, keys, new Handler<Message<JsonObject>>()
 		{
 			@Override
 			public void handle(Message<JsonObject> event)
