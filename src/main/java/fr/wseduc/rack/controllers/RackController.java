@@ -869,6 +869,7 @@ public class RackController extends MongoDbControllerHelper {
 		});
 	}
 
+	// TODO: Remove this and use the code in FolderManager
 	private void createThumbnailIfNeeded(final String collection, final JsonObject srcFile,
 			final String documentId, JsonObject oldThumbnail, final List<String> thumbs) {
 		if (documentId != null && thumbs != null && !documentId.trim().isEmpty() && !thumbs.isEmpty() &&
