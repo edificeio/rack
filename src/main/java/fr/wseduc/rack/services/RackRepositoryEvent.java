@@ -7,9 +7,17 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
+import java.util.LinkedList;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.entcore.common.storage.Storage;
 import org.entcore.common.user.RepositoryEvents;
+import org.entcore.common.folders.FolderImporter;
+import org.entcore.common.folders.FolderImporter.FolderImporterContext;
+import org.entcore.common.utils.StringUtils;
+import org.entcore.common.utils.FileUtils;
 
 import com.mongodb.QueryBuilder;
 
@@ -32,11 +40,14 @@ public class RackRepositoryEvent implements RepositoryEvents {
 	private final MongoDb mongo = MongoDb.getInstance();
 	private final Vertx vertx;
 	private final Storage storage;
+	private final FolderImporter importer;
 	private static final Logger log = LoggerFactory.getLogger(RackRepositoryEvent.class);
+	protected final Pattern uuidPattern = Pattern.compile(StringUtils.UUID_REGEX);
 
 	public RackRepositoryEvent(Vertx vertx, Storage storage) {
 		this.storage = storage;
 		this.vertx = vertx;
+		this.importer = new FolderImporter(vertx.fileSystem(), vertx.eventBus(), false);
 	}
 
 	@Override
@@ -236,6 +247,78 @@ public class RackRepositoryEvent implements RepositoryEvents {
 				}
 			}
 		});
+	}
+
+	@Override
+	public void importResources(String importId, String userId, String userName, String importPath,
+		String locale, Handler<JsonObject> handler)
+	{
+		boolean oldFormat = true;
+
+		if(oldFormat == true)
+		{
+			FolderImporterContext context = new FolderImporterContext(importPath, userId, userName, true, "Import Casier");
+
+			RackRepositoryEvent self = this;
+
+			// Some files were exported without an id in their name, so we need to move them
+			this.vertx.fileSystem().readDir(importPath, new Handler<AsyncResult<List<String>>>()
+			{
+				@Override
+				public void handle(AsyncResult<List<String>> result)
+				{
+					if(result.succeeded() == false)
+						throw new RuntimeException(result.cause());
+					else
+					{
+						List<String> filesInDir = result.result();
+						int nbFiles = filesInDir.size();
+
+						List<Future> moves = new LinkedList<Future>();
+
+						for(String filePath : filesInDir)
+						{
+							String name = FileUtils.getFilename(filePath);
+
+							Matcher m = self.uuidPattern.matcher(name);
+							if(m.find() == false)
+							{
+								String path = FileUtils.getPathWithoutFilename(filePath);
+								String newName = UUID.randomUUID().toString() + "_" + name;
+
+								Future<Void> f = Future.future();
+								moves.add(f);
+								self.vertx.fileSystem().move(filePath, path + File.separator + newName, new Handler<AsyncResult<Void>>()
+								{
+									@Override
+									public void handle(AsyncResult<Void> res)
+									{
+										if(res.succeeded() == true)
+											f.complete();
+										else
+											f.fail(res.cause());
+									}
+								});
+							}
+						}
+
+						CompositeFuture.join(moves).setHandler(new Handler<AsyncResult<CompositeFuture>>()
+						{
+							@Override
+							public void handle(AsyncResult<CompositeFuture> res)
+							{
+								// We don't need to count errors, the FolderImporter will do it for us
+								self.importer.importFoldersFlatFormat(context, handler);
+							}
+						});
+					}
+				}
+			});
+		}
+		else
+		{
+			// TODO: pimp the export and import code
+		}
 	}
 
 }
