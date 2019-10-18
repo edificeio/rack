@@ -28,12 +28,14 @@ export let libraryController = ng.controller('LibraryController', [
         $scope.trash = async () => {
             await Rack.instance.files.trashSelection();
             Rack.instance.files.selection.deselectAll();
+            $scope.updateTotalDisplayed();
             $scope.$apply();
         };
 
         $scope.delete = async () => { 
             await Rack.instance.files.delete();
             Rack.instance.files.selection.deselectAll();
+            $scope.updateTotalDisplayed();
             $scope.$apply();
         };
 
@@ -59,9 +61,13 @@ export let libraryController = ng.controller('LibraryController', [
         $scope.orderBy = (what) => $scope.ordering = ($scope.ordering === what ? '-' + what : what);
 
         Rack.instance.eventer.on('sync', () => {
+            $scope.updateTotalDisplayed();
+        });
+
+        $scope.updateTotalDisplayed = () => {
             $scope.totalDisplayed =
                 $filter('filter')($scope.rackList.all, $scope.filterRack, true).length;
             $scope.$apply();
-        });
+        }
     }
 ]);

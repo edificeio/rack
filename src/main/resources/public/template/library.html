@@ -22,7 +22,7 @@
 						<i18n>rack.sendRack</i18n>
 					</button>
 				</div>
-				<div class="display-buttons">
+				<div class="display-buttons" ng-if="totalDisplayed">
 					<div class="choice-view">
 						<i class="show-icons" ng-class="{ selected: template.contains('list', 'icons-list') }" ng-click="template.open('list', 'icons-list')"></i>
 						<i class="show-list" ng-class="{ selected: template.contains('list', 'table-list') }" ng-click="template.open('list', 'table-list')"></i>
@@ -33,7 +33,7 @@
 		</nav>
 	</div>
 
-	<div class="row rigid-grid">
+	<div class="row rigid-grid" ng-if="rackList.all.length">
 		<section class="vertical four cell">
 			<nav class="vertical">
 				<ul>
@@ -54,7 +54,7 @@
 					</li>
 				</ul>
 			</nav>
-			<div class="nine row">
+			<div class="nine row" ng-hide="select.folderName === 'trash' && !totalDisplayed">
 				<hr class="row" />
 				<h2><i18n>rack.usedSpace</i18n></h2>
 				<progress-bar max="quota.max" filled="quota.used" unit="[[quota.unit]]"></progress-bar>
@@ -66,11 +66,11 @@
 				<!-- Empty screen My rack -->
 				<div class="emptyscreen" ng-if="select.folderName === 'mine' && !totalDisplayed">
 					<h2 class="emptyscreen-header">
-						<i18n>empty.rack.creation.title</i18n>
+						<i18n>empty.rack.consultation.title</i18n>
 					</h2>
 					<img class="emptyscreen-image__mini" src="/rack/public/img/empty-rack.svg">
 					<p class="emptyscreen-footer">
-						<i18n>empty.rack.creation</i18n>
+						<i18n>empty.rack.consultation</i18n>
 					</p>
 					<a class="button" ng-click="openNewRack()" workflow="rack.send">
 						<i18n>rack.sendRack</i18n>
@@ -79,11 +79,11 @@
 				<!-- Empty screen History -->
 				<div class="emptyscreen" ng-if="select.folderName === 'history' && !totalDisplayed">
 					<h2 class="emptyscreen-header">
-						<i18n>empty.rack.consultation.title</i18n>
+						<i18n>empty.rack.creation.title</i18n>
 					</h2>
 					<img class="emptyscreen-image__mini" src="/rack/public/img/empty-rack.svg">
 					<p class="emptyscreen-footer">
-						<i18n>empty.rack.consultation</i18n>
+						<i18n>empty.rack.creation</i18n>
 					</p>
 				</div>
 				<!-- Empty screen Trash -->
@@ -95,6 +95,20 @@
 				</div>
 			</div>
 		</section>
+	</div>
+
+	<!-- Empty screen No rack -->
+	<div class="emptyscreen" ng-if="!rackList.all.length">
+		<h2 class="emptyscreen-header">
+			<i18n>empty.rack.consultation.title</i18n>
+		</h2>
+		<img class="emptyscreen-image__mini" src="/rack/public/img/empty-rack.svg">
+		<p class="emptyscreen-footer">
+			<i18n>empty.rack.consultation</i18n>
+		</p>
+		<a class="button" ng-click="openNewRack()" workflow="rack.send">
+			<i18n>rack.sendRack</i18n>
+		</a>
 	</div>
 
 	<container template="toaster"></container>
