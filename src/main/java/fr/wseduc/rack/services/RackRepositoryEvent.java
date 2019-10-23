@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import java.util.LinkedList;
@@ -308,7 +309,23 @@ public class RackRepositoryEvent implements RepositoryEvents {
 							public void handle(AsyncResult<CompositeFuture> res)
 							{
 								// We don't need to count errors, the FolderImporter will do it for us
-								self.importer.importFoldersFlatFormat(context, handler);
+								self.importer.importFoldersFlatFormat(context, new Handler<JsonObject>()
+								{
+									@Override
+									public void handle(JsonObject res)
+									{
+										JsonObject idsMap = new JsonObject();
+
+										for(Map.Entry<String, String> entry : context.oldIdsToNewIds.entrySet())
+											idsMap.put(entry.getKey(), entry.getValue());
+
+										res
+											.put("idsMap", new JsonObject()
+												.put(Rack.RACK_COLLECTION, idsMap))
+											.put("mainResourceName", Rack.RACK_COLLECTION);
+										handler.handle(res);
+									}
+								});
 							}
 						});
 					}
