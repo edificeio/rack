@@ -252,7 +252,7 @@ public class RackRepositoryEvent implements RepositoryEvents {
 
 	@Override
 	public void importResources(String importId, String userId, String userLogin, String userName, String importPath,
-		String locale, Handler<JsonObject> handler)
+		String locale, boolean forceImportAsDuplication, Handler<JsonObject> handler)
 	{
 		boolean oldFormat = true;
 
