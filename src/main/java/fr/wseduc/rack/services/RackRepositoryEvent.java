@@ -320,8 +320,12 @@ public class RackRepositoryEvent implements RepositoryEvents {
 											idsMap.put(entry.getKey(), entry.getValue());
 
 										res
-											.put("idsMap", new JsonObject()
-												.put(Rack.RACK_COLLECTION, idsMap))
+											.put("resourcesIdsMap", new JsonObject()
+												.put(Rack.RACK_COLLECTION, idsMap)
+											)
+											.put("duplicatesNumberMap", new JsonObject()
+												.put(Rack.RACK_COLLECTION, res.getString("duplicatesNumber"))
+											)
 											.put("mainResourceName", Rack.RACK_COLLECTION);
 										handler.handle(res);
 									}
