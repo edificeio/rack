@@ -24,9 +24,9 @@
 					</a>
 				</legend>
 
-				<i class="download" tooltip="[['rack.download']]" ng-if="select.folderName !== 'history'">
-					<a ng-href="[[select.folderName !== 'history' ? '/rack/get/' + rack._id : '' ]]"></a>
-				</i>
+				<a ng-href="[[select.folderName !== 'history' ? '/rack/get/' + rack._id : '' ]]">
+					<i class="download" tooltip="[['rack.download']]" ng-if="select.folderName !== 'history'"></i>
+				</a>
 			</explorer>
 		</div>
 	</div>
