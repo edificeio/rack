@@ -10,9 +10,9 @@
 		<div ng-repeat="rack in rackList.all | filter:filterRack:true" class="element reduce-block-six" ng-class="{ selected: rack.selected }">
 			<explorer ng-model="rack.selected">
 				<a class="[[rack.metadata.contentType]] container">
-					<i class="[[select.folderName === 'history' && rack.metadata.contentType === 'img' ? 'unknown' : rack.metadata.contentType]]-large" ng-if="rack.metadata.contentType !== 'img' || select.folderName === 'history'">
+					<i class="[[rack.metadata.contentType]]-large" ng-if="rack.metadata.contentType !== 'img'">
 					</i>
-					<div class="clip absolute" ng-if="rack.metadata.contentType === 'img' && select.folderName !== 'history'">
+					<div class="clip absolute" ng-if="rack.metadata.contentType === 'img'">
 						<img ng-src="[['/rack/get/' + rack._id + '?thumbnail=120x120']]" alt="thumbnail" />
 					</div>
 				</a>

@@ -44,6 +44,8 @@ public class RackResourcesProvider implements ResourcesProvider{
 			String method = serviceMethod.substring(RackController.class.getName().length() + 1);
 			switch (method) {
 				case("getRack"):
+					authorizeOwnerOrSender(resourceRequest, user, handler);
+					break;
 				case("trashRack"):
 				case("recoverRack"):
 				case("deleteRackDocument"):
@@ -60,6 +62,22 @@ public class RackResourcesProvider implements ResourcesProvider{
 	private void authorizeOwner(HttpServerRequest request, UserInfos user, final Handler<Boolean> handler){
 		String id = request.params().get("id");		
 		String matcher = "{ \"_id\": \""+id+"\", \"to\": \""+user.getUserId()+"\" }";
+		
+		mongo.count(Rack.RACK_COLLECTION, new JsonObject(matcher), new Handler<Message<JsonObject>>(){
+			public void handle(Message<JsonObject> result) {
+				JsonObject res = result.body();
+				handler.handle(
+					res != null &&
+					"ok".equals(res.getString("status")) &&
+					res.getLong("count") == 1
+				);
+			}
+		});
+	}
+	
+	private void authorizeOwnerOrSender(HttpServerRequest request, UserInfos user, final Handler<Boolean> handler){
+		String id = request.params().get("id");		
+		String matcher = "{ \"_id\": \""+id+"\", \"$or\": [{\"to\":\""+user.getUserId()+"\" }, {\"from\":\""+user.getUserId()+"\"}]}";
 		
 		mongo.count(Rack.RACK_COLLECTION, new JsonObject(matcher), new Handler<Message<JsonObject>>(){
 			public void handle(Message<JsonObject> result) {
