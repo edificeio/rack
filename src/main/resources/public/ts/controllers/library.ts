@@ -42,6 +42,7 @@ export let libraryController = ng.controller('LibraryController', [
         $scope.restore = async () => {
             await Rack.instance.files.restore();
             Rack.instance.files.selection.deselectAll();
+            $scope.updateTotalDisplayed();
             $scope.$apply();
         };
 

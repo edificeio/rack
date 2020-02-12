@@ -18,7 +18,9 @@
 		<nav class="contextual-buttons margin-four">
 			<div class="twelve cell">
 				<div class="action-buttons">
-					<button ng-click="openNewRack()" workflow="rack.send" ng-if="totalDisplayed">
+					<button ng-click="openNewRack()" 
+							workflow="rack.send" 
+							ng-if="totalDisplayed || (!totalDisplayed && select.folderName === 'trash')">
 						<i18n>rack.sendRack</i18n>
 					</button>
 				</div>
