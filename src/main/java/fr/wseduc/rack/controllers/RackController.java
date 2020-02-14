@@ -486,6 +486,7 @@ public class RackController extends MongoDbControllerHelper {
 	private void getVisibleRackUsers(final HttpServerRequest request, final Handler<JsonObject> handler){
 		final String customReturn =
 				"MATCH visibles-[:IN]->(:Group)-[:AUTHORIZED]->(:Role)-[:AUTHORIZE]->(a:Action) " +
+				"USING INDEX a:Action(name) " +
 				"WHERE has(a.name) AND a.name={action} AND NOT has(visibles.activationCode) " +
 				"RETURN distinct visibles.id as id, visibles.displayName as username, visibles.lastName as name, HEAD(visibles.profiles) as profile " +
 				"ORDER BY name ";
