@@ -85,17 +85,53 @@ export class Sharebookmark extends Visible {
 }
 
 export class Directory {
-    visibles: Visible[];
+    users: Visible[];
+    bookmarks: Visible[];
+
+    _pending_promise = null;
+    _pending_promise_resolve = null;
+    _current_promise = null;
+
+    get visibles(): Visible[]
+    {
+        return (this.users || []).concat(this.bookmarks);
+    }
+
+    search(searchTerm: String)
+    {
+        var self = this;
+
+        if(this._pending_promise == null)
+        {
+            this._pending_promise = new Promise(function(resolve, reject)
+            {
+                self._pending_promise_resolve = resolve;
+            }).then(function(response: any)
+            {
+                self.users = [];
+                response.data.users.forEach(user => self.users.push(new User(user.id, user.username, user.profile)));
+                response.data.groups.forEach(group => self.users.push(new Group(group.id, group.name, group.structureName)));
+                self._pending_promise = null;
+            });
+        }
+
+        var promise = new Promise(function(resolve, reject)
+        {
+            http.get('/rack/users/available/' + (searchTerm == null ? "" : searchTerm)).then(function(response)
+            {
+                if(self._current_promise == promise)
+                    self._pending_promise_resolve(response);
+            });
+        });
+        this._current_promise = promise;
+
+        return this._pending_promise;
+    }
 
     async sync(){
-        this.visibles = [];
+        this.bookmarks = [];
         // sharebookmarks
         let response = await http.get('/directory/sharebookmark/all');
-        response.data.forEach(sharebookmark => this.visibles.push(new Sharebookmark(sharebookmark.id, sharebookmark.name)));
-        
-        // users and groups
-        response = await http.get('/rack/users/available');
-        response.data.users.forEach(user => this.visibles.push(new User(user.id, user.username, user.profile)));
-        response.data.groups.forEach(group => this.visibles.push(new Group(group.id, group.name, group.structureName)));
+        response.data.forEach(sharebookmark => this.bookmarks.push(new Sharebookmark(sharebookmark.id, sharebookmark.name)));
     }
 }

@@ -72,7 +72,6 @@ import java.util.regex.Pattern;
 import static fr.wseduc.webutils.Utils.getOrElse;
 import static org.entcore.common.http.response.DefaultResponseHandler.arrayResponseHandler;
 import static org.entcore.common.http.response.DefaultResponseHandler.defaultResponseHandler;
-import static org.entcore.common.user.UserUtils.findVisibleUsers;
 
 /**
  * Vert.x backend controller for the application using Mongodb.
@@ -483,14 +482,15 @@ public class RackController extends MongoDbControllerHelper {
 
 	/* Userlist & Grouplist */
 
-	private void getVisibleRackUsers(final HttpServerRequest request, final Handler<JsonObject> handler){
+	private void getVisibleRackUsers(final HttpServerRequest request, final String search, final Handler<JsonObject> handler){
 		final String customReturn =
 				"MATCH visibles-[:IN]->(:Group)-[:AUTHORIZED]->(:Role)-[:AUTHORIZE]->(a:Action) " +
 				"USING INDEX a:Action(name) " +
 				"WHERE has(a.name) AND a.name={action} AND NOT has(visibles.activationCode) " +
 				"RETURN distinct visibles.id as id, visibles.displayName as username, visibles.lastName as name, HEAD(visibles.profiles) as profile " +
 				"ORDER BY name ";
-		final JsonObject params = new JsonObject().put("action", "fr.wseduc.rack.controllers.RackController|listRack");
+		final String prefilter = search == null || search.trim().isEmpty() ? null : " AND m.displayName =~ {searchTerm}"; 
+		final JsonObject params = new JsonObject().put("action", "fr.wseduc.rack.controllers.RackController|listRack").put("searchTerm", "(?i).*" + search + ".*");
 		final String queryGroups =
 				"RETURN distinct profileGroup.id as id, profileGroup.name as name, " +
 				"profileGroup.groupDisplayName as groupDisplayName, profileGroup.structureName as structureName " +
@@ -501,7 +501,7 @@ public class RackController extends MongoDbControllerHelper {
 				JsonObject group = (JsonObject) u;
 				UserUtils.groupDisplayName(group, I18n.acceptLanguage(request));
 			}
-			findVisibleUsers(eb, request, false, customReturn, params, visibleUsers -> {
+			UserUtils.findVisibleUsers(eb, request, false, false, prefilter, customReturn, params, visibleUsers -> {
 				JsonObject visibles = new JsonObject()
 						.put("groups", visibleGroups)
 						.put("users", visibleUsers);
@@ -517,7 +517,24 @@ public class RackController extends MongoDbControllerHelper {
 	@Get("/users/available")
 	@SecuredAction(list_users)
 	public void listUsers(final HttpServerRequest request) {
-		getVisibleRackUsers(request, new Handler<JsonObject>() {
+		getVisibleRackUsers(request, null, new Handler<JsonObject>() {
+			@Override
+			public void handle(JsonObject users) {
+				renderJson(request, users);
+			}
+		});
+	}
+
+	/**
+	 * Lists the users to which the user can post documents.
+	 * @param request Client request
+	 */
+	@Get("/users/available/:search")
+	@SecuredAction(list_users)
+	public void searchUsers(final HttpServerRequest request)
+	{
+		final String search = request.params().get("search");
+		getVisibleRackUsers(request, search, new Handler<JsonObject>() {
 			@Override
 			public void handle(JsonObject users) {
 				renderJson(request, users);

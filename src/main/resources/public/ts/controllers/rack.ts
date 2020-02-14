@@ -1,6 +1,6 @@
 ﻿import { notify, idiom as lang, template, FolderPickerProps, ng, $ } from 'entcore';
 import { Rack, Visible, User, Group, quota, SendResult, Sharebookmark } from '../model';
-import { moment } from 'entcore';
+import { moment, model } from 'entcore';
 
 export interface RackScope {
     rackList: any
@@ -111,17 +111,23 @@ export let rackController = ng.controller('RackController', [
             $scope.$apply();
         };
 
-        $scope.updateFoundUsersGroups = () => {
+        $scope.updateFoundUsersGroups = async () => {
             var searchTerm = lang.removeAccents($scope.search.search).toLowerCase();
 
-            if (!searchTerm) {
+            if (!searchTerm || (searchTerm.length < 3 && model.me.functions.ADMIN_LOCAL != null)) {
                 return [];
             }
 
-            $scope.search.found = _.filter(Rack.instance.directory.visibles, function (item) {
-                let titleTest = lang.removeAccents(item.toString()).toLowerCase();
-                return titleTest.indexOf(searchTerm) !== -1;
+            Rack.instance.directory.search(searchTerm).then(function()
+            {
+                $scope.search.found = _.filter(Rack.instance.directory.visibles, function (item) {
+                    let titleTest = lang.removeAccents(item.toString()).toLowerCase();
+                    return titleTest.indexOf(searchTerm) !== -1;
+                });
+
+                $scope.$apply();
             });
+
         }
 
         $scope.clearSearch = function () {
