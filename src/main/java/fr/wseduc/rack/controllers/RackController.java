@@ -825,7 +825,9 @@ public class RackController extends MongoDbControllerHelper {
 					storage.removeFile(file, new Handler<JsonObject>() {
 						@Override
 						public void handle(JsonObject event) {
-							if (event != null && "ok".equals(event.getString("status"))) {
+							if (event == null || "ok".equals(event.getString("status")) == false) {
+								logger.error("[gridfsRemoveFile] Error while deleting main file " + file);
+							}
 									rackService.deleteRack(id, new Handler<Either<String,JsonObject>>() {
 										@Override
 										public void handle(Either<String, JsonObject> deletionEvent) {
@@ -839,9 +841,6 @@ public class RackController extends MongoDbControllerHelper {
 											}
 										}
 									});
-							} else {
-								renderError(request, event);
-							}
 						}
 					});
 
