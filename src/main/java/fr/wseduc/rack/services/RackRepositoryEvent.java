@@ -48,7 +48,7 @@ public class RackRepositoryEvent implements RepositoryEvents {
 	public RackRepositoryEvent(Vertx vertx, Storage storage) {
 		this.storage = storage;
 		this.vertx = vertx;
-		this.importer = new FolderImporter(vertx.fileSystem(), vertx.eventBus(), false);
+		this.importer = new FolderImporter(vertx, vertx.fileSystem(), vertx.eventBus(), false);
 	}
 
 	@Override
