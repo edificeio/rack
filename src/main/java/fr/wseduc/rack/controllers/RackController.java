@@ -50,6 +50,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import org.entcore.common.events.EventHelper;
 import org.entcore.common.events.EventStore;
 import org.entcore.common.events.EventStoreFactory;
 import org.entcore.common.http.request.JsonHttpServerRequest;
@@ -77,7 +78,7 @@ import static org.entcore.common.http.response.DefaultResponseHandler.defaultRes
  * Vert.x backend controller for the application using Mongodb.
  */
 public class RackController extends MongoDbControllerHelper {
-
+	static final String RESOURCE_NAME = "rack";
 	//Computation service
 	private final RackService rackService;
 	private final String collection;
@@ -94,8 +95,7 @@ public class RackController extends MongoDbControllerHelper {
 	private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
 
 	//Statistics
-	private EventStore eventStore;
-	private enum RackEvent { ACCESS }
+	private EventHelper eventHelper;
 
 	//Permissions
 	private static final String
@@ -128,7 +128,8 @@ public class RackController extends MongoDbControllerHelper {
 		}
 		this.imageResizerAddress = node + config.getString("image-resizer-address", "wse.image.resizer");
 		this.timelineHelper = new TimelineHelper(vertx, eb, config);
-		this.eventStore = EventStoreFactory.getFactory().getEventStore(Rack.class.getSimpleName());
+		final EventStore eventStore = EventStoreFactory.getFactory().getEventStore(Rack.class.getSimpleName());
+		this.eventHelper = new EventHelper(eventStore);
 	}
 
 	/**
@@ -139,7 +140,7 @@ public class RackController extends MongoDbControllerHelper {
 	@SecuredAction(access)
 	public void view(HttpServerRequest request) {
 		renderView(request);
-		eventStore.createAndStoreEvent(RackEvent.ACCESS.name(), request);
+		eventHelper.onAccess(request);
 	}
 
 	//////////////
@@ -198,6 +199,7 @@ public class RackController extends MongoDbControllerHelper {
 									result.put("success", success.get());
 									result.put("failure", failure.get());
 									renderJson(request, result);
+									eventHelper.onCreateResource(request, RESOURCE_NAME);
 								}
 							}
 						};
