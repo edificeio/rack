@@ -107,6 +107,17 @@ public class RackRepositoryEvent implements RepositoryEvents {
 
 	@Override
 	public void deleteUsers(JsonArray users) {
+		if(users == null)
+			return;
+
+		for(int i = users.size(); i-- > 0;)
+		{
+			if(users.hasNull(i))
+				users.remove(i);
+		}
+		if(users.size() == 0)
+			return;
+
 		List<String> userIds = users.stream().map(u -> (JsonObject) u).map(u -> u.getString("id"))
 				.collect(Collectors.toList());
 		final JsonObject queryRacks = MongoQueryBuilder.build(QueryBuilder.start("to").in(userIds));
