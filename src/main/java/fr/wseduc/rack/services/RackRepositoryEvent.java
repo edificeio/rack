@@ -201,8 +201,8 @@ public class RackRepositoryEvent implements RepositoryEvents {
 	}
 
 	@Override
-	public void exportResources(JsonArray resourcesIds, String exportId, String userId, JsonArray g, String exportPath, String locale,
-			String host, Handler<Boolean> handler)
+	public void exportResources(JsonArray resourcesIds, boolean exportDocuments, boolean exportSharedResources, String exportId, String userId,
+								JsonArray g, String exportPath, String locale, String host, Handler<Boolean> handler)
 	{
 		QueryBuilder b = QueryBuilder.start("to").is(userId).put("file").exists(true);
 
