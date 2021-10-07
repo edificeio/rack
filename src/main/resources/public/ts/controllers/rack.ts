@@ -120,9 +120,10 @@ export let rackController = ng.controller('RackController', [
 
             Rack.instance.directory.search(searchTerm).then(function()
             {
+                let searchTermWithoutSpaces = searchTerm.replace(/\s/g, '');
                 $scope.search.found = _.filter(Rack.instance.directory.visibles, function (item) {
-                    let titleTest = lang.removeAccents(item.toString()).toLowerCase();
-                    return titleTest.indexOf(searchTerm) !== -1;
+                    let titleTest = lang.removeAccents(item.getSearchField().toLowerCase());
+                    return titleTest.indexOf(searchTermWithoutSpaces) !== -1;
                 });
 
                 $scope.$apply();
