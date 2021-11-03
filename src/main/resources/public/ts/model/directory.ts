@@ -15,7 +15,7 @@ export class Visible{
     }
 
     getSearchField() {
-        return this.searchField ? this.searchField : "";
+        return this.searchField || this.name || "";
     }
 
     toString() {
