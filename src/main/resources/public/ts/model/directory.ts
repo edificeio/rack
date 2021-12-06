@@ -6,16 +6,10 @@ export class Visible{
     id: string;
     name?: string;
     groupOrUser?: string;
-    searchField?: string;
 
-    constructor(id: string, name: string, searchField: string) {
+    constructor(id: string, name: string) {
         this.id = id;
         this.name = name;
-        this.searchField = searchField;
-    }
-
-    getSearchField() {
-        return this.searchField || this.name || "";
     }
 
     toString() {
@@ -28,8 +22,8 @@ export class Group extends Visible {
     structureName: string;
     isSynced: boolean;
     
-    constructor(id: string, name: string, searchField: string, structureName: string) {
-        super(id, name, searchField);
+    constructor(id: string, name: string, structureName: string) {
+        super(id, name);
         this.groupOrUser = 'group';
         this.structureName = structureName;
     }
@@ -49,8 +43,8 @@ export class User extends Visible {
     profile: string;
     groupId: string;
 
-    constructor(id: string, name: string, searchField: string, profile: string) {
-        super(id, name, searchField);
+    constructor(id: string, name: string, profile: string) {
+        super(id, name);
         this.groupOrUser = 'user';
         this.profile = profile;
     }
@@ -62,7 +56,7 @@ export class Sharebookmark extends Visible {
     type: string;
 
     constructor(id: string, name: string) {
-        super(id, name, null);
+        super(id, name);
         this.type = 'sharebookmark';
         this.groupOrUser = this.type;
     }
@@ -75,7 +69,7 @@ export class Sharebookmark extends Visible {
         if(response.data && response.data.groups) {
             for (let i = 0; i < response.data.groups.length; i++) {
                 const group = response.data.groups[i];
-                let newGroup: Group = new Group(group.id, group.name, null, group.structureName);
+                let newGroup: Group = new Group(group.id, group.name, group.structureName);
                 await newGroup.sync();
                 this.groups.push(newGroup);
             }
@@ -83,7 +77,7 @@ export class Sharebookmark extends Visible {
         if(response.data && response.data.users) {
             response.data.users.forEach(user => {
                 if(!user.activationCode) {
-                    this.users.push(new User(user.id, user.displayName, null, user.profile))
+                    this.users.push(new User(user.id, user.displayName, user.profile))
                 }
             });
         }
@@ -115,15 +109,15 @@ export class Directory {
             }).then(function(response: any)
             {
                 self.users = [];
-                response.data.users.forEach(user => self.users.push(new User(user.id, user.username, user.searchField, user.profile)));
-                response.data.groups.forEach(group => self.users.push(new Group(group.id, group.name, group.searchField, group.structureName)));
+                response.data.users.forEach(user => self.users.push(new User(user.id, user.username, user.profile)));
+                response.data.groups.forEach(group => self.users.push(new Group(group.id, group.name, group.structureName)));
                 self._pending_promise = null;
             });
         }
 
         var promise = new Promise(function(resolve, reject)
         {
-            http.get('/rack/users/available' + (searchTerm == null ? "" : `?search=${searchTerm}`)).then(function(response)
+            http.get('/rack/users/available/' + (searchTerm == null ? "" : searchTerm)).then(function(response)
             {
                 if(self._current_promise == promise)
                     self._pending_promise_resolve(response);
