@@ -491,7 +491,7 @@ public class RackController extends MongoDbControllerHelper {
 				"WHERE has(a.name) AND a.name={action} AND NOT has(visibles.activationCode) " +
 				"RETURN distinct visibles.id as id, visibles.displayName as username, visibles.lastName as name, HEAD(visibles.profiles) as profile " +
 				"ORDER BY name ";
-		final String prefilter = search == null || search.trim().isEmpty() ? null : " AND m.displayNameSearchField =~ {searchTerm}";
+		final String prefilter = search == null || search.trim().isEmpty() ? null : " AND m.displayName =~ {searchTerm}"; 
 		final JsonObject params = new JsonObject().put("action", "fr.wseduc.rack.controllers.RackController|listRack").put("searchTerm", "(?i).*" + search + ".*");
 		final String queryGroups =
 				"RETURN distinct profileGroup.id as id, profileGroup.name as name, " +
