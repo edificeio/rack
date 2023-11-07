@@ -571,7 +571,7 @@ public class RackController extends MongoDbControllerHelper {
 		message.put("action", "getUserQuota");
 		message.put("userId", userId);
 
-		eb.send(QUOTA_BUS_ADDRESS, message, new Handler<AsyncResult<Message<JsonObject>>>() {
+		eb.request(QUOTA_BUS_ADDRESS, message, new Handler<AsyncResult<Message<JsonObject>>>() {
 			@Override
 			public void handle(AsyncResult<Message<JsonObject>> reply) {
 				handler.handle(reply.result().body());
@@ -586,16 +586,13 @@ public class RackController extends MongoDbControllerHelper {
 		message.put("size", size);
 		message.put("threshold", threshold);
 
-		eb.send(QUOTA_BUS_ADDRESS, message, new Handler<AsyncResult<Message<JsonObject>>>() {
-			@Override
-			public void handle(AsyncResult<Message<JsonObject>> reply) {
-				JsonObject obj = reply.result().body();
-				UserUtils.addSessionAttribute(eb, userId, "storage", obj.getLong("storage"), null);
-				if (obj.getBoolean("notify", false)) {
-					notifyEmptySpaceIsSmall(userId);
-				}
-			}
-		});
+		eb.request(QUOTA_BUS_ADDRESS, message, (Handler<AsyncResult<Message<JsonObject>>>) reply -> {
+            JsonObject obj = reply.result().body();
+            UserUtils.addSessionAttribute(eb, userId, "storage", obj.getLong("storage"), null);
+            if (obj.getBoolean("notify", false)) {
+                notifyEmptySpaceIsSmall(userId);
+            }
+        });
 
 	}
 
@@ -932,21 +929,18 @@ public class RackController extends MongoDbControllerHelper {
 					.put("src", storage.getProtocol() + "://" + storage.getBucket() + ":"
 							+ srcFile.getString("_id"))
 					.put("destinations", outputs);
-			eb.send(imageResizerAddress, json, new Handler<AsyncResult<Message<JsonObject>>>() {
-				@Override
-				public void handle(AsyncResult<Message<JsonObject>> event) {
-					if (event.succeeded()) {
-						JsonObject thumbnails = event.result().body().getJsonObject("outputs");
-						if ("ok".equals(event.result().body().getString("status")) && thumbnails != null) {
-							mongo.update(collection, new JsonObject().put("_id", documentId),
-									new JsonObject().put("$set", new JsonObject()
-											.put("thumbnails", thumbnails)));
-						}
-					} else {
-						log.error("Error when resize image.", event.cause());
-					}
-				}
-			});
+			eb.request(imageResizerAddress, json, (Handler<AsyncResult<Message<JsonObject>>>) event -> {
+                if (event.succeeded()) {
+                    JsonObject thumbnails = event.result().body().getJsonObject("outputs");
+                    if ("ok".equals(event.result().body().getString("status")) && thumbnails != null) {
+                        mongo.update(collection, new JsonObject().put("_id", documentId),
+                                new JsonObject().put("$set", new JsonObject()
+                                        .put("thumbnails", thumbnails)));
+                    }
+                } else {
+                    log.error("Error when resize image.", event.cause());
+                }
+            });
 		}
 	}
 
