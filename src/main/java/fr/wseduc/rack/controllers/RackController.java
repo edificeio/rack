@@ -22,7 +22,6 @@
 
 package fr.wseduc.rack.controllers;
 
-import com.mongodb.QueryBuilder;
 import fr.wseduc.mongodb.MongoDb;
 import fr.wseduc.mongodb.MongoQueryBuilder;
 import fr.wseduc.rack.Rack;
@@ -50,6 +49,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import org.bson.conversions.Bson;
 import org.entcore.common.events.EventHelper;
 import org.entcore.common.events.EventStore;
 import org.entcore.common.events.EventStoreFactory;
@@ -73,6 +73,7 @@ import java.util.regex.Pattern;
 import static fr.wseduc.webutils.Utils.getOrElse;
 import static org.entcore.common.http.response.DefaultResponseHandler.arrayResponseHandler;
 import static org.entcore.common.http.response.DefaultResponseHandler.defaultResponseHandler;
+import static com.mongodb.client.model.Filters.*;
 
 /**
  * Vert.x backend controller for the application using Mongodb.
@@ -571,7 +572,7 @@ public class RackController extends MongoDbControllerHelper {
 		message.put("action", "getUserQuota");
 		message.put("userId", userId);
 
-		eb.send(QUOTA_BUS_ADDRESS, message, new Handler<AsyncResult<Message<JsonObject>>>() {
+		eb.request(QUOTA_BUS_ADDRESS, message, new Handler<AsyncResult<Message<JsonObject>>>() {
 			@Override
 			public void handle(AsyncResult<Message<JsonObject>> reply) {
 				handler.handle(reply.result().body());
@@ -586,16 +587,13 @@ public class RackController extends MongoDbControllerHelper {
 		message.put("size", size);
 		message.put("threshold", threshold);
 
-		eb.send(QUOTA_BUS_ADDRESS, message, new Handler<AsyncResult<Message<JsonObject>>>() {
-			@Override
-			public void handle(AsyncResult<Message<JsonObject>> reply) {
-				JsonObject obj = reply.result().body();
-				UserUtils.addSessionAttribute(eb, userId, "storage", obj.getLong("storage"), null);
-				if (obj.getBoolean("notify", false)) {
-					notifyEmptySpaceIsSmall(userId);
-				}
-			}
-		});
+		eb.request(QUOTA_BUS_ADDRESS, message, (Handler<AsyncResult<Message<JsonObject>>>) reply -> {
+            JsonObject obj = reply.result().body();
+            UserUtils.addSessionAttribute(eb, userId, "storage", obj.getLong("storage"), null);
+            if (obj.getBoolean("notify", false)) {
+                notifyEmptySpaceIsSmall(userId);
+            }
+        });
 
 	}
 
@@ -754,9 +752,9 @@ public class RackController extends MongoDbControllerHelper {
 										parentFolder = folder.substring(0, folder.lastIndexOf("_"));
 									}
 
-									QueryBuilder parentFolderQuery = QueryBuilder.start("owner").is(user.getUserId())
-											.and("folder").is(parentFolder)
-											.and("name").is(parentName);
+									Bson parentFolderQuery = and(eq("owner", user.getUserId()),
+											eq("folder", parentFolder),
+											eq("name", parentName));
 
 									mongo.findOne(collection,  MongoQueryBuilder.build(parentFolderQuery), new Handler<Message<JsonObject>>(){
 										@Override
@@ -932,21 +930,18 @@ public class RackController extends MongoDbControllerHelper {
 					.put("src", storage.getProtocol() + "://" + storage.getBucket() + ":"
 							+ srcFile.getString("_id"))
 					.put("destinations", outputs);
-			eb.send(imageResizerAddress, json, new Handler<AsyncResult<Message<JsonObject>>>() {
-				@Override
-				public void handle(AsyncResult<Message<JsonObject>> event) {
-					if (event.succeeded()) {
-						JsonObject thumbnails = event.result().body().getJsonObject("outputs");
-						if ("ok".equals(event.result().body().getString("status")) && thumbnails != null) {
-							mongo.update(collection, new JsonObject().put("_id", documentId),
-									new JsonObject().put("$set", new JsonObject()
-											.put("thumbnails", thumbnails)));
-						}
-					} else {
-						log.error("Error when resize image.", event.cause());
-					}
-				}
-			});
+			eb.request(imageResizerAddress, json, (Handler<AsyncResult<Message<JsonObject>>>) event -> {
+                if (event.succeeded()) {
+                    JsonObject thumbnails = event.result().body().getJsonObject("outputs");
+                    if ("ok".equals(event.result().body().getString("status")) && thumbnails != null) {
+                        mongo.update(collection, new JsonObject().put("_id", documentId),
+                                new JsonObject().put("$set", new JsonObject()
+                                        .put("thumbnails", thumbnails)));
+                    }
+                } else {
+                    log.error("Error when resize image.", event.cause());
+                }
+            });
 		}
 	}
 

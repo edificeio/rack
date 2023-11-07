@@ -13,6 +13,8 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import io.vertx.core.*;
+import org.bson.conversions.Bson;
 import org.entcore.common.storage.Storage;
 import org.entcore.common.user.RepositoryEvents;
 import org.entcore.common.folders.FolderImporter;
@@ -20,22 +22,17 @@ import org.entcore.common.folders.FolderImporter.FolderImporterContext;
 import org.entcore.common.utils.StringUtils;
 import org.entcore.common.utils.FileUtils;
 
-import com.mongodb.QueryBuilder;
 
 import fr.wseduc.mongodb.MongoDb;
 import fr.wseduc.mongodb.MongoQueryBuilder;
 import fr.wseduc.rack.Rack;
 import fr.wseduc.webutils.I18n;
-import io.vertx.core.AsyncResult;
-import io.vertx.core.CompositeFuture;
-import io.vertx.core.Future;
-import io.vertx.core.Handler;
-import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import static com.mongodb.client.model.Filters.*;
 
 public class RackRepositoryEvent implements RepositoryEvents {
 	private final MongoDb mongo = MongoDb.getInstance();
@@ -57,52 +54,52 @@ public class RackRepositoryEvent implements RepositoryEvents {
 	}
 
 	private Future<List<JsonObject>> find(JsonObject query) {
-		Future<List<JsonObject>> future = Future.future();
+		Promise<List<JsonObject>> promise = Promise.promise();
 		mongo.find(Rack.RACK_COLLECTION, query, null, new JsonObject().put("file", 1), res -> {
 			String status = res.body().getString("status");
 			JsonArray results = res.body().getJsonArray("results");
 			if ("ok".equals(status) && results != null) {
 				List<JsonObject> objects = results.stream().filter(o -> o instanceof JsonObject)
 						.map(r -> (JsonObject) r).collect(Collectors.toList());
-				future.complete(objects);
+				promise.complete(objects);
 			} else {
-				future.fail("could not found racks");
+				promise.fail("could not found racks");
 			}
 		});
-		return future;
+		return promise.future();
 	}
 
 	private Future<Void> deleteFromDB(JsonObject query) {
-		Future<Void> future = Future.future();
+		Promise<Void> promise = Promise.promise();
 		mongo.delete(Rack.RACK_COLLECTION, query, event -> {
 			if (!"ok".equals(event.body().getString("status"))) {
 				log.error("Error deleting documents : " + event.body().encode());
-				future.fail("Error deleting documents : " + event.body().encode());
+				promise.fail("Error deleting documents : " + event.body().encode());
 			} else {
 				log.info("Documents deleted : " + event.body().getInteger("number"));
-				future.complete(null);
+				promise.complete(null);
 			}
 		});
-		return future;
+		return promise.future();
 	}
 
 	private Future<Void> deleteFromStorage(List<JsonObject> objects) {
 		JsonArray fileIds = objects.stream().map(o -> o.getString("file")).collect(JsonArray::new, JsonArray::add,
 				JsonArray::addAll);
-		Future<Void> future = Future.future();
+		Promise<Void> promise = Promise.promise();
 		storage.removeFiles(fileIds, new Handler<JsonObject>() {
 			@Override
 			public void handle(JsonObject event) {
 				if (event == null) {
 					log.error("Error deleting files ");
-					future.complete(null);
+					promise.complete(null);
 				} else if (!"ok".equals(event.getString("status"))) {
 					log.error("Error deleting files : " + event.encode());
-					future.fail("Error deleting files : " + event.encode());
+					promise.fail("Error deleting files : " + event.encode());
 				}
 			}
 		});
-		return future;
+		return promise.future();
 	}
 
 	@Override
@@ -122,10 +119,10 @@ public class RackRepositoryEvent implements RepositoryEvents {
 
 		List<String> userIds = users.stream().map(u -> (JsonObject) u).map(u -> u.getString("id"))
 				.collect(Collectors.toList());
-		final JsonObject queryRacks = MongoQueryBuilder.build(QueryBuilder.start("to").in(userIds));
+		final JsonObject queryRacks = MongoQueryBuilder.build(in("to", userIds));
 		find(queryRacks).compose(list -> {
 			return CompositeFuture.all(deleteFromDB(queryRacks), deleteFromStorage(list));
-		}).setHandler(e -> {
+		}).onComplete(e -> {
 			if (e.succeeded()) {
 				log.info("Rack.deleteUsers : Delete racks successfully");
 			} else {
@@ -167,7 +164,7 @@ public class RackRepositoryEvent implements RepositoryEvents {
 								handler.handle(exported.get());
 							} else {
 								JsonArray errors = event.getJsonArray("errors",
-										new fr.wseduc.webutils.collections.JsonArray());
+										new JsonArray());
 								boolean ignoreErrors = errors.size() > 0;
 								for (Object o : errors) {
 									if (!(o instanceof JsonObject))
@@ -185,7 +182,7 @@ public class RackRepositoryEvent implements RepositoryEvents {
 									handler.handle(exported.get());
 								} else {
 									log.error("Write to fs : "
-											+ new fr.wseduc.webutils.collections.JsonArray(Arrays.asList(ids)).encode()
+											+ new JsonArray(Arrays.asList(ids)).encode()
 											+ " - " + event.encode());
 									handler.handle(exported.get());
 								}
@@ -204,7 +201,7 @@ public class RackRepositoryEvent implements RepositoryEvents {
 	public void exportResources(JsonArray resourcesIds, boolean exportDocuments, boolean exportSharedResources, String exportId, String userId,
 								JsonArray g, String exportPath, String locale, String host, Handler<Boolean> handler)
 	{
-		QueryBuilder b = QueryBuilder.start("to").is(userId).put("file").exists(true);
+		Bson b = and(eq("to", userId), exists("file", true));
 
 		JsonObject query;
 
@@ -212,9 +209,8 @@ public class RackRepositoryEvent implements RepositoryEvents {
 			query = MongoQueryBuilder.build(b);
 		else
 		{
-			QueryBuilder limitToResources = b.and(
-				QueryBuilder.start("_id").in(resourcesIds).get()
-			);
+			Bson limitToResources = and(b,
+				in("_id", resourcesIds));
 			query = MongoQueryBuilder.build(limitToResources);
 		}
 
@@ -300,23 +296,23 @@ public class RackRepositoryEvent implements RepositoryEvents {
 								String path = FileUtils.getPathWithoutFilename(filePath);
 								String newName = UUID.randomUUID().toString() + "_" + name;
 
-								Future<Void> f = Future.future();
-								moves.add(f);
+								Promise<Void> promise = Promise.promise();
+								moves.add(promise.future());
 								self.vertx.fileSystem().move(filePath, path + File.separator + newName, new Handler<AsyncResult<Void>>()
 								{
 									@Override
 									public void handle(AsyncResult<Void> res)
 									{
 										if(res.succeeded() == true)
-											f.complete();
+											promise.complete();
 										else
-											f.fail(res.cause());
+											promise.fail(res.cause());
 									}
 								});
 							}
 						}
 
-						CompositeFuture.join(moves).setHandler(new Handler<AsyncResult<CompositeFuture>>()
+						CompositeFuture.join(moves).onComplete(new Handler<AsyncResult<CompositeFuture>>()
 						{
 							@Override
 							public void handle(AsyncResult<CompositeFuture> res)

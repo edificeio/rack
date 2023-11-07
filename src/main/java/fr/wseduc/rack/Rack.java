@@ -22,6 +22,7 @@
 
 package fr.wseduc.rack;
 
+import io.vertx.core.Promise;
 import org.entcore.common.http.BaseServer;
 import org.entcore.common.mongodb.MongoDbConf;
 import org.entcore.common.storage.Storage;
@@ -38,8 +39,8 @@ public class Rack extends BaseServer {
 	public final static String RACK_COLLECTION = "racks";
 
 	@Override
-	public void start() throws Exception {
-		super.start();
+	public void start(Promise<Void> startPromise) throws Exception {
+		super.start(startPromise);
 		Storage storage = new StorageFactory(vertx, config, new MongoDBApplicationStorage(RACK_COLLECTION,
 				Rack.class.getSimpleName(), new JsonObject().put("owner", "from"))).getStorage();
 		RackController rackController = new RackController(RACK_COLLECTION, storage);

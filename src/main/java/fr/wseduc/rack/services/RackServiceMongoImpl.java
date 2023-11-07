@@ -22,18 +22,19 @@
 
 package fr.wseduc.rack.services;
 
-import com.mongodb.QueryBuilder;
 import fr.wseduc.mongodb.MongoDb;
 import fr.wseduc.mongodb.MongoQueryBuilder;
 import fr.wseduc.webutils.Either;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import org.bson.conversions.Bson;
 import org.entcore.common.mongodb.MongoDbResult;
 import org.entcore.common.service.impl.MongoDbCrudService;
 import org.entcore.common.user.UserInfos;
 
 import static org.entcore.common.mongodb.MongoDbResult.validActionResultHandler;
+import static com.mongodb.client.model.Filters.*;
 
 /**
  * MongoDB implementation of the REST service.
@@ -52,19 +53,16 @@ public class RackServiceMongoImpl extends MongoDbCrudService implements RackServ
 
 
 	public void listRack(UserInfos user, Handler<Either<String, JsonArray>> handler) {
-		QueryBuilder query = QueryBuilder
-				.start()
-				.or(
-					QueryBuilder.start("to").is(user.getUserId()).get(),
-					QueryBuilder.start("from").is(user.getUserId()).get()
-				)
-				.and("file").exists(true);
+		Bson query = and(or(
+					eq("to", user.getUserId()),
+					eq("from", user.getUserId())
+				), exists("file", true));
 
 		mongo.find(collection, MongoQueryBuilder.build(query), MongoDbResult.validResultsHandler(handler));
 	}
 
 	public void getRack(String id, Handler<Either<String, JsonObject>> handler) {
-		mongo.findOne(collection, MongoQueryBuilder.build(QueryBuilder.start("_id").is(id)), MongoDbResult.validResultHandler(handler));
+		mongo.findOne(collection, MongoQueryBuilder.build(eq("_id", id)), MongoDbResult.validResultHandler(handler));
 	}
 
 	public void trashRack(String id, Handler<Either<String, JsonObject>> handler) {
