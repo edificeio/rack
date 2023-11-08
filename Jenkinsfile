@@ -14,7 +14,7 @@ pipeline {
       stage('Build') {
         steps {
           checkout scm
-          sh './build.sh clean install publish'
+          sh 'GIT_BRANCH=develop-b2school ./build.sh clean install publish'
         }
       }
     }
