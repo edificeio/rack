@@ -16,3 +16,6 @@ rev-manifest.json
 .idea/
 gradle/
 gradlew*
+.env
+target
+dependency-reduced-pom.xml

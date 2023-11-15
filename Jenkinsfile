@@ -6,7 +6,7 @@ pipeline {
       stage("Initialization") {
         steps {
           script {
-            def version = sh(returnStdout: true, script: 'grep \'version=\' gradle.properties  | cut -d\'=\' -f2')
+            def version = sh(returnStdout: true, script: 'docker-compose run --rm maven mvn $MVN_OPTS help:evaluate -Dexpression=project.version -q -DforceStdout')
             buildName "${env.GIT_BRANCH.replace("origin/", "")}@${version}"
           }
         }
@@ -14,7 +14,7 @@ pipeline {
       stage('Build') {
         steps {
           checkout scm
-          sh 'GIT_BRANCH=develop-b2school ./build.sh clean install publish'
+          sh 'GIT_BRANCH=develop-b2school ./build.sh init clean install publish'
         }
       }
     }

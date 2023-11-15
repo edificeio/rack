@@ -1,5 +1,7 @@
 #!/bin/bash
 
+MVN_OPTS="-Duser.home=/var/maven"
+
 if [ ! -e node_modules ]
 then
   mkdir node_modules
@@ -32,8 +34,21 @@ case $i in
 esac
 done
 
+init() {
+  me=`id -u`:`id -g`
+  echo "DEFAULT_DOCKER_USER=$me" > .env
+}
+
 clean () {
-  docker-compose run --rm -u "$USER_UID:$GROUP_GID" gradle gradle clean
+  docker-compose run --rm maven mvn $MVN_OPTS clean
+}
+
+install () {
+  docker-compose run --rm maven mvn $MVN_OPTS install -DskipTests
+}
+
+test () {
+  docker-compose run --rm maven mvn $MVN_OPTS test
 }
 
 buildNode () {
@@ -70,19 +85,15 @@ buildNode () {
   fi
 }
 
-buildGradle () {
-  docker-compose run --rm -u "$USER_UID:$GROUP_GID" gradle gradle shadowJar install publishToMavenLocal
-}
+publish() {
+  version=`docker-compose run --rm maven mvn $MVN_OPTS help:evaluate -Dexpression=project.version -q -DforceStdout`
+  level=`echo $version | cut -d'-' -f3`
+  case "$level" in
+    *SNAPSHOT) export nexusRepository='snapshots' ;;
+    *)         export nexusRepository='releases' ;;
+  esac
 
-publish () {
-  if [ -e "?/.gradle" ] && [ ! -e "?/.gradle/gradle.properties" ]
-  then
-    echo "odeUsername=$NEXUS_ODE_USERNAME" > "?/.gradle/gradle.properties"
-    echo "odePassword=$NEXUS_ODE_PASSWORD" >> "?/.gradle/gradle.properties"
-    echo "sonatypeUsername=$NEXUS_SONATYPE_USERNAME" >> "?/.gradle/gradle.properties"
-    echo "sonatypePassword=$NEXUS_SONATYPE_PASSWORD" >> "?/.gradle/gradle.properties"
-  fi
-  docker-compose run --rm -u "$USER_UID:$GROUP_GID" gradle gradle publish
+  docker-compose run --rm  maven mvn -DrepositoryId=ode-$nexusRepository -DskiptTests -Dmaven.test.skip=true --settings /var/maven/.m2/settings.xml deploy
 }
 
 watch () {
@@ -92,17 +103,20 @@ watch () {
 for param in "$@"
 do
   case $param in
+    init)
+      init
+      ;;
     clean)
       clean
       ;;
     buildNode)
       buildNode
       ;;
-    buildGradle)
-      buildGradle
-      ;;
     install)
-      buildNode && buildGradle
+      buildNode && install
+      ;;
+    test)
+      test
       ;;
     watch)
       watch

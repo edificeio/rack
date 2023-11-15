@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.edifice</groupId>
+        <artifactId>app-parent</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <groupId>fr.wseduc</groupId><!-- Vient de gradle.properties > modowner -->
+    <artifactId>rack</artifactId><!-- Vient de gradle.properties > modname -->
+    <version>2.0-b2school-SNAPSHOT</version> <!-- Vient de gradle.properties > version -->
+
+    <scm><!-- Adapter avec l'url du repertoire (github, gitlab...) -->
+        <connection>scm:git:https://github.com/opendigitaleducation/rack.git</connection>
+        <developerConnection>scm:git:https://github.com/opendigitaleducation/rack.git</developerConnection>
+        <url>https://github.com/opendigitaleducation/rack</url>
+    </scm>
+
+    <repositories>
+        <repository>
+            <id>ode</id>
+            <name>ODE Repository</name>
+            <url>https://maven.opendigitaleducation.com/nexus/content/groups/public</url>
+        </repository>
+    </repositories>
+
+    <properties>
+        <entCoreVersion>5.0-b2school-SNAPSHOT</entCoreVersion>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-core</artifactId>
+            <version>${vertx.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.entcore</groupId>
+            <artifactId>common</artifactId>
+            <version>${entCoreVersion}</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+</project>
