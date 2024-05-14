@@ -14,6 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import io.vertx.core.*;
+import org.bson.conversions.Bson;
 import org.entcore.common.storage.Storage;
 import org.entcore.common.user.RepositoryEvents;
 import org.entcore.common.folders.FolderImporter;
@@ -21,7 +22,6 @@ import org.entcore.common.folders.FolderImporter.FolderImporterContext;
 import org.entcore.common.utils.StringUtils;
 import org.entcore.common.utils.FileUtils;
 
-import com.mongodb.QueryBuilder;
 
 import fr.wseduc.mongodb.MongoDb;
 import fr.wseduc.mongodb.MongoQueryBuilder;
@@ -32,6 +32,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import static com.mongodb.client.model.Filters.*;
 
 public class RackRepositoryEvent implements RepositoryEvents {
 	private final MongoDb mongo = MongoDb.getInstance();
@@ -118,7 +119,7 @@ public class RackRepositoryEvent implements RepositoryEvents {
 
 		List<String> userIds = users.stream().map(u -> (JsonObject) u).map(u -> u.getString("id"))
 				.collect(Collectors.toList());
-		final JsonObject queryRacks = MongoQueryBuilder.build(QueryBuilder.start("to").in(userIds));
+		final JsonObject queryRacks = MongoQueryBuilder.build(in("to", userIds));
 		find(queryRacks).compose(list -> {
 			return CompositeFuture.all(deleteFromDB(queryRacks), deleteFromStorage(list));
 		}).onComplete(e -> {
@@ -200,7 +201,7 @@ public class RackRepositoryEvent implements RepositoryEvents {
 	public void exportResources(JsonArray resourcesIds, boolean exportDocuments, boolean exportSharedResources, String exportId, String userId,
 								JsonArray g, String exportPath, String locale, String host, Handler<Boolean> handler)
 	{
-		QueryBuilder b = QueryBuilder.start("to").is(userId).put("file").exists(true);
+		Bson b = and(eq("to", userId), exists("file", true));
 
 		JsonObject query;
 
@@ -208,9 +209,8 @@ public class RackRepositoryEvent implements RepositoryEvents {
 			query = MongoQueryBuilder.build(b);
 		else
 		{
-			QueryBuilder limitToResources = b.and(
-				QueryBuilder.start("_id").in(resourcesIds).get()
-			);
+			Bson limitToResources = and(b,
+				in("_id", resourcesIds));
 			query = MongoQueryBuilder.build(limitToResources);
 		}
 

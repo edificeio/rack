@@ -22,7 +22,6 @@
 
 package fr.wseduc.rack.controllers;
 
-import com.mongodb.QueryBuilder;
 import fr.wseduc.mongodb.MongoDb;
 import fr.wseduc.mongodb.MongoQueryBuilder;
 import fr.wseduc.rack.Rack;
@@ -50,6 +49,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import org.bson.conversions.Bson;
 import org.entcore.common.events.EventHelper;
 import org.entcore.common.events.EventStore;
 import org.entcore.common.events.EventStoreFactory;
@@ -73,6 +73,7 @@ import java.util.regex.Pattern;
 import static fr.wseduc.webutils.Utils.getOrElse;
 import static org.entcore.common.http.response.DefaultResponseHandler.arrayResponseHandler;
 import static org.entcore.common.http.response.DefaultResponseHandler.defaultResponseHandler;
+import static com.mongodb.client.model.Filters.*;
 
 /**
  * Vert.x backend controller for the application using Mongodb.
@@ -751,9 +752,9 @@ public class RackController extends MongoDbControllerHelper {
 										parentFolder = folder.substring(0, folder.lastIndexOf("_"));
 									}
 
-									QueryBuilder parentFolderQuery = QueryBuilder.start("owner").is(user.getUserId())
-											.and("folder").is(parentFolder)
-											.and("name").is(parentName);
+									Bson parentFolderQuery = and(eq("owner", user.getUserId()),
+											eq("folder", parentFolder),
+											eq("name", parentName));
 
 									mongo.findOne(collection,  MongoQueryBuilder.build(parentFolderQuery), new Handler<Message<JsonObject>>(){
 										@Override
