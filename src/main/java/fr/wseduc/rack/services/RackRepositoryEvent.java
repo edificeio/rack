@@ -164,7 +164,7 @@ public class RackRepositoryEvent implements RepositoryEvents {
 								handler.handle(exported.get());
 							} else {
 								JsonArray errors = event.getJsonArray("errors",
-										new fr.wseduc.webutils.collections.JsonArray());
+										new JsonArray());
 								boolean ignoreErrors = errors.size() > 0;
 								for (Object o : errors) {
 									if (!(o instanceof JsonObject))
@@ -182,7 +182,7 @@ public class RackRepositoryEvent implements RepositoryEvents {
 									handler.handle(exported.get());
 								} else {
 									log.error("Write to fs : "
-											+ new fr.wseduc.webutils.collections.JsonArray(Arrays.asList(ids)).encode()
+											+ new JsonArray(Arrays.asList(ids)).encode()
 											+ " - " + event.encode());
 									handler.handle(exported.get());
 								}
