@@ -57,15 +57,12 @@
 
 		<section class="margin-four">
 			<div class="twelve cell">
-				<div class="display-buttons" ng-if="totalDisplayed">
+				<div class="display-buttons row float-none" ng-if="totalDisplayed">
 					<div class="choice-view">
 						<i class="show-icons" ng-class="{ selected: template.contains('list', 'icons-list') }" ng-click="template.open('list', 'icons-list')"></i>
 						<i class="show-list" ng-class="{ selected: template.contains('list', 'table-list') }" ng-click="template.open('list', 'table-list')"></i>
 					</div>
 				</div>
-			</div>
-
-			<div class="twelve cell">
 				<container template="list"></container>
 				<!-- Empty screen My rack -->
 				<div class="emptyscreen" ng-if="select.folderName === 'mine' && !totalDisplayed">
