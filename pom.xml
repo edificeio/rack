@@ -29,7 +29,7 @@
     </repositories>
 
     <properties>
-        <entCoreVersion>6.5-SNAPSHOT</entCoreVersion>
+        <entCoreVersion>6.0-objectstorage-SNAPSHOT</entCoreVersion>
     </properties>
 
     <dependencies>
