@@ -84,5 +84,6 @@
   "tuto.text.select": "pour sélectionner et accéder au menu d'options,",
   "tuto.title": "Naviguez au sein de votre casier en vue vignettes :",
   "unsetImage": "Supprimer l'image",
-  "upload": "Envoyer"
+  "upload": "Envoyer",
+  "rack.nextcloud.sync.success": "Synchronisé avec l'espace documentaire"
 }

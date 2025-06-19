@@ -63,6 +63,9 @@
 						<i class="show-list" ng-class="{ selected: template.contains('list', 'table-list') }" ng-click="template.open('list', 'table-list')"></i>
 					</div>
 				</div>
+				<p ng-if="syncStatus() === true">
+					<i18n>rack.nextcloud.sync.success</i18n>
+				</p>
 				<container template="list"></container>
 				<!-- Empty screen My rack -->
 				<div class="emptyscreen" ng-if="select.folderName === 'mine' && !totalDisplayed">

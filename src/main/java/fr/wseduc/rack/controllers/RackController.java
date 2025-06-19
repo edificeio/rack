@@ -39,7 +39,9 @@ import fr.wseduc.webutils.http.ETag;
 import fr.wseduc.webutils.http.Renders;
 import fr.wseduc.webutils.request.RequestUtils;
 import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
 import io.vertx.core.Handler;
+import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.Message;
@@ -66,6 +68,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -87,6 +91,8 @@ public class RackController extends MongoDbControllerHelper {
 	private String imageResizerAddress;
 	private TimelineHelper timelineHelper;
 	private final Storage storage;
+	private boolean enableNextcloud;
+	private final AtomicBoolean nextcloudSyncInProgress = new AtomicBoolean(false);
 
 	private final static String QUOTA_BUS_ADDRESS = "org.entcore.workspace.quota";
 	private final static String WORKSPACE_NAME = "WORKSPACE";
@@ -123,6 +129,7 @@ public class RackController extends MongoDbControllerHelper {
 	public void init(Vertx vertx, JsonObject config, RouteMatcher rm, Map<String, fr.wseduc.webutils.security.SecuredAction> securedActions) {
 		super.init(vertx, config, rm, securedActions);
 		this.threshold = config.getInteger("alertStorage", 80);
+		this.enableNextcloud = config.getBoolean("enable-nextcloud", false);
 		String node = (String) vertx.sharedData().getLocalMap("server").get("node");
 		if (node == null) {
 			node = "";
@@ -131,10 +138,148 @@ public class RackController extends MongoDbControllerHelper {
 		this.timelineHelper = new TimelineHelper(vertx, eb, config);
 		final EventStore eventStore = EventStoreFactory.getFactory().getEventStore(Rack.class.getSimpleName());
 		this.eventHelper = new EventHelper(eventStore);
+
+		// Initialize Nextcloud's sync if needed
+		if (enableNextcloud) {
+			final long syncDelayMinutes = config.getLong("nextcloud-sync-delay", 10L);
+			final long syncDelayMilliseconds = TimeUnit.MILLISECONDS.convert(syncDelayMinutes, TimeUnit.MINUTES);
+
+			vertx.setPeriodic(syncDelayMilliseconds, new Handler<Long>() {
+				@Override
+				public void handle(Long event) {
+					if (enableNextcloud && Boolean.FALSE.equals(nextcloudSyncInProgress.get())) {
+						nextcloudSyncInProgress.set(true);
+						syncRackToNextcloud();
+						nextcloudSyncInProgress.set(false);
+					}
+				}
+			});
+		}
+	}
+
+	private void syncRackToNextcloud() {
+		// Get all documents in the Rack collection
+		mongo.find(collection, new JsonObject(), new Handler<Message<JsonObject>>() {
+			@Override
+			public void handle(Message<JsonObject> message) {
+				if ("ok".equals(message.body().getString("status"))) {
+					JsonArray results = message.body().getJsonArray("results");
+					if (results == null || results.isEmpty()) {
+						return;
+					}
+
+					List<Future<Void>> syncFutures = new ArrayList<>();
+
+					for (Object obj : results) {
+						if (!(obj instanceof JsonObject))
+							continue;
+
+						final JsonObject doc = (JsonObject) obj;
+						final Boolean synced = doc.getBoolean("synced");
+
+						// Skip documents that are already synced or in the Trash folder
+						if ("Trash".equals(doc.getString("folder"))
+								|| synced == null
+								|| Boolean.TRUE.equals(synced))
+							continue;
+
+						final String fileId = doc.getString("file");
+						final JsonObject metadata = doc.getJsonObject("metadata", new JsonObject());
+						final String recipientId = doc.getString("to");
+						final String documentId = doc.getString("_id");
+
+						if (fileId != null) {
+							Promise<Void> promise = Promise.promise();
+
+							isStudent(recipientId, isStudent -> {
+								if (Boolean.TRUE.equals(isStudent)) {
+									storage.readFile(fileId, bufferRes -> {
+										if (bufferRes != null && bufferRes.length() > 0) {
+											sendFileToNextcloud(fileId, metadata, recipientId, documentId);
+											promise.complete();
+										} else {
+											logger.warn("File not found or empty: " + fileId);
+											promise.complete();
+										}
+									});
+								} else {
+									promise.complete();
+								}
+							});
+							syncFutures.add(promise.future());
+						}
+					}
+
+					if (syncFutures.isEmpty()) {
+						return;
+					}
+
+					Future.join(syncFutures).onComplete(ar -> {
+						if (ar.failed()) {
+							logger.error("[syncRackToNextcloud] One or more documents failed to sync", ar.cause());
+						} else {
+							logger.info("[syncRackToNextcloud] All documents processed successfully");
+						}
+					});
+				} else {
+					logger.error("[syncRackToNextcloud] Failed to retrieve documents from Rack collection");
+				}
+			}
+		});
+	}
+
+	private void isStudent(String userId, Handler<Boolean> handler) {
+		String query = "MATCH (u:User {id: {id}}) RETURN HEAD(u.profiles) as profile";
+		Map<String, Object> params = new HashMap<>();
+		params.put("id", userId);
+
+		Neo4j.getInstance().execute(query, params, res -> {
+			if ("ok".equals(res.body().getString("status"))) {
+				JsonArray result = res.body().getJsonArray("result");
+				if (result != null && result.size() > 0) {
+					String profile = result.getJsonObject(0).getString("profile");
+					handler.handle("Student".equalsIgnoreCase(profile));
+					return;
+				}
+			}
+			handler.handle(false);
+		});
+	}
+
+	private void sendFileToNextcloud(String fileId, JsonObject metadata, String recipientId, String documentId) {
+		JsonObject eventBody = new JsonObject()
+				.put("fileId", fileId)
+				.put("documentId", documentId)
+				.put("metadata", metadata)
+				.put("recipientId", recipientId);
+
+		vertx.eventBus().request("nextcloud.rack.upload", eventBody, handler -> {
+			if (handler.succeeded()) {
+				JsonObject response = (JsonObject) handler.result().body();
+
+				if ("OK".equals(response.getString("status"))) {
+					setDocumentSyncedStatus(documentId, true);
+				}
+			}
+		});
+	}
+
+	private void setDocumentSyncedStatus(String documentId, boolean synced) {
+		mongo.update(
+				collection,
+				new JsonObject().put("_id", documentId),
+				new JsonObject().put("$set", new JsonObject().put("synced", synced)),
+				res -> {
+					if (!"ok".equals(res.body().getString("status"))) {
+						logger.error("Failed to update 'synced' status for document: " + documentId);
+					}
+				});
 	}
 
 	/**
+	 * 
 	 * Displays the home view.
+	 * 
 	 * @param request Client request
 	 */
 	@Get("")
@@ -180,6 +325,8 @@ public class RackController extends MongoDbControllerHelper {
 							badRequest(request);
 							return;
 						}
+
+						String senderClassName = request.formAttributes().get("className");
 
 						String[] userIds = users.split(",");
 
@@ -234,6 +381,9 @@ public class RackController extends MongoDbControllerHelper {
 									doc.put("fromName", userInfos.getUsername());
 									String now = dateFormat.format(new Date());
 									doc.put("sent", now);
+									if (senderClassName != null && !senderClassName.isEmpty())
+										doc.put("senderClassName", senderClassName);
+									doc.put("synced", false);
 
 									/* Rack collection saving */
 									final Handler<JsonObject> rackSaveHandler = new Handler<JsonObject>() {
@@ -492,7 +642,8 @@ public class RackController extends MongoDbControllerHelper {
 				"WHERE has(a.name) AND a.name={action} AND NOT has(visibles.activationCode) " +
 				"RETURN distinct visibles.id as id, visibles.displayName as username, visibles.lastName as name, HEAD(visibles.profiles) as profile " +
 				"ORDER BY name ";
-		final String prefilter = search == null || search.trim().isEmpty() ? null : " AND m.displayName =~ {searchTerm}"; 
+		final String prefilter = search == null || search.trim().isEmpty() ? null
+				: " AND m.displayName =~ {searchTerm}";
 		final JsonObject params = new JsonObject().put("action", "fr.wseduc.rack.controllers.RackController|listRack").put("searchTerm", "(?i).*" + search + ".*");
 		final String queryGroups =
 				"RETURN distinct profileGroup.id as id, profileGroup.name as name, " +
