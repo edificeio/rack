@@ -18,11 +18,40 @@ export class Rack {
 
     private static _instance: Rack;
 
-    static get instance(): Rack {
-        if (!this._instance) {
-            this._instance = new Rack();
-        }
-        return this._instance;
+  static get instance(): Rack {
+    if (!this._instance) {
+      this._instance = new Rack();
+    }
+    return this._instance;
+  }
+
+  constructor() {
+    this.directory = new Directory();
+    this.files = new RackFiles();
+    this.eventer = new Eventer();
+
+    this.filters = {
+      mine: (item) => item.to === model.me.userId && item.folder !== "Trash",
+      history: (item) => item.from === model.me.userId,
+      trash: (item) => item.to === model.me.userId && item.folder === "Trash",
+    };
+  }
+
+  async sendFile(file: File, to: string[]): Promise<SendResult> {
+    this.files.provider.isSynced = false;
+    let formData = new FormData();
+
+    // Remove excluded users from to-list
+    let filteredTo: any[] = _.reject(to, function (user) {
+      return user.exclude;
+    });
+
+    const className: string = getCurrentUserClassname();
+
+    formData.append("file", file);
+    formData.append("users", _.pluck(filteredTo, "id").join(","));
+    if (className) {
+      formData.append("className", className);
     }
 
     constructor() {

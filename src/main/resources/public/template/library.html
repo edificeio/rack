@@ -57,6 +57,19 @@
 
 		<section class="margin-four">
 			<div class="twelve cell">
+				<div ng-if="shouldDisplaySyncInfo() === true" class="row info" ng-if="!loading">
+					<p>
+						<i18n>rack.nextcloud.sync.info</i18n>
+						<a href="/workspace/workspace?folder=synced">
+							<i18n>rack.nextcloud.sync.info.link</i18n>
+						</a>
+					</p>
+					<p>
+						<i18n>rack.nextcloud.sync.state</i18n>
+						<span ng-if="syncStatus() === false"><i18n>rack.nextcloud.sync.state.syncing</i18n></span>
+						<span ng-if="syncStatus()"><i18n>rack.nextcloud.sync.state.ok</i18n></span>
+					</p>
+				</div>
 				<div class="display-buttons row float-none" ng-if="totalDisplayed">
 					<div class="choice-view">
 						<i class="show-icons" ng-class="{ selected: template.contains('list', 'icons-list') }" ng-click="template.open('list', 'icons-list')"></i>

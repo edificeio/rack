@@ -14,5 +14,26 @@ export let deepObjectFilter = function (object, filter) {
         } else if (objValue !== filterValue)
             return false;
     }
-    return true;
+    if (filterValue instanceof Object && objValue instanceof Object) {
+      if (!deepObjectFilter(objValue, filterValue)) return false;
+    } else if (objValue !== filterValue) return false;
+  }
+  return true;
+};
+
+export function getCurrentUserClassname(): string | null {
+  const user = model.me;
+  const userClassNames: string[] = user.classNames || [];
+
+  if (!userClassNames.length) {
+    return null;
+  }
+
+  const fullClassName = userClassNames[0];
+  if (!fullClassName || !fullClassName.trim()) {
+    return null;
+  }
+
+  const parts = fullClassName.split("$");
+  return parts.length > 1 ? parts[1] : null;
 }

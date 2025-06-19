@@ -85,5 +85,10 @@
   "tuto.text.select": "pour sélectionner et accéder au menu d'options,",
   "tuto.title": "Naviguez au sein de votre casier en vue vignettes :",
   "unsetImage": "Supprimer l'image",
-  "upload": "Envoyer"
+  "upload": "Envoyer",
+  "rack.nextcloud.sync.info": "Les fichiers de votre casier sont synchronisés avec votre espace \"Documents synchronisés\".",
+  "rack.nextcloud.sync.info.link": "Cliquez ici pour les consulter.",
+  "rack.nextcloud.sync.state": "État :",
+  "rack.nextcloud.sync.state.ok": "Synchronisation réussie",
+  "rack.nextcloud.sync.state.syncing": "Synchronisation en cours"
 }

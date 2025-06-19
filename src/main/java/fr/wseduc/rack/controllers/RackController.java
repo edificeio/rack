@@ -25,6 +25,8 @@ package fr.wseduc.rack.controllers;
 import fr.wseduc.mongodb.MongoDb;
 import fr.wseduc.mongodb.MongoQueryBuilder;
 import fr.wseduc.rack.Rack;
+import fr.wseduc.rack.services.NextcloudSyncService;
+import fr.wseduc.rack.services.NextcloudSyncServiceImpl;
 import fr.wseduc.rack.services.RackService;
 import fr.wseduc.rack.services.RackServiceMongoImpl;
 import fr.wseduc.rs.Delete;
@@ -79,61 +81,76 @@ import static com.mongodb.client.model.Filters.*;
  * Vert.x backend controller for the application using Mongodb.
  */
 public class RackController extends MongoDbControllerHelper {
-	static final String RESOURCE_NAME = "rack";
-	//Computation service
-	private final RackService rackService;
-	private final String collection;
-	private int threshold;
-	private String imageResizerAddress;
-	private TimelineHelper timelineHelper;
-	private final Storage storage;
+    static final String RESOURCE_NAME = "rack";
+    //Computation service
+    private final RackService rackService;
+    private NextcloudSyncService nextcloudSyncService;
+    private final String collection;
+    private int threshold;
+    private String imageResizerAddress;
+    private TimelineHelper timelineHelper;
+    private final Storage storage;
 
-	private final static String QUOTA_BUS_ADDRESS = "org.entcore.workspace.quota";
-	private final static String WORKSPACE_NAME = "WORKSPACE";
-	private final static String WORKSPACE_COLLECTION ="documents";
-	private final static Logger logger = LoggerFactory.getLogger(RackController.class);
+    private static final String QUOTA_BUS_ADDRESS = "org.entcore.workspace.quota";
+    private static final String WORKSPACE_NAME = "WORKSPACE";
+    private static final String WORKSPACE_COLLECTION = "documents";
+    private static final Logger logger = LoggerFactory.getLogger(RackController.class);
 
-	private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
+    private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
 
-	//Statistics
-	private EventHelper eventHelper;
+    //Statistics
+    private EventHelper eventHelper;
 
-	//Permissions
-	private static final String
-		access	 			= "rack.access",
-		send				= "rack.send.document",
-		list				= "rack.list.documents",
-		list_users			= "rack.list.users",
-		list_groups			= "rack.list.groups",
-		workspacecopy		= "rack.copy.to.workspace",
-		owner				= "";
+    //Permissions
+    private static final String access = "rack.access",
+            send = "rack.send.document",
+            list = "rack.list.documents",
+            list_users = "rack.list.users",
+            list_groups = "rack.list.groups",
+            workspacecopy = "rack.copy.to.workspace",
+            owner = "";
 
-	/**
-	 * Creates a new controller.
-	 * @param collection Name of the collection stored in the mongoDB database.
-	 */
-	public RackController(String collection, Storage storage) {
-		super(collection);
-		this.collection = collection;
-		this.storage = storage;
-		rackService = new RackServiceMongoImpl(collection);
-	}
+    /**
+     * Creates a new controller.
+     *
+     * @param collection Name of the collection stored in the mongoDB database.
+     */
+    public RackController(String collection, Storage storage) {
+        super(collection);
+        this.collection = collection;
+        this.storage = storage;
+        rackService = new RackServiceMongoImpl(collection);
+    }
 
-	@Override
-	public void init(Vertx vertx, JsonObject config, RouteMatcher rm, Map<String, fr.wseduc.webutils.security.SecuredAction> securedActions) {
-		super.init(vertx, config, rm, securedActions);
-		this.threshold = config.getInteger("alertStorage", 80);
-		String node = (String) vertx.sharedData().getLocalMap("server").get("node");
-		if (node == null) {
-			node = "";
-		}
-		this.imageResizerAddress = node + config.getString("image-resizer-address", "wse.image.resizer");
-		this.timelineHelper = new TimelineHelper(vertx, eb, config);
-		final EventStore eventStore = EventStoreFactory.getFactory().getEventStore(Rack.class.getSimpleName());
-		this.eventHelper = new EventHelper(eventStore);
-	}
+    @Override
+    public void init(
+            Vertx vertx,
+            JsonObject config,
+            RouteMatcher rm,
+            Map<String, fr.wseduc.webutils.security.SecuredAction> securedActions
+    ) {
+        super.init(vertx, config, rm, securedActions);
+        this.threshold = config.getInteger("alertStorage", 80);
+        String node = (String) vertx.sharedData().getLocalMap("server").get("node");
+        if (node == null) {
+            node = "";
+        }
+        this.imageResizerAddress = node + config.getString("image-resizer-address",
+                "wse.image.resizer");
+        this.timelineHelper = new TimelineHelper(vertx, eb, config);
+        final EventStore eventStore = EventStoreFactory.getFactory()
+                .getEventStore(Rack.class.getSimpleName());
+        this.eventHelper = new EventHelper(eventStore);
+        this.nextcloudSyncService = new NextcloudSyncServiceImpl(this.collection, vertx, config);
 
-	/**
+        // Initialize Nextcloud sync if needed
+        Optional.ofNullable(config.getBoolean("enable-nextcloud"))
+                .filter(Boolean::booleanValue)
+                .ifPresent(enabled -> nextcloudSyncService.startPeriodicSync());
+    }
+
+    /**
+	 * 
 	 * Displays the home view.
 	 * @param request Client request
 	 */
