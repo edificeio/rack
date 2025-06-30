@@ -1,7 +1,7 @@
 {
-    "rack": "Casier",
-    "rack.rack-post": "Dépôt de document dans un casier",
-    "rack.storage": "Espace de stockage bientôt plein",
-    "timeline.rack.post": " a déposé dans votre casier le document : ",
-    "rack.push.notif.rack-post": "Casier : Dépôt de document dans un casier"
+  "rack": "Casier",
+  "rack.push.notif.rack-post": "Casier : Dépôt de document dans un casier",
+  "rack.rack-post": "Dépôt de document dans un casier",
+  "rack.storage": "Espace de stockage bientôt plein",
+  "timeline.rack.post": " a déposé dans votre casier le document : "
 }
