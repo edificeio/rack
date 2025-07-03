@@ -29,7 +29,7 @@
     </repositories>
 
     <properties>
-        <entCoreVersion>6.6-SNAPSHOT</entCoreVersion>
+        <entCoreVersion>6.7-SNAPSHOT</entCoreVersion>
     </properties>
 
     <dependencies>
