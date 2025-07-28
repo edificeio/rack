@@ -43,6 +43,7 @@
   "rack.mine": "Mon casier",
   "rack.move": "Déplacer",
   "rack.name": "Nom du document",
+  "rack.nextcloud.sync.success": "Synchronisé avec l'espace documentaire",
   "rack.notify.copyToWorkspace": "Le document a été copié dans l'espace documentaire",
   "rack.notify.copyToWorkspace.plural": "Les documents ont été copiés dans l'espace documentaire",
   "rack.notify.deleted": "Le document a été supprimé.",
@@ -84,6 +85,5 @@
   "tuto.text.select": "pour sélectionner et accéder au menu d'options,",
   "tuto.title": "Naviguez au sein de votre casier en vue vignettes :",
   "unsetImage": "Supprimer l'image",
-  "upload": "Envoyer",
-  "rack.nextcloud.sync.success": "Synchronisé avec l'espace documentaire"
+  "upload": "Envoyer"
 }
