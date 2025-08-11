@@ -1,6 +1,10 @@
-# Rack
+# À propos de l'application rack
+    
+* Licence : [AGPL v3](http://www.gnu.org/licenses/agpl.txt) - Copyright Edifice
+* Financeur(s) : Edifice
+* Développeur(s) : Edifice
+* Description : this application allows users to send documents to one another, in a different way then using the workspace app.
 
-This application allows users to send documents to one another, in a different fashion as when using the workspace app.
 
 ## Setup
 
