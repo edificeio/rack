@@ -4,48 +4,47 @@ import { Selection, Selectable, Mix, Provider } from 'entcore-toolkit';
 import http from 'axios';
 
 export class RackFile implements Selectable {
-  _id: string;
-  selected: boolean;
-  metadata: {
-    contentType: string;
-  };
-  folder: string;
-  name?: string;
-  synced?: boolean;
+    _id: string;
+    selected: boolean;
+    metadata: {
+        contentType: string
+    };
+    folder: string;
+    name?: string
 
-  async getBlob(): Promise<Blob> {
-    return new Promise<Blob>((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open("GET", "/rack/get/" + this._id, true);
-      xhr.responseType = "blob";
-      xhr.onload = function (e) {
-        if (xhr.status == 200) {
-          resolve(xhr.response);
-        } else {
-          reject("Failed with status code: " + xhr.status);
-        }
-      };
-      xhr.send();
-    });
-  }
+    async getBlob(): Promise<Blob> {
+        return new Promise<Blob>((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', '/rack/get/' + this._id, true);
+            xhr.responseType = 'blob';
+            xhr.onload = function (e) {
+                if (xhr.status == 200) {
+                    resolve(xhr.response);
+                } else {
+                    reject("Failed with status code: " + xhr.status);
+                }
+            }
+            xhr.send();
+        })
+    }
 
-  fromJSON(data: any) {
-    this.metadata.contentType = Document.role(data.metadata["content-type"]);
-  }
+    fromJSON(data: any) {
+        this.metadata.contentType = Document.role(data.metadata['content-type']);
+    }
 
-  async delete(): Promise<void> {
-    await http.delete("/rack/" + this._id);
-  }
+    async delete(): Promise<void> {
+        await http.delete('/rack/' + this._id);
+    }
 
-  async trash(): Promise<void> {
-    this.folder = "Trash";
-    await http.put("/rack/" + this._id + "/trash");
-  }
+    async trash(): Promise<void> {
+        this.folder = 'Trash';
+        await http.put('/rack/' + this._id + '/trash');
+    }
 
-  async restore(): Promise<void> {
-    this.folder = "";
-    await http.put("/rack/" + this._id + "/recover");
-  }
+    async restore(): Promise<void> {
+        this.folder = '';
+        await http.put('/rack/' + this._id + '/recover');
+    }
 }
 
 export class RackFiles {

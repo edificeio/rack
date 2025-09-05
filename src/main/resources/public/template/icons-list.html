@@ -6,7 +6,7 @@
 
 <article class="icons-view" ng-if="totalDisplayed">
 	<header>&nbsp;</header>
-	<div ng-if="!shouldGroup">
+	<div>
 		<div ng-repeat="rack in rackList.all | filter:filterRack:true" class="element reduce-block-six" ng-class="{ selected: rack.selected }">
 			<explorer ng-model="rack.selected">
 				<a class="[[rack.metadata.contentType]] container">
@@ -28,41 +28,6 @@
 					<i class="download" tooltip="[['rack.download']]" ng-if="select.folderName !== 'history'"></i>
 				</a>
 			</explorer>
-		</div>
-	</div>
-
-	<div ng-if="shouldGroup">
-		<div ng-repeat="groupKey in groupKeys" style="margin-bottom: 30px; padding: 15px;">
-			<h4 ng-click="toggleGroup(groupKey)" style="cursor: pointer; padding: 8px; margin: 0 0 15px 0;">
-				Classe [[groupKey]]
-				<span ng-if="groupStates[groupKey].expanded">▼</span>
-				<span ng-if="!groupStates[groupKey].expanded">▶</span>
-			</h4>
-
-			<div ng-show="groupStates[groupKey].expanded">
-				<div ng-repeat="rack in groupedRacks[groupKey]" class="element reduce-block-six" ng-class="{ selected: rack.selected }">
-					<explorer ng-model="rack.selected">
-						<a class="[[rack.metadata.contentType]] container">
-							<i class="[[rack.metadata.contentType]]-large" ng-if="rack.metadata.contentType !== 'img'">
-							</i>
-							<div class="clip absolute" ng-if="rack.metadata.contentType === 'img'">
-								<img ng-src="[['/rack/get/' + rack._id + '?thumbnail=120x120']]" alt="thumbnail" />
-							</div>
-						</a>
-						<legend>
-							<a>
-								[[rack.name]]
-								<br>
-								<strong>[[select.folderName !== 'history' ? rack.fromName : rack.toName]]</strong>
-							</a>
-						</legend>
-
-						<a ng-href="[[select.folderName !== 'history' ? '/rack/get/' + rack._id : '' ]]">
-							<i class="download" tooltip="[['rack.download']]" ng-if="select.folderName !== 'history'"></i>
-						</a>
-					</explorer>
-				</div>
-			</div>
 		</div>
 	</div>
 </article>
