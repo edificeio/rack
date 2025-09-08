@@ -89,6 +89,7 @@ public class RackController extends MongoDbControllerHelper {
 	private String imageResizerAddress;
 	private TimelineHelper timelineHelper;
 	private final Storage storage;
+	private String node;
 
 	private final static String QUOTA_BUS_ADDRESS = "org.entcore.workspace.quota";
 	private final static String WORKSPACE_NAME = "WORKSPACE";
@@ -114,18 +115,18 @@ public class RackController extends MongoDbControllerHelper {
 	 * Creates a new controller.
 	 * @param collection Name of the collection stored in the mongoDB database.
 	 */
-	public RackController(String collection, Storage storage) {
+	public RackController(String collection, Storage storage, String nodeConfig) {
 		super(collection);
 		this.collection = collection;
 		this.storage = storage;
 		rackService = new RackServiceMongoImpl(collection);
+		this.node = nodeConfig;
 	}
 
 	@Override
 	public void init(Vertx vertx, JsonObject config, RouteMatcher rm, Map<String, fr.wseduc.webutils.security.SecuredAction> securedActions) {
 		super.init(vertx, config, rm, securedActions);
 		this.threshold = config.getInteger("alertStorage", 80);
-		String node = (String) vertx.sharedData().getLocalMap("server").get("node");
 		if (node == null) {
 			node = "";
 		}

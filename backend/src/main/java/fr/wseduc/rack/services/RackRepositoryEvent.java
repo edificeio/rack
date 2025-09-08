@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import io.vertx.core.*;
 import org.bson.conversions.Bson;
 import org.entcore.common.storage.Storage;
+import org.entcore.common.user.ExportResourceResult;
 import org.entcore.common.user.RepositoryEvents;
 import org.entcore.common.folders.FolderImporter;
 import org.entcore.common.folders.FolderImporter.FolderImporterContext;
@@ -199,7 +200,7 @@ public class RackRepositoryEvent implements RepositoryEvents {
 
 	@Override
 	public void exportResources(JsonArray resourcesIds, boolean exportDocuments, boolean exportSharedResources, String exportId, String userId,
-								JsonArray g, String exportPath, String locale, String host, Handler<Boolean> handler)
+								JsonArray g, String exportPath, String locale, String host, Handler<ExportResourceResult> handler)
 	{
 		Bson b = and(eq("to", userId), exists("file", true));
 
@@ -248,12 +249,12 @@ public class RackRepositoryEvent implements RepositoryEvents {
 						}
 					}
 
-					exportFiles(alias, ids, exportPath, locale, exported, handler);
+					exportFiles(alias, ids, exportPath, locale, exported, e -> handler.handle(new ExportResourceResult(e, exportPath)));
 				}
 				else
 				{
 					log.error("Rack " + query.encode() + " - " + event.body().getString("message"));
-					handler.handle(exported.get());
+					handler.handle(new ExportResourceResult(exported.get(), exportPath));
 				}
 			}
 		});

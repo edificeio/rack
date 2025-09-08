@@ -22,7 +22,10 @@
 
 package fr.wseduc.rack;
 
+import fr.wseduc.webutils.collections.SharedDataHelper;
+import io.vertx.core.Future;
 import io.vertx.core.Promise;
+import org.apache.commons.lang3.tuple.Pair;
 import org.entcore.common.http.BaseServer;
 import org.entcore.common.mongodb.MongoDbConf;
 import org.entcore.common.storage.Storage;
@@ -40,16 +43,24 @@ public class Rack extends BaseServer {
 
 	@Override
 	public void start(Promise<Void> startPromise) throws Exception {
-		super.start(startPromise);
-		Storage storage = new StorageFactory(vertx, config, new MongoDBApplicationStorage(RACK_COLLECTION,
-				Rack.class.getSimpleName(), new JsonObject().put("owner", "from"))).getStorage();
-		RackController rackController = new RackController(RACK_COLLECTION, storage);
+		final Promise<Void> promise = Promise.promise();
+		super.start(promise);
+		promise.future()
+				.compose(init -> StorageFactory.build(vertx, config, new MongoDBApplicationStorage(RACK_COLLECTION, Rack.class.getSimpleName(), new JsonObject().put("owner", "from"))))
+				.compose(storageFactory -> SharedDataHelper.getInstance().getMulti("server", "node").map(rackConfigMap -> Pair.of(storageFactory, rackConfigMap)))
+				.compose(configPair -> initRack(configPair.getLeft(), configPair.getRight()))
+				.onComplete(startPromise);
+	}
+
+	public Future<Void> initRack(StorageFactory storageFactory, final java.util.Map<String, Object> rackConfigMap) {
+		Storage storage = storageFactory.getStorage();
+		RackController rackController = new RackController(RACK_COLLECTION, storage, (String) rackConfigMap.get("node"));
 		MongoDbConf.getInstance().setCollection(RACK_COLLECTION);
 		setDefaultResourceFilter(new RackResourcesProvider());
 
 		addController(rackController);
 		setRepositoryEvents(new RackRepositoryEvent(vertx, storage));
-
+		return Future.succeededFuture();
 	}
 
 }
