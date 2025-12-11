@@ -1,4 +1,5 @@
-export * from "./post.client";
+export * from "./base-api.client";
+export * from "./rack.client";
 export * from "./errors/api-error";
 export * from "./adapters/fetch-adapter";
 export * from "./adapters/http-adapter";

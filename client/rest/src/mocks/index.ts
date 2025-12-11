@@ -1,1 +1,1 @@
-export * from "./search-post-response.mock";
+export * from "./list-rack-response.mock";
