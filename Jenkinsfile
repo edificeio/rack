@@ -11,10 +11,17 @@ pipeline {
           }
         }
       }
-      stage('Build') {
+      stage('Build Front') {
         steps {
-          checkout scm
-          sh './build.sh init clean install publish'
+          sh 'docker-compose run --rm -u "1000:1000" node sh -c "pnpm build:prod"'
+          //docker-compose run --rm -u "$USER_UID:$GROUP_GID" -e PUBLISH_TAG="${PUBLISH_TAG:-latest}" -e DRY_RUN="${DRY_RUN:-false}" node sh -c "pnpm build:prod && pnpm publish:client-rest"
+        }
+      }
+      stage('Build Backend') {
+        steps {
+          dir('backend') {
+            sh './build.sh init clean install publish'
+          }
         }
       }
     }
