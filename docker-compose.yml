@@ -9,9 +9,16 @@ services:
     environment:
       MAVEN_CONFIG: /var/maven/.m2
   node:
-    image: opendigitaleducation/node:16-alpine
+    image: opendigitaleducation/node:22-alpine-pnpm
     working_dir: /home/node/app
+    environment:
+      - NPM_TOKEN
+      - CHROMATIC_TOKEN
     volumes:
       - ./:/home/node/app
-      - ~/.npm:/.npm
-      - ../recette:/home/node/recette
+      - ~/.pnpm:/.pnpm
+  plantuml:
+    image: plantuml/plantuml
+    working_dir: /workspace
+    volumes:
+      - ./:/workspace

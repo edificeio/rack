@@ -1,44 +1,86 @@
 {
-  "name": "rack",
-  "version": "2.0.12-dev.0",
-  "description": "This application allows users to send documents to one another, in a different fashion as when using the workspace app.",
-  "main": "gulpfile.js",
-  "dependencies": {
-    "@types/core-js": "0.9.42",
-    "awesome-typescript-loader": "3.2.1",
-    "axios": "0.16.2",
-    "core-js": "2.4.1",
-    "entcore": "develop-pedago",
-    "entcore-toolkit": "^1.0.1",
-    "gulp": "4.0.2",
-    "gulp-clean": "0.4.0",
-    "gulp-sourcemaps": "^2.6.0",
-    "merge2": "1.1.0",
-    "ts-loader": "^3.2.0",
-    "typescript": "2.4.1",
-    "webpack": "3.1.0",
-    "webpack-stream": "3.2.0",
-    "yargs": "^8.0.2"
-  },
-  "devDependencies": {
-    "@types/jquery": "^2.0.34",
-    "gulp-replace": "1.0.0"
+  "name": "@edifice.io/demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Demo application",
+  "author": "Edifice",
+  "license": "Proprietary License",
+  "type": "module",
+  "packageManager": "pnpm@10.18.2",
+  "engines": {
+    "npm": "please-use-pnpm",
+    "yarn": "please-use-pnpm",
+    "pnpm": ">=9.12.0",
+    "node": ">=22.16.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "pnpm -r --parallel dev",
+    "dev:frontend": "pnpm --filter '*-frontend' dev",
+    "clean": "pnpm -r --parallel clean && rm -rf node_modules",
+    "clean:frontend": "pnpm --filter '*-frontend' clean",
+    "clean:client-rest": "pnpm --filter '*-client-rest' clean",
+    "build": "NO_POSTBUILD=1 pnpm -r build && pnpm run copy:static",
+    "build:prod": "NODE_ENV=production pnpm -r build:prod && pnpm run copy:static",
+    "build:frontend": "pnpm --filter '*-frontend' build",
+    "build:client-rest": "pnpm --filter '*-client-rest' build",
+    "copy:static": "rm -rf ./src/main/resources/public/* && cp -R ./frontend/dist/* ./src/main/resources/ && mv ./src/main/resources/*.html ./src/main/resources/view",
+    "install:prod": "pnpm -r install --frozen-lockfile",
+    "test:frontend": "pnpm --filter '*-frontend' test",
+    "lint": "pnpm -r lint",
+    "lint:fix": "pnpm -r lint:fix",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,yaml,yml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,yaml,yml}\"",
+    "pre-commit": "lint-staged && pnpm run build",
+    "pre-push": "true",
+    "prepare": "[ \"$HUSKY\" = \"0\" ] || husky",
+    "prune:prod": "pnpm -r prune:prod && CI=true NPM_CONFIG_IGNORE_SCRIPTS=true pnpm prune --prod --production --loglevel verbose",
+    "docs:swagger:pdf": "generate-swagger-pdf --host=${SWAGGER_HOST:-127.0.0.1} --port=${SWAGGER_PORT:-3002}",
+    "docs:uml:generate": "rm -rf ./docs/output && docker compose run --rm plantuml -tsvg /workspace/docs/uml/**/* -o /workspace/docs/output",
+    "docs:uml:generate:macos": "rm -rf ./docs/output/* && plantuml -tsvg ./docs/uml/**/* -o ${PWD}/docs/output/",
+    "docs:uml:install:macos": "brew install plantuml",
+    "publish": "X_DOCKER_NPM_TOKEN=${NPM_TOKEN} edifice publish --dry-run=false --debug",
+    "publish:client-rest": "pnpm --filter *-client-rest run publish:all"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/web-education/rack.git"
+  "devDependencies": {
+    "@commitlint/cli": "20.1.0",
+    "@commitlint/config-conventional": "20.0.0",
+    "cz-conventional-changelog": "3.3.0",
+    "@eslint/js": "9.35.0",
+    "@eslint/json": "0.13.2",
+    "@types/node": "22.16.0",
+    "eslint": "9.35.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-prettier": "5.5.4",
+    "globals": "16.4.0",
+    "husky": "9.1.7",
+    "jiti": "2.6.1",
+    "lint-staged": "16.2.4",
+    "prettier": "3.6.2",
+    "typescript": "5.9.2",
+    "typescript-eslint": "8.43.0",
+    "vitest": "2.1.9",
+    "@vitest/ui": "2.1.9",
+    "@vitest/coverage-v8": "2.1.9"
   },
-  "author": "",
-  "license": "AGPL-3.0",
-  "bugs": {
-    "url": "https://github.com/web-education/rack/issues"
+  "prettier": {
+    "singleQuote": false,
+    "semi": true,
+    "tabWidth": 2
   },
-  "homepage": "https://github.com/web-education/rack",
-  "packageManager": "yarn@1.22.19",
-  "engines": {
-    "node": "16 || 18"
+  "dependencies": {
+    "uuid": "11.1.0",
+    "class-transformer": "0.5.1",
+    "class-validator": "0.14.2"
+  },
+  "lint-staged": {
+    "**/*.{js,ts,tsx}": [
+      "eslint --fix --no-warn-ignored"
+    ],
+    "**/*": "prettier --write --ignore-unknown"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   }
 }

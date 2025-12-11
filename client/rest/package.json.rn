@@ -1,0 +1,14 @@
+{
+  "name": "@edifice.io/rack-client-rest-rn",
+  "version": "1.0.0-develop.20251204193721",
+  "description": "React Native compatible version of rack-client-rest",
+  "author": "",
+  "private": false,
+  "license": "UNLICENSED",
+  "main": "index.js",
+  "dependencies": {
+    "uuid": "11.1.0",
+    "class-transformer": "0.5.1",
+    "class-validator": "0.14.2"
+  }
+}

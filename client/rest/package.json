@@ -1,0 +1,71 @@
+{
+  "name": "@edifice.io/rack-client-rest",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "private": false,
+  "license": "UNLICENSED",
+  "exports": {
+    ".": {
+      "import": "./dist/browser/index.js",
+      "require": "./dist/node/index.js",
+      "node": "./dist/node/index.js",
+      "react-native": "./dist/browser/index.js",
+      "default": "./dist/browser/index.js"
+    }
+  },
+  "main": "dist/node/index.js",
+  "module": "dist/browser/index.js",
+  "types": "dist/node/index.d.ts",
+  "scripts": {
+    "build": "pnpm run build:node && pnpm run build:browser && pnpm run build:react-native",
+    "build:prod": "NODE_ENV=production pnpm run build:node && pnpm run build:browser && pnpm run build:react-native",
+    "build:browser": "tsc -p tsconfig.browser.json --outDir dist/browser && tsc-alias -p tsconfig.browser.json --outDir dist/browser",
+    "build:node": "tsc -p tsconfig.node.json --outDir dist/node && tsc-alias -p tsconfig.node.json --outDir dist/node",
+    "build:react-native": "mkdir -p dist/react-native && cp -r dist/browser/* dist/react-native/ && find dist/react-native -name '*.node.js*' -delete",
+    "clean": "rm -rf dist node_modules",
+    "format": "prettier --write src",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "prebuild": "pnpm clean && pnpm install",
+    "prune:prod": "CI=true NPM_CONFIG_IGNORE_SCRIPTS=true pnpm prune --prod --production --loglevel verbose",
+    "publish:main": "pnpm run sync:rn-version && npm publish --no-git-checks --access public --tag=$PUBLISH_TAG --dry-run=${DRY_RUN}",
+    "publish:react-native": "pnpm run sync:rn-version && cp package.json.rn dist/react-native/package.json && cp .npmrc dist/react-native/ && cd dist/react-native && npm publish --no-git-checks --access public --tag=$PUBLISH_TAG --dry-run=${DRY_RUN}",
+    "publish:all": "pnpm run publish:main && pnpm run publish:react-native",
+    "sync:rn-version": "edifice-update-rn-version",
+    "test": "pnpm run prebuild && vitest",
+    "test:coverage": "vitest --coverage",
+    "test:ui": "vitest --ui",
+    "test:watch": "vitest --watch"
+  },
+  "dependencies": {
+    "@nestjs/swagger": "11.2.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  },
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=8"
+  },
+  "devDependencies": {
+    "@edifice.io/client": "develop-pedago",
+    "@edifice.io/edifice-nestjs-core": "develop-pedago",
+    "@types/uuid": "10.0.0",
+    "tsc-alias": "1.8.16"
+  }
+}
