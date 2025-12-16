@@ -1,0 +1,26 @@
+{
+  "name": "fr.wseduc~rack",
+  "config": {
+    "main": "org.wseduc.rack.Rack",
+    "port": 8031,
+    "csrf-token": {{ csrfToken | default('true') }},
+    "auto-redeploy": false,
+    "app-name": "Rack",
+    "app-address": "/rack",
+    "app-icon": "rack-large",
+    "app-displayName": "Rack",
+    "app-type" : "END_USER",
+    "host": "https://{{ host }}",
+    "ssl": true,
+    {% if overrideTheme %} "override-theme": {}, {% endif %}
+    "userbook-host": "https://{{ host }}",
+    "integration-mode": "{{ integration_mode|default('HTTP') }}",
+    "app-registry.port": 8012,
+    "mode": "prod",
+    {% if nextcloudEnabled is defined and nextcloudEnabled %}
+        "enable-nextcloud": true,
+        "nextcloud-sync-delay": {{ nextcloudSyncDelay | default('10')}},
+    {% endif %}
+    "entcore.port": 8009
+  }
+}
