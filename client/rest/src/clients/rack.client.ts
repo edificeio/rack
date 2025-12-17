@@ -149,12 +149,12 @@ export class RackClient extends BaseApiClient {
     query: SearchUsersQueryDto,
     options?: RequestOptions,
   ): Promise<ListUsersResponseDto> {
-    const queryParams = new URLSearchParams();
-    if (query.search) queryParams.append("search", query.search);
-
+    const searchPath = query.search
+      ? `/${encodeURIComponent(query.search)}`
+      : "";
     return this.get<ListUsersResponseDto>(
-      "/users/available",
-      queryParams,
+      `/users/available${searchPath}`,
+      undefined,
       options,
     );
   }

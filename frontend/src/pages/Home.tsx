@@ -1,33 +1,36 @@
-import { useState } from "react";
-import PostList from "../components/PostList";
-import PostForm from "../components/PostForm";
-import SearchBar from "../components/SearchBar";
-import { PostQueryDto } from "../../../client/rest";
+import { LoadingScreen } from "@edifice.io/react";
 import { QueryClient } from "@tanstack/react-query";
-import { postService } from "../services/api/post.service";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { DocumentListTable } from "~/features/document-list/components/DocumentListTable";
+import { useDocumentListStore } from "~/features/document-list/store/documentListStore";
+import { rackQueryOptions } from "~/services/queries/rack.queries";
+import { useConfigStore } from "~/store/configStore";
 
 export const loader = (queryClient: QueryClient) => async () => {
-  // Preload posts for the home page
-  await queryClient.ensureQueryData({
-    queryKey: ["posts"],
-    queryFn: () => postService.getPosts(),
-  });
+  await queryClient.ensureQueryData(rackQueryOptions.getDocuments());
   return null;
 };
 
-export const Root = () => {
-  const [query, setQuery] = useState<PostQueryDto>({});
+export const Component = () => {
+  const config = useConfigStore.use.config();
+  const setFilter = useDocumentListStore.use.setFilter();
+  const location = useLocation();
 
-  const handleSearch = (searchTerm: string) => {
-    setQuery({ search: searchTerm });
-  };
+  useEffect(() => {
+    if (location.pathname === "/inbox") setFilter("inbox");
+    else if (location.pathname === "/deposits") setFilter("deposits");
+    else if (location.pathname === "/trash") setFilter("trash");
+    else setFilter("inbox"); // fallback
+  }, [location.pathname, setFilter]);
+
+  if (!config) {
+    return <LoadingScreen />;
+  }
 
   return (
-    <div>
-      <h1>Post Demo</h1>
-      <PostForm />
-      <SearchBar onSearch={handleSearch} />
-      <PostList query={query} />
+    <div className="p-24">
+      <DocumentListTable />
     </div>
   );
 };

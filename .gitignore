@@ -19,3 +19,9 @@ gradlew*
 .env
 target
 dependency-reduced-pom.xml
+# Ignore the entire "resources" folder except jsonchema
+backend/src/main/resources/public/*
+!backend/src/main/resources/public/js
+!backend/src/main/resources/public/template
+backend/src/main/resources/view/index.html
+# backend/src/main/resources/view

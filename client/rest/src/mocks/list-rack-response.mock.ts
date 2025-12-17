@@ -63,7 +63,7 @@ export function createMockUser(): UserDto {
   return {
     id: randomUuid(),
     displayName: "John Doe",
-    lastName: "Doe",
+    username: "johndoe",
     profile: "Student",
   };
 }

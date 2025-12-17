@@ -3,6 +3,7 @@ import { RouteObject, createBrowserRouter } from "react-router-dom";
 
 // Import your main pages and features here
 import { NotFound } from "../pages/NotFound"; // 404 page component
+import { PageError } from "~/pages/PageError";
 // Example: import FeaturePage from "../features/FeaturePage";
 
 // Example of lazy loading a feature (uncomment and use as needed)
@@ -18,26 +19,55 @@ const routes = (queryClient: QueryClient): RouteObject[] => [
     path: "/",
     async lazy() {
       // Example of lazy loading with queryClient
-      const { loader, Root: Component } = await import("../pages/Home");
+      const { loader, Component } = await import("~/pages/Root");
       return {
         loader: loader ? loader(queryClient) : undefined,
         Component,
       };
     },
-    // errorElement: <PageError />, // Add a global error page if needed
     children: [
-      // Add your sub-routes here
-      // Example:
-      // {
-      //   path: "feature",
-      //   async lazy() {
-      //     const { loader, Component } = await import("../features/FeaturePage");
-      //     return {
-      //       loader: loader(queryClient),
-      //       Component,
-      //     };
-      //   },
-      // },
+      {
+        path: "/",
+        async lazy() {
+          const { loader, Component } = await import("~/pages/Home");
+          return {
+            loader: loader(queryClient),
+            Component,
+          };
+        },
+        errorElement: <PageError />,
+        children: [],
+      },
+      {
+        path: "/inbox",
+        async lazy() {
+          const { loader, Component } = await import("~/pages/Home");
+          return {
+            loader: loader(queryClient),
+            Component,
+          };
+        },
+      },
+      {
+        path: "/deposits",
+        async lazy() {
+          const { loader, Component } = await import("~/pages/Home");
+          return {
+            loader: loader(queryClient),
+            Component,
+          };
+        },
+      },
+      {
+        path: "/trash",
+        async lazy() {
+          const { loader, Component } = await import("~/pages/Home");
+          return {
+            loader: loader(queryClient),
+            Component,
+          };
+        },
+      },
     ],
   },
   {

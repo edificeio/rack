@@ -14,8 +14,7 @@ export class UserDto {
     required: false,
   })
   @IsString()
-  @IsOptional()
-  lastName?: string;
+  username: string;
 
   @ApiProperty({
     description: "User profile (e.g., Student, Teacher)",

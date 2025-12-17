@@ -24,6 +24,7 @@
     "typecheck": "tsc -b --noEmit"
   },
   "dependencies": {
+    "@edifice.io/utilities": "develop-pedago",
     "@edifice.io/bootstrap": "develop-pedago",
     "@edifice.io/rack-client-rest": "workspace:*",
     "@edifice.io/client": "develop-pedago",
