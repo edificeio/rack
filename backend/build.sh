@@ -62,13 +62,13 @@ test () {
   docker-compose run --rm maven mvn $MVN_OPTS test
 }
 
-buildNode () {
+#buildNode () {
   #jenkins
   #echo "[buildNode] Get branch name from jenkins env..."
   #BRANCH_NAME=`echo $GIT_BRANCH | sed -e "s|origin/||g"`
   #docker-compose run --rm -u "$USER_UID:$GROUP_GID" node sh -c "pnpm build:prod"
   #docker-compose run --rm -u "$USER_UID:$GROUP_GID" -e PUBLISH_TAG="${PUBLISH_TAG:-latest}" -e DRY_RUN="${DRY_RUN:-false}" node sh -c "pnpm build:prod && pnpm publish:client-rest"
-}
+#}
 
 publish() {
   if [ "$NO_DOCKER" = "true" ] ; then
@@ -108,11 +108,12 @@ do
     clean)
       clean
       ;;
-    buildNode)
-      buildNode
-      ;;
+    #buildNode)
+      #buildNode
+    #  ;;
     install)
-      buildNode && install
+      #buildNode && 
+      install
       ;;
     test)
       test
