@@ -143,6 +143,14 @@ export const useSearchUsers = (search: string, minLength = 1) =>
     enabled: search.length >= minLength,
   });
 
+export const useSearchUsersV2 = () =>
+  useQuery({
+    queryKey: ["rack", "search"],
+    queryFn: async () => {
+      return rackService.searchUsersV2();
+    },
+  });
+
 export const useListUsersInGroup = (groupId: string, enabled = true) =>
   useQuery({
     queryKey: ["rack", "group-users", groupId],

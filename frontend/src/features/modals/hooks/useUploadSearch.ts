@@ -43,7 +43,10 @@ export const useUploadSearch = () => {
       label: group.name,
     }))
     .sort((a, b) => a.label.localeCompare(b.label));
-  const searchResults = [...userSearchResults, ...groupSearchResults];
+  const searchResults =
+    searchInputValue.length >= searchMinLength
+      ? [...userSearchResults, ...groupSearchResults]
+      : [];
   const hasSearchNoResults =
     searchInputValue.length >= searchMinLength &&
     !isSearchLoading &&

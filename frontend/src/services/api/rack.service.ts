@@ -4,6 +4,9 @@ import {
   CopyToWorkspaceRequestDto,
   SearchUsersQueryDto,
   GetRackQueryDto,
+  ListUsersResponseDto,
+  UserDto,
+  GroupDto,
 } from "@edifice.io/rack-client-rest";
 import { useConfigStore } from "~/store/configStore";
 
@@ -73,4 +76,61 @@ export const rackService = {
       }),
     );
   },
+  searchUsersV2: async (): Promise<ListUsersResponseDto> => {
+    const response = await odeServices
+      .http()
+      .get(`/communication/visible/search`, {});
+    if (!Array.isArray(response)) {
+      throw new Error("Error fetching users" + JSON.stringify(response));
+    }
+    const data: SearchUsersV2Result[] = response;
+
+    const users: UserDto[] = [];
+    const groups: GroupDto[] = [];
+
+    data.forEach((item) => {
+      if (item.type === "User") {
+        users.push({
+          id: item.id,
+          displayName: item.displayName,
+          username: item.displayName,
+          profile: item.profile,
+        });
+      } else if (item.type === "Group") {
+        groups.push({
+          id: item.id,
+          name: item.displayName,
+          structureName: item.structureName ?? undefined,
+        });
+      }
+    });
+
+    return { users, groups };
+  },
 };
+
+export type SearchUsersV2Result =
+  | {
+      id: string;
+      displayName: string;
+      type: "ShareBookmark";
+      usedIn: string[];
+    }
+  | {
+      id: string;
+      displayName: string;
+      structureName: string | null;
+      nbUsers: number;
+      groupType: string;
+      profile: string;
+      type: "Group";
+      usedIn: string[];
+    }
+  | {
+      id: string;
+      displayName: string;
+      structureName: string | null;
+      profile: string;
+      type: "User";
+      usedIn: string[];
+    };
