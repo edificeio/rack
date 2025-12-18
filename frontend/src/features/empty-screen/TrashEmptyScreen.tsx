@@ -8,7 +8,7 @@ import emptyTrashImage from "~/assets/images/empty-trash.svg";
 export const TrashEmptyScreen = () => {
   const { appCode } = useEdificeClient();
   const { t } = useTranslation(appCode);
-  const emptyStyles = { maxWidth: "424px" };
+  const emptyStyles = { maxWidth: "500px" };
 
   return (
     <div

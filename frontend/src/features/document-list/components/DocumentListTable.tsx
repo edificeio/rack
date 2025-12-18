@@ -20,14 +20,6 @@ export const DocumentListTable = () => {
 
   const isLoadingAny = isLoading || isFilterLoading;
 
-  // Show empty screen if no documents in inbox or deposits
-  if (!isLoadingAny && sortedDocuments.length === 0) {
-    if (filter === "trash") {
-      return <TrashEmptyScreen />;
-    }
-    return <RackEmptyScreen />;
-  }
-
   const openCopyToWorkspaceModal =
     useDocumentActionStore.use.openCopyToWorkspaceModal();
   const setOpenCopyToWorkspaceModal =
@@ -38,9 +30,17 @@ export const DocumentListTable = () => {
     selectedDocuments.has(doc._id || doc.file),
   );
 
+  // Show empty screen if no documents in inbox or deposits
+  if (!isLoadingAny && sortedDocuments.length === 0) {
+    if (filter === "trash") {
+      return <TrashEmptyScreen />;
+    }
+    return <RackEmptyScreen />;
+  }
+
   return (
     <>
-      <div id="documents-table" className="documents-table mt-24">
+      <div id="documents-table" className="documents-table">
         <Table>
           <Table.Thead>
             <Table.Tr>

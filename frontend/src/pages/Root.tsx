@@ -5,9 +5,7 @@ import {
   LoadingScreen,
   useEdificeClient,
   useBreakpoint,
-  IconButton,
 } from "@edifice.io/react";
-import { IconBurgerMenu as Menu } from "@edifice.io/react/icons";
 import { QueryClient } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { Outlet, useLoaderData } from "react-router-dom";
@@ -27,7 +25,6 @@ import { Config } from "~/config/Config";
 import { Actions } from "~/config/Actions";
 import configDefault from "~/config/Config";
 import actionsDefault from "~/config/Actions";
-import { useMenuStore } from "~/features/menu/store/menuStore";
 import { TrashDocumentModal } from "~/features/modals/TrashDocumentModal";
 import { RackEmptyScreen } from "~/features/empty-screen";
 
@@ -90,8 +87,6 @@ export function Component() {
   const { md } = useBreakpoint();
   const { config, actions } = useLoaderData() as RootLoaderData;
   const openedModal = useRackStore.use.openedModal();
-  const mobileMenuOpen = useMenuStore.use.mobileMenuOpen();
-  const setMobileMenuOpen = useMenuStore.use.setMobileMenuOpen();
   const { data: documents, isLoading } = useRackDocuments();
 
   // Show loading screen while initializing
@@ -107,35 +102,24 @@ export function Component() {
 
   return (
     <div className="d-flex flex-column vh-100 flex-grow-1">
-      <Layout>
+      <Layout className={md ? "" : "p-0"}>
         {/* Header - not printed */}
-        <div className="d-print-none">
+        <div className="d-print-none mx-16">
           <AppHeader render={AppActionHeader}>
             <Breadcrumb app={currentApp} />
           </AppHeader>
         </div>
 
         {/* Main content area */}
-        <div className="d-flex overflow-x-hidden flex-grow-1 me-n16">
+        <div
+          className={`d-flex overflow-x-hidden flex-grow-1 ${
+            md ? "" : "flex-column"
+          }`}
+        >
           {/* Desktop Menu */}
           {md && (
-            <div
-              className="d-none d-md-block pt-16 pe-16"
-              style={{ width: "280px" }}
-            >
+            <div className="d-none d-md-block" style={{ width: "280px" }}>
               <DesktopMenu />
-            </div>
-          )}
-
-          {/* Mobile Menu Button */}
-          {!md && (
-            <div className="d-md-none p-2">
-              <IconButton
-                icon={<Menu />}
-                variant="ghost"
-                color="tertiary"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              />
             </div>
           )}
 

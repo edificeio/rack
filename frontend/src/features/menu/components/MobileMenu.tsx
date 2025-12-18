@@ -37,14 +37,14 @@ export const MobileMenu = () => {
   const menuItems: MenuItemConfig[] = [
     {
       id: "inbox",
-      label: t("rack.inbox"),
+      label: t("rack.mine"),
       icon: <Inbox />,
       path: "/inbox",
       filter: "inbox",
     },
     {
       id: "deposits",
-      label: t("rack.deposits"),
+      label: t("rack.history"),
       icon: <FolderOpen />,
       path: "/deposits",
       filter: "deposits",
@@ -79,9 +79,16 @@ export const MobileMenu = () => {
   };
 
   return (
-    <div className="position-relative w-100">
+    <div className="mobile-menu position-relative w-100 p-16">
       <Dropdown block onToggle={(visible) => setMobileMenuOpen(visible)}>
-        <Dropdown.Trigger label={selectedItem?.label || t("rack.documents")} />
+        <Dropdown.Trigger
+          label={
+            <span className="d-flex align-items-center gap-8">
+              {selectedItem?.icon}
+              {selectedItem?.label || t("rack.documents")}
+            </span>
+          }
+        />
         <Dropdown.Menu>
           {menuItems.map((item) => (
             <Dropdown.Item

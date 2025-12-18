@@ -1,7 +1,7 @@
 import { Menu, Tree, useEdificeClient } from "@edifice.io/react";
 import {
   IconDepositeInbox as Inbox,
-  IconFolder as FolderOpen,
+  IconInbox,
   IconDelete as Trash,
 } from "@edifice.io/react/icons";
 import { useTranslation } from "react-i18next";
@@ -39,9 +39,9 @@ export const DesktopMenu = () => {
   const getIconForItem = (id: string) => {
     switch (id) {
       case "inbox":
-        return <Inbox />;
+        return <IconInbox />;
       case "deposits":
-        return <FolderOpen />;
+        return <Inbox />;
       case "trash":
         return <Trash />;
       default:
@@ -80,32 +80,37 @@ export const DesktopMenu = () => {
   };
 
   return (
-    <Menu label={t("rack.documents")}>
-      <Menu.Item>
-        <div className="desktop-menu-tree treeview">
-          <Tree
-            nodes={menuItems}
-            selectedNodeId={getCurrentSelectedNodeId()}
-            showIcon={false}
-            renderNode={({ node }) => (
-              <div className="d-flex align-items-center gap-8">
-                {getIconForItem(node.id)}
-                <span>{node.name}</span>
-              </div>
-            )}
-            onTreeItemClick={handleTreeItemClick}
-          />
-        </div>
-      </Menu.Item>
-      <Menu.Item>
-        <div className="w-100 border-bottom pt-8 mb-12"></div>
-      </Menu.Item>
-      <Menu.Item>
-        <div className="d-flex flex-column gap-8">
-          <b className="fs-6">{t("rack.usedSpace")}</b>
-          <ProgressBar {...progressBarProps} />
-        </div>
-      </Menu.Item>
-    </Menu>
+    <div className="border-end p-16 h-100">
+      <h4 className="text-uppercase caption">
+        <strong>{t("rack.title")}</strong>
+      </h4>
+      <Menu label={t("rack.documents")}>
+        <Menu.Item>
+          <div className="desktop-menu-tree treeview ps-16 pt-16">
+            <Tree
+              nodes={menuItems}
+              selectedNodeId={getCurrentSelectedNodeId()}
+              showIcon={false}
+              renderNode={({ node }) => (
+                <div className="d-flex align-items-center gap-8">
+                  {getIconForItem(node.id)}
+                  <span>{node.name}</span>
+                </div>
+              )}
+              onTreeItemClick={handleTreeItemClick}
+            />
+          </div>
+        </Menu.Item>
+        <Menu.Item>
+          <div className="w-100 border-bottom pt-8 my-12"></div>
+        </Menu.Item>
+        <Menu.Item>
+          <div className="d-flex flex-column gap-8">
+            <b className="fs-6">{t("rack.usedSpace")}</b>
+            <ProgressBar {...progressBarProps} />
+          </div>
+        </Menu.Item>
+      </Menu>
+    </div>
   );
 };

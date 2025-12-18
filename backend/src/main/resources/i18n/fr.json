@@ -42,7 +42,7 @@
   "rack.manager": "Gestion",
   "rack.mine": "Mon casier",
   "rack.move": "Déplacer",
-  "rack.name": "Nom du document",
+  "rack.name": "Nom",
   "rack.nextcloud.sync.success": "Synchronisé avec l'espace documentaire",
   "rack.notify.copyToWorkspace": "Le document a été copié dans l'espace documentaire",
   "rack.notify.copyToWorkspace.plural": "Les documents ont été copiés dans l'espace documentaire",
@@ -133,5 +133,10 @@
   "rack.modal.addToWorkspace.title": "Ajout à l’espace doc",
   "rack.modal.addToWorkspace.description": "Rechercher et/ou sélectionner le dossier où vous voulez copier l'élément.",
   "rack.modal.addToWorkspace.cancel": "Annuler",
-  "rack.modal.addToWorkspace.add": "Ajouter"
+  "rack.modal.addToWorkspace.add": "Ajouter",
+  "rack.empty.title": "Votre Casier est vide pour le moment",
+  "rack.empty.text": "L'application Casier sert à déposer ou rendre un devoir. Attention, une fois remis dans le casier personnel du professeur, on ne peut plus modifier ses réponses. Sûr de vous ? Lancez-vous !",
+  "rack.trash.empty.title": "C'est vide par ici !",
+  "rack.trash.empty.text": "Aucun fichiers dans la corbeille pour le moment.",
+  "rack.toast.restored": "Le document a été restauré"
 }

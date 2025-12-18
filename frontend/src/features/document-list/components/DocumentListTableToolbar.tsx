@@ -20,7 +20,7 @@ export const DocumentListTableToolbar = ({
   const toolbarItems = useDocumentActions(selectedDocuments.size);
 
   return (
-    <div className="d-flex align-items-center justify-content-between gap-8 ps-16 pe-16">
+    <div className="d-flex align-items-center justify-content-between gap-8 ps-4 pe-16">
       <div className="d-flex align-items-center gap-8">
         <Checkbox
           checked={isAllSelected}

@@ -8,7 +8,7 @@ import emptyRackImage from "~/assets/images/empty-rack.svg";
 export const RackEmptyScreen = () => {
   const { appCode } = useEdificeClient();
   const { t } = useTranslation(appCode);
-  const emptyStyles = { maxWidth: "424px" };
+  const emptyStyles = { maxWidth: "500px" };
 
   return (
     <div

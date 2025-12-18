@@ -1,3 +1,24 @@
 .dropzone {
   min-height: 250px !important;
 }
+.table {
+  border-radius: 0px;
+}
+main {
+  padding: 0px !important;
+}
+.mobile-menu {
+  background-color: var(--edifice-gray-200);
+}
+.mobile-menu .dropdown {
+  background-color: white;
+}
+@media (max-width: 768px) {
+  .documents-table {
+    overflow-x: auto;
+    display: block;
+  }
+  .documents-table table {
+    min-width: 600px;
+  }
+}

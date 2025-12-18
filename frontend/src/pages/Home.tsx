@@ -28,9 +28,5 @@ export const Component = () => {
     return <LoadingScreen />;
   }
 
-  return (
-    <div className="p-24">
-      <DocumentListTable />
-    </div>
-  );
+  return <DocumentListTable />;
 };
