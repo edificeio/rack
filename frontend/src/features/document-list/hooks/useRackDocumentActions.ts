@@ -53,7 +53,15 @@ export const useRackDocumentActions = () => {
           }),
         );
       } else {
-        toast.success(t("rack.toast.copyToWorkspaceSuccess", { count: total }));
+        if (documents.length === 1) {
+          toast.success(
+            t("rack.toast.copyToWorkspaceSuccess", { count: total }),
+          );
+        } else {
+          toast.success(
+            t("rack.toast.copyToWorkspaceSuccess_plural", { count: total }),
+          );
+        }
       }
       return succeeded > 0;
     } catch (error) {

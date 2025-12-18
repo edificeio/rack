@@ -75,7 +75,7 @@ export const useDocumentActions = (selectedCount: number): ToolbarItem[] => {
   }
 
   // Trash action for inbox and deposits
-  if (filter === "inbox" || filter === "deposits") {
+  if (filter === "inbox") {
     items.push({
       type: "button",
       name: "delete",

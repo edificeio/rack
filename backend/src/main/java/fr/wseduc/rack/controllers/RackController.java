@@ -140,10 +140,30 @@ public class RackController extends MongoDbControllerHelper {
 	@Get("")
 	@SecuredAction(access)
 	public void view(HttpServerRequest request) {
-		renderView(request);
+		renderView(request, new JsonObject(), "index.html", null);
 		eventHelper.onAccess(request);
 	}
 
+	@Get("/inbox")
+	@SecuredAction(access)
+	public void viewInbox(HttpServerRequest request) {
+		renderView(request, new JsonObject(), "index.html", null);
+		eventHelper.onAccess(request);
+	}
+
+	@Get("/deposits")
+	@SecuredAction(access)
+	public void viewDeposits(HttpServerRequest request) {
+		renderView(request, new JsonObject(), "index.html", null);
+		eventHelper.onAccess(request);
+	}
+
+	@Get("/trash")
+	@SecuredAction(access)
+	public void viewTrash(HttpServerRequest request) {
+		renderView(request, new JsonObject(), "index.html", null);
+		eventHelper.onAccess(request);
+	}
 	//////////////
 	//// CRUD ////
 	//////////////

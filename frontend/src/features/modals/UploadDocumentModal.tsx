@@ -49,7 +49,6 @@ export const UploadDocumentModal = () => {
         <div className="d-flex flex-column gap-24">
           {/* Files Upload Section */}
           <div>
-            <label className="fw-bold mb-8">{t("rack.selectFiles")}</label>
             <Dropzone multiple accept={acceptedTypes()}>
               <UploadFilesDropzone onFilesChange={handleFilesChange} />
             </Dropzone>

@@ -1,7 +1,9 @@
+import { useEdificeClient } from "@edifice.io/react";
 import { useTranslation } from "react-i18next";
 
 export const NoRecipientItem = () => {
-  const { t } = useTranslation();
+  const { appCode } = useEdificeClient();
+  const { t } = useTranslation(appCode);
 
   return (
     <div className="d-flex gap-8 align-items-center">
