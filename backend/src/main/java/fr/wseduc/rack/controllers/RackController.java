@@ -60,8 +60,10 @@ import org.entcore.common.notification.TimelineHelper;
 import org.entcore.common.storage.Storage;
 import org.entcore.common.user.UserInfos;
 import org.entcore.common.user.UserUtils;
+import org.entcore.common.utils.StringUtils;
 import org.vertx.java.core.http.RouteMatcher;
 
+import java.net.URLDecoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -512,8 +514,15 @@ public class RackController extends MongoDbControllerHelper {
 				"WHERE has(a.name) AND a.name={action} AND NOT has(visibles.activationCode) " +
 				"RETURN distinct visibles.id as id, visibles.displayName as username, visibles.lastName as name, HEAD(visibles.profiles) as profile " +
 				"ORDER BY name ";
-		final String prefilter = search == null || search.trim().isEmpty() ? null : " AND m.displayName =~ {searchTerm}"; 
-		final JsonObject params = new JsonObject().put("action", "fr.wseduc.rack.controllers.RackController|listRack").put("searchTerm", "(?i).*" + search + ".*");
+		String searchTerm = null;
+		if (search != null && !search.trim().isEmpty()) {
+			searchTerm = normalize(search);
+		}
+		final String prefilter = searchTerm == null ? null : " AND m.displayNameSearchField CONTAINS {searchTerm}";
+		final JsonObject params = new JsonObject().put("action", "fr.wseduc.rack.controllers.RackController|listRack");
+		if (searchTerm != null) {
+			params.put("searchTerm", searchTerm);
+		}
 		final String queryGroups =
 				"RETURN distinct profileGroup.id as id, profileGroup.name as name, " +
 				"profileGroup.groupDisplayName as groupDisplayName, profileGroup.structureName as structureName " +
@@ -556,7 +565,15 @@ public class RackController extends MongoDbControllerHelper {
 	@SecuredAction(list_users)
 	public void searchUsers(final HttpServerRequest request)
 	{
-		final String search = request.params().get("search");
+		final String encodedSearch = request.params().get("search");
+		String search = null;
+		if (encodedSearch != null) {
+			try {
+				search = URLDecoder.decode(encodedSearch, "UTF-8");
+			} catch (Exception e) {
+				search = encodedSearch; // fallback
+			}
+		}
 		getVisibleRackUsers(request, search, new Handler<JsonObject>() {
 			@Override
 			public void handle(JsonObject users) {
@@ -976,6 +993,17 @@ public class RackController extends MongoDbControllerHelper {
 				"image/png".equals(metadata.getString("content-type"))  ||
 				"image/tiff".equals(metadata.getString("content-type"))
 		);
+	}
+
+	private String normalize(String str) {
+		if (str != null) {
+			str = str.toLowerCase().replaceAll("\\s+", "").trim();
+			str = StringUtils.stripAccents(str);
+			if(str.isEmpty()) {
+				return null;
+			}
+		}
+		return str;
 	}
 
 }
