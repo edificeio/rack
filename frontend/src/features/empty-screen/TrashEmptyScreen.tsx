@@ -12,7 +12,7 @@ export const TrashEmptyScreen = () => {
 
   return (
     <div
-      className="d-flex flex-column gap-24 flex-fill align-items-center justify-content-center m-auto"
+      className="d-flex flex-column gap-24 flex-fill align-items-center justify-content-center m-auto p-16"
       style={emptyStyles}
     >
       <EmptyScreen imageSrc={emptyTrashImage} imageAlt="Empty Trash" />

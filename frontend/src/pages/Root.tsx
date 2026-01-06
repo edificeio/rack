@@ -10,10 +10,7 @@ import {
 import { QueryClient } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { Outlet, useLoaderData } from "react-router-dom";
-import {
-  rackQueryOptions,
-  useRackDocuments,
-} from "~/services/queries/rack.queries";
+import { rackQueryOptions } from "~/services/queries/rack.queries";
 import { UploadDocumentModal } from "~/features/modals/UploadDocumentModal";
 import { DeleteDocumentModal } from "~/features/modals/DeleteDocumentModal";
 import { RestoreDocumentModal } from "~/features/modals/RestoreDocumentModal";
@@ -27,7 +24,6 @@ import { Actions } from "~/config/Actions";
 import configDefault from "~/config/Config";
 import actionsDefault from "~/config/Actions";
 import { TrashDocumentModal } from "~/features/modals/TrashDocumentModal";
-import { RackEmptyScreen } from "~/features/empty-screen";
 
 /**
  * Root loader data interface
@@ -88,8 +84,6 @@ export function Component() {
   const { lg } = useBreakpoint();
   const { config, actions } = useLoaderData() as RootLoaderData;
   const openedModal = useRackStore.use.openedModal();
-  const { data: documents, isLoading } = useRackDocuments();
-
   // Show loading screen while initializing
   if (!init || !currentApp) {
     return <LoadingScreen position={false} />;
@@ -98,8 +92,6 @@ export function Component() {
   if (!config || !actions) {
     throw new Error("Configuration failed to load");
   }
-
-  const hasDocuments = !isLoading && documents && documents.length > 0;
 
   return (
     <div className="d-flex flex-column vh-100 flex-grow-1">
@@ -125,18 +117,14 @@ export function Component() {
           </Grid.Col>
           <Grid.Col sm="4" md="8" lg="6" xl="9" className="overflow-y-auto">
             {!lg && <MobileMenu />}
-            {!hasDocuments && !isLoading ? (
-              <RackEmptyScreen />
-            ) : (
-              <Suspense fallback={<LoadingScreen />}>
-                <Outlet
-                  context={{
-                    config,
-                    actions,
-                  }}
-                />
-              </Suspense>
-            )}
+            <Suspense fallback={<LoadingScreen />}>
+              <Outlet
+                context={{
+                  config,
+                  actions,
+                }}
+              />
+            </Suspense>
           </Grid.Col>
         </Grid>
 
