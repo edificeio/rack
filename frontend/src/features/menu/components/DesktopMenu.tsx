@@ -81,9 +81,9 @@ export const DesktopMenu = () => {
 
   return (
     <div className="border-end p-16 h-100">
-      <h4 className="text-uppercase caption">
-        <strong>{t("rack.title")}</strong>
-      </h4>
+      <p className="caption text-uppercase fs-7 fw-semibold text-gray-700">
+        {t("rack.title")}
+      </p>
       <Menu label={t("rack.documents")}>
         <Menu.Item>
           <div className="desktop-menu-tree treeview ps-16 pt-16">
