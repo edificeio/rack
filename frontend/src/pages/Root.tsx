@@ -1,6 +1,7 @@
 import {
   AppHeader,
   Breadcrumb,
+  Grid,
   Layout,
   LoadingScreen,
   useEdificeClient,
@@ -84,7 +85,7 @@ export function loader(queryClient: QueryClient) {
  */
 export function Component() {
   const { init, currentApp } = useEdificeClient();
-  const { md } = useBreakpoint();
+  const { lg } = useBreakpoint();
   const { config, actions } = useLoaderData() as RootLoaderData;
   const openedModal = useRackStore.use.openedModal();
   const { data: documents, isLoading } = useRackDocuments();
@@ -102,7 +103,7 @@ export function Component() {
 
   return (
     <div className="d-flex flex-column vh-100 flex-grow-1">
-      <Layout className={md ? "" : "p-0"}>
+      <Layout className={lg ? "" : "p-0"}>
         {/* Header - not printed */}
         <div className="d-print-none mx-16">
           <AppHeader render={AppActionHeader}>
@@ -111,22 +112,19 @@ export function Component() {
         </div>
 
         {/* Main content area */}
-        <div
-          className={`d-flex overflow-x-hidden flex-grow-1 ${
-            md ? "" : "flex-column"
-          }`}
-        >
-          {/* Desktop Menu */}
-          {md && (
-            <div className="d-none d-md-block" style={{ width: "280px" }}>
-              <DesktopMenu />
-            </div>
-          )}
-
-          {/* Mobile Menu */}
-          {!md && <MobileMenu />}
-
-          <div className="flex-grow-1 overflow-y-auto">
+        <Grid className="flex-grow-1 overflow-x-hidden gap-0">
+          <Grid.Col
+            sm="3"
+            md="3"
+            lg="2"
+            xl="3"
+            className="d-none d-lg-block"
+            as="aside"
+          >
+            <DesktopMenu />
+          </Grid.Col>
+          <Grid.Col sm="4" md="8" lg="6" xl="9" className="overflow-y-auto">
+            {!lg && <MobileMenu />}
             {!hasDocuments && !isLoading ? (
               <RackEmptyScreen />
             ) : (
@@ -139,8 +137,8 @@ export function Component() {
                 />
               </Suspense>
             )}
-          </div>
-        </div>
+          </Grid.Col>
+        </Grid>
 
         {/* Modals */}
         {openedModal === "upload" && <UploadDocumentModal />}
