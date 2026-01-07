@@ -97,7 +97,7 @@ export function Component() {
     <div className="d-flex flex-column vh-100 flex-grow-1">
       <Layout className={lg ? "" : "p-0"}>
         {/* Header - not printed */}
-        <div className="d-print-none">
+        <div className={`d-print-none ${!lg ? "mx-16" : ""}`}>
           <AppHeader render={AppActionHeader}>
             <Breadcrumb app={currentApp} />
           </AppHeader>
