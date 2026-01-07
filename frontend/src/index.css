@@ -4,9 +4,6 @@
 .table {
   border-radius: 0px;
 }
-main {
-  padding: 0px !important;
-}
 .mobile-menu {
   background-color: var(--edifice-gray-200);
 }
@@ -21,4 +18,8 @@ main {
   .documents-table table {
     min-width: 600px;
   }
+}
+.cancel-gap {
+  margin-left: calc(var(--edifice-gap) * -1);
+  margin-right: -2.4rem;
 }

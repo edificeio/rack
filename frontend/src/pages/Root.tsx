@@ -97,14 +97,14 @@ export function Component() {
     <div className="d-flex flex-column vh-100 flex-grow-1">
       <Layout className={lg ? "" : "p-0"}>
         {/* Header - not printed */}
-        <div className="d-print-none mx-16">
+        <div className="d-print-none">
           <AppHeader render={AppActionHeader}>
             <Breadcrumb app={currentApp} />
           </AppHeader>
         </div>
 
         {/* Main content area */}
-        <Grid className="flex-grow-1 overflow-x-hidden gap-0">
+        <Grid className="flex-grow-1">
           <Grid.Col
             sm="3"
             md="3"
@@ -115,7 +115,13 @@ export function Component() {
           >
             <DesktopMenu />
           </Grid.Col>
-          <Grid.Col sm="4" md="8" lg="6" xl="9" className="overflow-y-auto">
+          <Grid.Col
+            sm="4"
+            md="8"
+            lg="6"
+            xl="9"
+            className={`overflow-y-auto ${lg ? "cancel-gap" : ""}`}
+          >
             {!lg && <MobileMenu />}
             <Suspense fallback={<LoadingScreen />}>
               <Outlet

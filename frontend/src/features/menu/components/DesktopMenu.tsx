@@ -80,7 +80,7 @@ export const DesktopMenu = () => {
   };
 
   return (
-    <div className="border-end p-16 h-100">
+    <div className="border-end p-16 h-100 ps-0">
       <p className="caption text-uppercase fs-7 fw-semibold text-gray-700">
         {t("rack.title")}
       </p>
