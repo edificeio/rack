@@ -29,11 +29,11 @@ export const DocumentListTable = () => {
   const selectedDocs = sortedDocuments.filter((doc) =>
     selectedDocuments.has(doc._id || doc.file),
   );
-  if (filter === "trash") {
-    return <TrashEmptyScreen />;
-  }
   // Show empty screen if no documents in inbox or deposits
   if (!isLoadingAny && sortedDocuments.length === 0) {
+    if (filter === "trash") {
+      return <TrashEmptyScreen />;
+    }
     return <RackEmptyScreen />;
   }
 
