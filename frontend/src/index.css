@@ -10,6 +10,11 @@
 .mobile-menu .dropdown {
   background-color: white;
 }
+.documents-table {
+  overflow-y: auto;
+  max-height: calc(100vh - 200px);
+  display: block;
+}
 @media (max-width: 768px) {
   .documents-table {
     overflow-x: auto;
