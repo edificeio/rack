@@ -63,8 +63,8 @@
     "pnpm": ">=8"
   },
   "devDependencies": {
-    "@edifice.io/client": "develop-pedago",
-    "@edifice.io/edifice-nestjs-core": "develop-pedago",
+    "@edifice.io/client": "develop",
+    "@edifice.io/edifice-nestjs-core": "develop",
     "@types/uuid": "10.0.0",
     "tsc-alias": "1.8.16"
   }
