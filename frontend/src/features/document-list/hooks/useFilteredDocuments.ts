@@ -41,23 +41,24 @@ export const useFilteredDocuments = (
 
         switch (filter) {
           case "inbox":
-            // Documents received by current user (not in trash)
+            // Inbox: Only documents where the recipient is the current user and the folder is not Trash
             filtered = documents.filter(
               (doc) => doc.to === currentUser.userId && doc.folder !== "Trash",
             );
             break;
 
           case "deposits":
-            // Documents sent by current user (not in trash)
+            // Deposits: Only documents where the sender is the current user (regardless of folder)
             filtered = documents.filter(
-              (doc) =>
-                doc.from === currentUser.userId && doc.folder !== "Trash",
+              (doc) => doc.from === currentUser.userId,
             );
             break;
 
           case "trash":
-            // Documents in trash folder
-            filtered = documents.filter((doc) => doc.folder === "Trash");
+            // Trash: Only documents where the recipient is the current user and the folder is Trash
+            filtered = documents.filter(
+              (doc) => doc.to === currentUser.userId && doc.folder === "Trash",
+            );
             break;
 
           default:
