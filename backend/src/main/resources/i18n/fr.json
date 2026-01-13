@@ -112,9 +112,11 @@
   "rack.toast.copyToWorkspacePartialFailed": "{{succeeded}} document(s) copié(s), {{failed}} échec(s)",
   "rack.toast.copyToWorkspaceSuccess": "Le document a été copié dans l'espace documentaire",
   "rack.toast.copyToWorkspaceSuccess_plural": "Les documents ont été copiés dans l'espace documentaire",
+  "rack.toast.deleted": "Le document a été supprimé",
   "rack.toast.downloadError": "Erreur lors du téléchargement du document",
   "rack.toast.error": "Une erreur est survenue",
   "rack.toast.restored": "Le document a été restauré",
+  "rack.toast.trashed": "Le document a été déplacé dans la corbeille",
   "rack.toast.uploaded": "Fichier(s) envoyé(s) avec succès",
   "rack.trash": "Corbeille",
   "rack.trash.empty.text": "Aucun fichiers dans la corbeille pour le moment.",
@@ -138,7 +140,5 @@
   "tuto.text.select": "pour sélectionner et accéder au menu d'options,",
   "tuto.title": "Naviguez au sein de votre casier en vue vignettes :",
   "unsetImage": "Supprimer l'image",
-  "upload": "Envoyer",
-  "rack.toast.trashed": "Le document a été déplacé dans la corbeille",
-  "rack.toast.deleted": "Le document a été supprimé"
+  "upload": "Envoyer"
 }
