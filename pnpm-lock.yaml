@@ -82,8 +82,8 @@ importers:
         version: 11.2.0(@fastify/static@8.2.0)(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.0.20)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
     devDependencies:
       "@edifice.io/client":
-        specifier: develop
-        version: 2.5.5-develop.20260112150307
+        specifier: 2.5.8
+        version: 2.5.8
       "@edifice.io/edifice-nestjs-core":
         specifier: develop
         version: 1.0.0-develop.20251211080353(61bf86961023d6eadadffc399d8c1bb5)
@@ -97,20 +97,20 @@ importers:
   frontend:
     dependencies:
       "@edifice.io/bootstrap":
-        specifier: develop
-        version: 2.5.5-develop.20260112150307
+        specifier: 2.5.8
+        version: 2.5.8
       "@edifice.io/client":
-        specifier: develop
-        version: 2.5.5-develop.20260112150307
+        specifier: 2.5.8
+        version: 2.5.8
       "@edifice.io/rack-client-rest":
         specifier: workspace:*
         version: link:../client/rest
       "@edifice.io/react":
-        specifier: develop
-        version: 2.5.5-develop.20260112150307(e2f1a975421bd94bb3802dd514971ef1)
+        specifier: 2.5.8
+        version: 2.5.8(e2f1a975421bd94bb3802dd514971ef1)
       "@edifice.io/utilities":
-        specifier: develop
-        version: 2.5.5-develop.20260112150307
+        specifier: 2.5.8
+        version: 2.5.8
       "@react-spring/web":
         specifier: 9.7.5
         version: 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -133,8 +133,8 @@ importers:
         specifier: 2.4.2
         version: 2.4.2(encoding@0.1.13)
       ode-explorer:
-        specifier: develop
-        version: 2.4.4-develop.202512102004(c0319f7bf10c97d13bed8c7f86dd49b7)
+        specifier: 2.4.6
+        version: 2.4.6(c0319f7bf10c97d13bed8c7f86dd49b7)
       pdfjs-dist:
         specifier: 5.4.394
         version: 5.4.394
@@ -685,16 +685,16 @@ packages:
     peerDependencies:
       react: ">=16.8.0"
 
-  "@edifice.io/bootstrap@2.5.5-develop.20260112150307":
+  "@edifice.io/bootstrap@2.5.8":
     resolution:
       {
-        integrity: sha512-86P12VUCHD3hkomcbOurlfHDY5HKRnxg5cMLi2rd8CW0+u+Wx9jazX4TzDyG2S1clcBk+iLhxRqm0Aw9QWZTDw==,
+        integrity: sha512-XOBcKe/3ZSAL+JAJuY5QeSyh9uvBOQBdlbRrQxRCkgim4McegIAV0GabWV4K63Na3XnTPZN/N7lFkLDnfFgDoQ==,
       }
 
-  "@edifice.io/client@2.5.5-develop.20260112150307":
+  "@edifice.io/client@2.5.8":
     resolution:
       {
-        integrity: sha512-5KsXDdl5rHBcbkH8nAnTFiNWNWZBQ0nd+f/Zyq76gjU/WLrzKEL4zfUpj/q4FTCS3Ams0kRpQDTJpOTodWoTbQ==,
+        integrity: sha512-hCSE/I+856aFNwMoSPP9r46SrYDuwFFBnO3P5EaCvSgsfeux4/bwSvcxV4ZQIKZZhYcdUemrnfU5PDnyzAMpOA==,
       }
 
   "@edifice.io/edifice-nestjs-core@1.0.0-develop.20251211080353":
@@ -720,10 +720,10 @@ packages:
       reflect-metadata: 0.2.0
       rxjs: 7.8.2
 
-  "@edifice.io/react@2.5.5-develop.20260112150307":
+  "@edifice.io/react@2.5.8":
     resolution:
       {
-        integrity: sha512-zW19FT5kEsTRT3IvAzaSgyn/sWDQmbZ/pl5oOaN6i9V7Z/It7ibjMwFcQln6r4SxRcsrdaSAOZOn3MHy9aMKfg==,
+        integrity: sha512-hhZUF6Qah1ufGX4yrPZZiTgSWj3pde3w0PrkDY8ezK0P8xvQtkh5jdm9o93BaiwZKY0hyWQPab9gUfXPc6fiGw==,
       }
     peerDependencies:
       "@react-spring/web": ^9.7.5
@@ -733,16 +733,16 @@ packages:
       react-hook-form: ^7.53.0
       react-i18next: ^14.1.0
 
-  "@edifice.io/tiptap-extensions@2.5.5-develop.20260112150307":
+  "@edifice.io/tiptap-extensions@2.5.8":
     resolution:
       {
-        integrity: sha512-E54kVJgUaSByEMPrJKMDEq0eQv16PWt+2/Bn38PHG1DfRfNf7K/D8+Yk8wES4rGKce2bkcLCI9pO+WPZ+2ctAw==,
+        integrity: sha512-C2h9NzevmiMWwOMuqvdJrayZay9Na/YL1hAFkTSzm0qKJbQiQuZFCEueP8ciDQ/eW36TS7HPVH5+qHv3RJ6+lA==,
       }
 
-  "@edifice.io/utilities@2.5.5-develop.20260112150307":
+  "@edifice.io/utilities@2.5.8":
     resolution:
       {
-        integrity: sha512-Gze8w4HDQn9gP7XH/zYJvxDLOZxRnuZH6GzGZX1i5kEPHfHKjnnsFAYwd6LSKLsoQNUGYk7FBbGPMkbRkreNfA==,
+        integrity: sha512-DeMvvPxqzp4OC/MvBbEeQIfO17BslYfHWjrVhuW1gYJMceb49zrvmRsVVwghkOYD4GUgotCt6j63/MCjTucc4g==,
       }
 
   "@elastic/ecs-helpers@2.1.1":
@@ -7049,10 +7049,10 @@ packages:
       }
     engines: { node: ">= 0.4" }
 
-  ode-explorer@2.4.4-develop.202512102004:
+  ode-explorer@2.4.6:
     resolution:
       {
-        integrity: sha512-IfeQ2vByTAFOi4qSxbyDRZZi3iFdD2FpenL0FxRw+9A/5XL9ulWXKLShEDI498SvDtTCti7PIv9c5R4Gfoxtyw==,
+        integrity: sha512-JGwxEhCzoHhiww/Tuvt7eV68AUj0YmD7f9X1H/G15/ZixAMHaN6EUX6IOvSt0wLZaQP3ET+nEIbjWvCxUAKb9g==,
       }
     engines: { node: 18 || 20 }
 
@@ -9495,6 +9495,7 @@ packages:
         integrity: sha512-6qN4hJdMwfYBtE3YBTTHhoeuUrDBPZmbQaxWAqSALV/MeEnR5z1xd8UKud2RAkFoPkmB+hli1TZSnyi84xz1vQ==,
       }
     engines: { node: ">=18" }
+    deprecated: Use @exodus/bytes instead for a more spec-conformant and faster implementation
 
   whatwg-mimetype@4.0.0:
     resolution:
@@ -10075,14 +10076,14 @@ snapshots:
       react: 18.3.1
       tslib: 2.8.1
 
-  "@edifice.io/bootstrap@2.5.5-develop.20260112150307":
+  "@edifice.io/bootstrap@2.5.8":
     dependencies:
       "@popperjs/core": 2.11.8
       bootstrap: 5.3.2(@popperjs/core@2.11.8)
 
-  "@edifice.io/client@2.5.5-develop.20260112150307":
+  "@edifice.io/client@2.5.8":
     dependencies:
-      "@edifice.io/utilities": 2.5.5-develop.20260112150307
+      "@edifice.io/utilities": 2.5.8
       axios: 1.12.2
       core-js: 3.47.0
     transitivePeerDependencies:
@@ -10137,15 +10138,15 @@ snapshots:
       - supports-color
       - tedious
 
-  "@edifice.io/react@2.5.5-develop.20260112150307(cb1e862739a99bf27299723c56fe98cf)":
+  "@edifice.io/react@2.5.8(cb1e862739a99bf27299723c56fe98cf)":
     dependencies:
       "@ant-design/icons": 5.6.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@dnd-kit/core": 6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@dnd-kit/sortable": 8.0.0(@dnd-kit/core@6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       "@dnd-kit/utilities": 3.2.2(react@18.3.1)
-      "@edifice.io/bootstrap": 2.5.5-develop.20260112150307
-      "@edifice.io/tiptap-extensions": 2.5.5-develop.20260112150307(@types/node@22.16.0)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.2)
-      "@edifice.io/utilities": 2.5.5-develop.20260112150307
+      "@edifice.io/bootstrap": 2.5.8
+      "@edifice.io/tiptap-extensions": 2.5.8(@types/node@22.16.0)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.2)
+      "@edifice.io/utilities": 2.5.8
       "@floating-ui/react": 0.26.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@pixi/mixin-get-child-by-name": 7.4.2(@pixi/display@7.4.2(@pixi/core@7.4.2))
       "@pixi/react": 7.1.2(377274a23b505bc69380454e30140b7e)
@@ -10192,7 +10193,7 @@ snapshots:
       "@uidotdev/usehooks": 2.4.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       antd: 5.29.1(luxon@3.6.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       clsx: 2.1.1
-      dayjs: 1.11.10
+      dayjs: 1.11.19
       emoji-picker-react: 4.5.2(react@18.3.1)
       heic2any: 0.0.4
       html-react-parser: 4.2.1(react@18.3.1)
@@ -10244,15 +10245,15 @@ snapshots:
       - terser
       - typescript
 
-  "@edifice.io/react@2.5.5-develop.20260112150307(e2f1a975421bd94bb3802dd514971ef1)":
+  "@edifice.io/react@2.5.8(e2f1a975421bd94bb3802dd514971ef1)":
     dependencies:
       "@ant-design/icons": 5.6.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@dnd-kit/core": 6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@dnd-kit/sortable": 8.0.0(@dnd-kit/core@6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       "@dnd-kit/utilities": 3.2.2(react@18.3.1)
-      "@edifice.io/bootstrap": 2.5.5-develop.20260112150307
-      "@edifice.io/tiptap-extensions": 2.5.5-develop.20260112150307(@types/node@22.16.0)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.2)
-      "@edifice.io/utilities": 2.5.5-develop.20260112150307
+      "@edifice.io/bootstrap": 2.5.8
+      "@edifice.io/tiptap-extensions": 2.5.8(@types/node@22.16.0)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.2)
+      "@edifice.io/utilities": 2.5.8
       "@floating-ui/react": 0.26.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@pixi/mixin-get-child-by-name": 7.4.2(@pixi/display@7.4.2(@pixi/core@7.4.2))
       "@pixi/react": 7.1.2(377274a23b505bc69380454e30140b7e)
@@ -10299,7 +10300,7 @@ snapshots:
       "@uidotdev/usehooks": 2.4.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       antd: 5.29.1(luxon@3.6.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       clsx: 2.1.1
-      dayjs: 1.11.10
+      dayjs: 1.11.19
       emoji-picker-react: 4.5.2(react@18.3.1)
       heic2any: 0.0.4
       html-react-parser: 4.2.1(react@18.3.1)
@@ -10351,9 +10352,9 @@ snapshots:
       - terser
       - typescript
 
-  "@edifice.io/tiptap-extensions@2.5.5-develop.20260112150307(@types/node@22.16.0)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.2)":
+  "@edifice.io/tiptap-extensions@2.5.8(@types/node@22.16.0)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.2)":
     dependencies:
-      "@edifice.io/utilities": 2.5.5-develop.20260112150307
+      "@edifice.io/utilities": 2.5.8
       "@tiptap/core": 2.11.0(@tiptap/pm@2.11.0)
       "@tiptap/extension-blockquote": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
       "@tiptap/extension-bold": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
@@ -10399,7 +10400,7 @@ snapshots:
       - terser
       - typescript
 
-  "@edifice.io/utilities@2.5.5-develop.20260112150307": {}
+  "@edifice.io/utilities@2.5.8": {}
 
   "@elastic/ecs-helpers@2.1.1": {}
 
@@ -14262,13 +14263,13 @@ snapshots:
 
   object-inspect@1.13.4: {}
 
-  ode-explorer@2.4.4-develop.202512102004(c0319f7bf10c97d13bed8c7f86dd49b7):
+  ode-explorer@2.4.6(c0319f7bf10c97d13bed8c7f86dd49b7):
     dependencies:
       "@dnd-kit/core": 6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@dnd-kit/modifiers": 7.0.0(@dnd-kit/core@6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
-      "@edifice.io/bootstrap": 2.5.5-develop.20260112150307
-      "@edifice.io/client": 2.5.5-develop.20260112150307
-      "@edifice.io/react": 2.5.5-develop.20260112150307(cb1e862739a99bf27299723c56fe98cf)
+      "@edifice.io/bootstrap": 2.5.8
+      "@edifice.io/client": 2.5.8
+      "@edifice.io/react": 2.5.8(cb1e862739a99bf27299723c56fe98cf)
       "@react-spring/web": 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@tanstack/react-query": 5.62.7(react@18.3.1)
       clsx: 2.1.1
