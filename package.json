@@ -24,7 +24,7 @@
     "build:frontend": "pnpm --filter '*-frontend' build",
     "build:client-rest": "pnpm --filter '*-client-rest' build",
     "copy:static": "rm -rf ./backend/src/main/resources/view && rm -rf ./backend/src/main/resources/public/* && mkdir -p ./backend/src/main/resources/view/ && cp -R ./backend/src/main/resources/view-src/* ./backend/src/main/resources/view/ && cp -R ./frontend/dist/* ./backend/src/main/resources/ && mv ./backend/src/main/resources/*.html ./backend/src/main/resources/view/",
-    "install:prod": "pnpm -r install --frozen-lockfile",
+    "install:prod": "pnpm -r install",
     "test:frontend": "pnpm --filter '*-frontend' test",
     "lint": "pnpm -r lint",
     "lint:fix": "pnpm -r lint:fix",
