@@ -147,56 +147,46 @@ public class RackRepositoryEvent implements RepositoryEvents {
 		});
 	}
 
-	private void exportFiles(final JsonObject alias, final String[] ids, String exportPath, String locale,
-			final AtomicBoolean exported, final Handler<Boolean> handler) {
-		createExportDirectory(exportPath, locale, new Handler<String>() {
+	private void exportFiles(final JsonObject alias, final String[] ids, String path, String locale, final AtomicBoolean exported, final Handler<Boolean> handler) {
+		if (ids.length == 0) {
+			handler.handle(true);
+			return;
+		}
+		storage.writeToFileSystem(ids, path, alias, new Handler<JsonObject>() {
 			@Override
-			public void handle(String path) {
-				if (path != null) {
-					if (ids.length == 0) {
-						handler.handle(true);
-						return;
-					}
-					storage.writeToFileSystem(ids, path, alias, new Handler<JsonObject>() {
-						@Override
-						public void handle(JsonObject event) {
-							if ("ok".equals(event.getString("status"))) {
-								exported.set(true);
-								handler.handle(exported.get());
-							} else {
-								JsonArray errors = event.getJsonArray("errors",
-										new JsonArray());
-								boolean ignoreErrors = errors.size() > 0;
-								for (Object o : errors) {
-									if (!(o instanceof JsonObject))
-										continue;
-									if (((JsonObject) o).getString("message") == null
-											|| (!((JsonObject) o).getString("message").contains("NoSuchFileException")
-													&& !((JsonObject) o).getString("message")
-															.contains("FileAlreadyExistsException"))) {
-										ignoreErrors = false;
-										break;
-									}
-								}
-								if (ignoreErrors) {
-									exported.set(true);
-									handler.handle(exported.get());
-								} else {
-									log.error("Write to fs : "
-											+ new JsonArray(Arrays.asList(ids)).encode()
-											+ " - " + event.encode());
-									handler.handle(exported.get());
-								}
-							}
-						}
-					});
-				} else {
-					log.error("Create export directory error.");
+			public void handle(JsonObject event) {
+				if ("ok".equals(event.getString("status"))) {
+					exported.set(true);
 					handler.handle(exported.get());
+				} else {
+					JsonArray errors = event.getJsonArray("errors",
+							new JsonArray());
+					boolean ignoreErrors = errors.size() > 0;
+					for (Object o : errors) {
+						if (!(o instanceof JsonObject))
+							continue;
+						if (((JsonObject) o).getString("message") == null
+								|| (!((JsonObject) o).getString("message").contains("NoSuchFileException")
+										&& !((JsonObject) o).getString("message")
+												.contains("FileAlreadyExistsException"))) {
+							ignoreErrors = false;
+							break;
+						}
+					}
+					if (ignoreErrors) {
+						exported.set(true);
+						handler.handle(exported.get());
+					} else {
+						log.error("Write to fs : "
+								+ new JsonArray(Arrays.asList(ids)).encode()
+								+ " - " + event.encode());
+						handler.handle(exported.get());
+					}
 				}
 			}
 		});
 	}
+
 
 	@Override
 	public void exportResources(JsonArray resourcesIds, boolean exportDocuments, boolean exportSharedResources, String exportId, String userId,
@@ -248,8 +238,14 @@ public class RackRepositoryEvent implements RepositoryEvents {
 							alias.put(ids[i], ids[i] + "_" + fileName);
 						}
 					}
-
-					exportFiles(alias, ids, exportPath, locale, exported, e -> handler.handle(new ExportResourceResult(e, exportPath)));
+					createExportDirectory(exportPath, locale, exportDirPath -> {
+						if (exportDirPath == null) {
+							log.error("Rack - Error creating export directory from path : " + exportPath);
+							handler.handle(ExportResourceResult.KO);
+						} else {
+							exportFiles(alias, ids, exportDirPath, locale, exported, e -> handler.handle(new ExportResourceResult(e, exportDirPath)));
+						}
+					});
 				}
 				else
 				{
