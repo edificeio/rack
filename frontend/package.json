@@ -1,6 +1,6 @@
 {
   "name": "@edifice.io/rack-frontend",
-  "version": "3.1.2",
+  "version": "3.1.2-dev.0",
   "private": true,
   "license": "GPL-3.0",
   "author": "Edifice",
@@ -24,11 +24,11 @@
     "typecheck": "tsc -b --noEmit"
   },
   "dependencies": {
-    "@edifice.io/utilities": "2.5.9",
-    "@edifice.io/bootstrap": "2.5.9",
+    "@edifice.io/utilities": "develop",
+    "@edifice.io/bootstrap": "develop",
     "@edifice.io/rack-client-rest": "workspace:*",
-    "@edifice.io/client": "2.5.9",
-    "@edifice.io/react": "2.5.9",
+    "@edifice.io/client": "develop",
+    "@edifice.io/react": "develop",
     "@react-spring/web": "9.7.5",
     "@tanstack/react-query": "5.81.5",
     "@uidotdev/usehooks": "2.4.1",
@@ -36,7 +36,7 @@
     "clsx": "2.1.1",
     "i18next": "23.8.1",
     "i18next-http-backend": "2.4.2",
-    "ode-explorer": "2.5.2",
+    "ode-explorer": "develop",
     "pdfjs-dist": "5.4.394",
     "react": "18.3.1",
     "react-dom": "18.3.1",
