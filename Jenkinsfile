@@ -2,6 +2,11 @@
 
 pipeline {
   agent any
+
+  environment {
+    NPM_TOKEN = credentials('npm-token')
+  }
+  
   stages {
     stage("Initialization") {
       steps {
