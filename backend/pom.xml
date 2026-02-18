@@ -29,7 +29,7 @@
     </repositories>
 
     <properties>
-        <entCoreVersion>6.13-SNAPSHOT</entCoreVersion>
+        <entCoreVersion>6.14-develop-b2school-SNAPSHOT</entCoreVersion>
     </properties>
 
     <dependencies>
