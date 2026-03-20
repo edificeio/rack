@@ -2,6 +2,10 @@
   "name": "fr.wseduc~rack",
   "config": {
     "main": "org.wseduc.rack.Rack",
+    "probes": [
+      "org.entcore.common.http.health.Neo4jProbe",
+      "org.entcore.common.http.health.MongoProbe"
+    ],
     "port": 8031,
     "csrf-token": {{ csrfToken | default('true') }},
     "auto-redeploy": false,
