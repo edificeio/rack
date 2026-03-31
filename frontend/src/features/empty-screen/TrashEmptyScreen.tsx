@@ -12,14 +12,16 @@ export const TrashEmptyScreen = () => {
 
   return (
     <div
-      className="d-flex flex-column gap-24 flex-fill align-items-center justify-content-center m-auto p-16"
+      className="d-flex flex-column gap-24 flex-fill align-items-center justify-content-center m-auto p-24"
       style={emptyStyles}
     >
       <EmptyScreen imageSrc={emptyTrashImage} imageAlt="Empty Trash" />
-      <Heading className="text-secondary mb-16 text-center" level="h2">
-        {t("rack.trash.empty.title")}
-      </Heading>
-      <p className="text-center">{t("rack.trash.empty.text")}</p>
+      <div>
+        <Heading className="mb-8 text-center h2" level="h2">
+          {t("rack.trash.empty.title")}
+        </Heading>
+        <p className="text-center">{t("rack.trash.empty.text")}</p>
+      </div>
     </div>
   );
 };

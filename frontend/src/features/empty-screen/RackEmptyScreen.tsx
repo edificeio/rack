@@ -12,14 +12,16 @@ export const RackEmptyScreen = () => {
 
   return (
     <div
-      className="d-flex flex-column gap-24 flex-fill align-items-center justify-content-center m-auto p-16"
+      className="d-flex flex-column gap-24 flex-fill align-items-center justify-content-center m-auto p-24"
       style={emptyStyles}
     >
       <EmptyScreen imageSrc={emptyRackImage} imageAlt="Empty Rack" />
-      <Heading className="text-secondary mb-16 text-center" level="h2">
-        {t("rack.empty.title")}
-      </Heading>
-      <p className="text-center">{t("rack.empty.text")}</p>
+      <div>
+        <Heading className="mb-8 text-center h2" level="h2">
+          {t("rack.empty.title")}
+        </Heading>
+        <p className="text-center">{t("rack.empty.text")}</p>
+      </div>
     </div>
   );
 };
