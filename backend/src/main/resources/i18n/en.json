@@ -73,5 +73,9 @@
   "tuto.action.select": "Cliquez",
   "tuto.text.select": "pour séléctionner et accéder au menu d'options,",
   "tuto.action.open": "Cliquez sur l'icône",
-  "tuto.text.open": "pour télécharger le document."
+  "tuto.text.open": "to download document.",
+  "rack.table.date": "Date",
+  "rack.table.name": "Name",
+  "rack.table.from": "From",
+  "rack.table.to": "To"
 }
