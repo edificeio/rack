@@ -37,8 +37,15 @@ export const SelectedRecipientItem = ({
         )}
 
         {/* Name and Type */}
-        <div className="d-flex flex-column small flex-fill">
+        <div className="d-flex flex-column small flex-fill small">
           <strong>{recipient.name}</strong>
+          {recipient.type === "user" && recipient.profile && (
+            <strong
+              className={`user-profile-${recipient.profile.toLowerCase()}`}
+            >
+              {t(recipient.profile)}
+            </strong>
+          )}
         </div>
       </div>
 
