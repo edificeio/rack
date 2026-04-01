@@ -94,7 +94,17 @@ export const DocumentListTableBody = ({
                 <span className="fw-bold">{personData.displayName}</span>
               </Flex>
             </Table.Td>
-            <Table.Td>{new Date(doc.sent).toLocaleDateString()}</Table.Td>
+            <Table.Td>
+              <span className="text-center">
+                {new Date(doc.sent).toLocaleString([], {
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </span>
+            </Table.Td>
           </Table.Tr>
         );
       })}
