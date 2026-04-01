@@ -12,6 +12,7 @@ import { useUploadActions } from "./hooks/useUploadActions";
 import { UploadFilesDropzone } from "./components/UploadFilesDropzone";
 import { SelectedRecipientItem } from "./components/SelectedRecipientItem";
 import { NoRecipientItem } from "./components/NoRecipientItem";
+import type { RecipientOption } from "./hooks/useUploadSearch";
 
 const acceptedTypes = () => ["*"];
 
@@ -72,11 +73,21 @@ export const UploadDocumentModal = () => {
                   handleAddRecipient(values[0].toString());
                 }
               }}
-              renderListItem={(option) => (
-                <div className="d-flex align-items-center gap-8">
-                  <span>{option.label}</span>
-                </div>
-              )}
+              renderListItem={(option) => {
+                const typedOption = option as RecipientOption;
+                return (
+                  <div className="d-flex align-items-center gap-8 small">
+                    <strong>{typedOption.label}</strong>
+                    {typedOption.profile && (
+                      <strong
+                        className={`user-profile-${typedOption.profile.toLowerCase()}`}
+                      >
+                        {typedOption.profile}
+                      </strong>
+                    )}
+                  </div>
+                );
+              }}
             />
 
             {/* Selected Recipients List */}

@@ -1,7 +1,13 @@
 import { useState, useCallback } from "react";
 import { useSearchUsers } from "~/services/queries/rack.queries";
 import { odeServices } from "@edifice.io/client";
-import { useIsAdmlcOrAdmc, type OptionListItemType } from "@edifice.io/react";
+import { useIsAdmlcOrAdmc } from "@edifice.io/react";
+
+export interface RecipientOption {
+  value: string;
+  label: string;
+  profile?: string;
+}
 
 export interface Recipient {
   id: string;
@@ -24,17 +30,18 @@ export const useUploadSearch = () => {
   const removeAccents = odeServices.idiom().removeAccents;
   const searchTerm = removeAccents(searchInputValue).toLowerCase();
 
-  const userSearchResults: OptionListItemType[] = (data?.users || [])
+  const userSearchResults: RecipientOption[] = (data?.users || [])
     .filter((user) =>
       removeAccents(user.username).toLowerCase().includes(searchTerm),
     )
     .map((user) => ({
       value: user.id,
       label: user.username,
+      profile: user.profile,
     }))
     .sort((a, b) => a.label.localeCompare(b.label));
 
-  const groupSearchResults: OptionListItemType[] = (data?.groups || [])
+  const groupSearchResults: RecipientOption[] = (data?.groups || [])
     .filter((group) =>
       removeAccents(group.name).toLowerCase().includes(searchTerm),
     )
@@ -98,7 +105,7 @@ export const useUploadSearch = () => {
 
   return {
     searchInputValue,
-    searchResults: (searchResults as OptionListItemType[]) || [],
+    searchResults: searchResults || [],
     isSearchLoading,
     hasSearchNoResults,
     searchMinLength,
