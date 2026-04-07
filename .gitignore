@@ -19,6 +19,7 @@ gradlew*
 .env
 target
 dependency-reduced-pom.xml
+edifice
 # Ignore the entire "resources" folder except jsonchema
 backend/src/main/resources/public/*
 !backend/src/main/resources/public/js
@@ -26,3 +27,4 @@ backend/src/main/resources/public/*
 backend/src/main/resources/view/index.html
 backend/src/main/resources/*.html
 # backend/src/main/resources/view
+.pnpm-store
