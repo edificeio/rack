@@ -87,7 +87,7 @@ publish() {
       *)         export nexusRepository='releases' ;;
     esac
 
-    docker-compose run --rm  maven mvn -DrepositoryId=ode-$nexusRepository -DskiptTests --settings /var/maven/.m2/settings.xml install deploy -U
+    docker-compose run --rm  maven mvn $MVN_OPTS -DrepositoryId=ode-$nexusRepository -DskiptTests --settings /var/maven/.m2/settings.xml install deploy -U
   fi
 }
 
