@@ -82,5 +82,10 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
+  },
+  "pnpm": {
+    "overrides": {
+      "@edifice.io/collect-client-rest": "develop-pedago"
+    }
   }
 }
