@@ -68,6 +68,15 @@ const routes = (queryClient: QueryClient): RouteObject[] => [
           };
         },
       },
+      {
+        path: "/collect",
+        async lazy() {
+          const module = (await import("@edifice.io/collect-frontend/lib")) as {
+            CollectApp: React.ComponentType<unknown>;
+          };
+          return { Component: module.CollectApp };
+        },
+      },
     ],
   },
   {
