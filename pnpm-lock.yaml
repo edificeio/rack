@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  "@edifice.io/collect-client-rest": develop-pedago
+
 importers:
   .:
     dependencies:
@@ -102,6 +105,9 @@ importers:
       "@edifice.io/client":
         specifier: develop-pedago
         version: 2.5.15-develop-pedago.20260331093918
+      "@edifice.io/collect-frontend":
+        specifier: 0.2.2-develop-pedago.2
+        version: 0.2.2-develop-pedago.2(d1a8369ceea4c18dc2452fae5ccd0138)
       "@edifice.io/rack-client-rest":
         specifier: workspace:*
         version: link:../client/rest
@@ -691,11 +697,37 @@ packages:
         integrity: sha512-3ty1QPOrpRKY73tFTaR7/BMRRYqRzematF3LIoAzmsuA7HsGtGafodcYJktS51g1bb08JDgui4DrO6rxemSrAg==,
       }
 
+  "@edifice.io/bootstrap@2.5.16-develop-pedago.20260423093600":
+    resolution:
+      {
+        integrity: sha512-5+CPd+DDzc7amHogHA5HsP+5mdSiv1iHgSDmke2uKRuSIP0QHACS1sgO2kUe5vk3ic+xq0TIUmambGHuzr4Hkw==,
+      }
+
   "@edifice.io/client@2.5.15-develop-pedago.20260331093918":
     resolution:
       {
         integrity: sha512-wtwfX+vtgZCzr618K6knMhIVgzplD/x/ya/+FGSJ9ihrCaxK/QYcNKoGjHqtU0VUswyEwcB8+PQjTclwiWUzTw==,
       }
+
+  "@edifice.io/client@2.5.16-develop-pedago.20260423093600":
+    resolution:
+      {
+        integrity: sha512-4DNfvnSJ35Y0PP6x/PTzGh9OJQkr/DFpWkcwkjEfv4oFsMikpOBsfkrQbnkkDjEJEmyB6ZSK0jnIwydGTFSQZQ==,
+      }
+
+  "@edifice.io/collect-client-rest@0.2.0-develop-pedago.0.20260427101039":
+    resolution:
+      {
+        integrity: sha512-RVFaz/i1pCpXinBEDhaMFUatWphFhK90rgdTC47bCF+pCVap4dFuzUk8QKlrftzDw/tK7RCe0CS47dGa8TwNew==,
+      }
+    engines: { node: ">=22", pnpm: ">=8" }
+
+  "@edifice.io/collect-frontend@0.2.2-develop-pedago.2":
+    resolution:
+      {
+        integrity: sha512-aJiCvnJy/KMxyK5bnZqOZZ91tdCXicHpG+Fk+E3LmXx5VPmo/gl/pegnhQykWKhnur0t4UhaFFDsMHCQuMmJ+Q==,
+      }
+    engines: { node: ">=20" }
 
   "@edifice.io/edifice-nestjs-core@1.0.0-develop-pedago.20260326084042":
     resolution:
@@ -733,16 +765,48 @@ packages:
       react-hook-form: ^7.53.0
       react-i18next: ^14.1.0
 
+  "@edifice.io/react@2.5.16-develop-pedago.20260423093600":
+    resolution:
+      {
+        integrity: sha512-zcXFdG4cD5HV4GBLTL/phc3LRbvPXbJONIYbIFSh2Z/1qHqQYjMRHQClrwjWPpmhbxR5wbSM5iDT8NMGkpcROg==,
+      }
+    peerDependencies:
+      "@react-spring/web": ^9.7.5
+      "@tanstack/react-query": 5.62.7
+      react: ^18.3.1
+      react-dom: ^18.3.1
+      react-hook-form: ^7.53.0
+      react-i18next: ^14.1.0
+
+  "@edifice.io/rest-client-base@2.5.16-develop-pedago.20260423093600":
+    resolution:
+      {
+        integrity: sha512-1I3Ow+vH1YuPGx7zF89iNnJbbja8y3lLNzMCxRcJQ0kmaOeUg7iPXVB49wfReShvRVwYMeOeEPYyLKhAN2JcEA==,
+      }
+    hasBin: true
+
   "@edifice.io/tiptap-extensions@2.5.15-develop-pedago.20260331093918":
     resolution:
       {
         integrity: sha512-GBYklqxT9UAomOSYTEIc/XvDsDtlLZxHWzKmh4KENz7Zqrpr28Fr7OXc07Oahk4x9rCRwwKxZ9TTD5ilWjaMJg==,
       }
 
+  "@edifice.io/tiptap-extensions@2.5.16-develop-pedago.20260423093600":
+    resolution:
+      {
+        integrity: sha512-IEux+oWYiVg2Oj5tQI17yeggJu8K6hYEw3wPC7tDQtoWSw3ZyY//Gz3XRrbGgSGEg6IS2UvbdnAzNxNudbQXpQ==,
+      }
+
   "@edifice.io/utilities@2.5.15-develop-pedago.20260331093918":
     resolution:
       {
         integrity: sha512-jx/sEEwauX9rs/vh/J3J1O4IYtPnAw5/yF/CH526pCmRBBTGBzRxvKsTBhsFHJ6JxYy34uYefo2A0qmVggTzSQ==,
+      }
+
+  "@edifice.io/utilities@2.5.16-develop-pedago.20260423093600":
+    resolution:
+      {
+        integrity: sha512-nRN8S8sSrPTbuydPaGfiO7/rVl+m2u/1a5M7atW+VMVSk/6LjDdadQAkDoryWF68rZ9VEdhImZKfirL3glXoyA==,
       }
 
   "@elastic/ecs-helpers@2.1.1":
@@ -7069,6 +7133,13 @@ packages:
       }
     engines: { node: 18 || 20 }
 
+  ode-explorer@2.5.6-develop-pedago.202604230954:
+    resolution:
+      {
+        integrity: sha512-ZGDz4l5S1o2Fj4VZjdyHjgQET2OvJjl+F59Q45OaV25XCdkKs6eezhxYeLVt8/zHPAe5TPPDrGdk9+4fxArp5A==,
+      }
+    engines: { node: 18 || 20 }
+
   ohash@1.1.3:
     resolution:
       {
@@ -10107,6 +10178,11 @@ snapshots:
       "@popperjs/core": 2.11.8
       bootstrap: 5.3.2(@popperjs/core@2.11.8)
 
+  "@edifice.io/bootstrap@2.5.16-develop-pedago.20260423093600":
+    dependencies:
+      "@popperjs/core": 2.11.8
+      bootstrap: 5.3.2(@popperjs/core@2.11.8)
+
   "@edifice.io/client@2.5.15-develop-pedago.20260331093918":
     dependencies:
       "@edifice.io/utilities": 2.5.15-develop-pedago.20260331093918
@@ -10115,6 +10191,96 @@ snapshots:
       ua-parser-js: 2.0.9
     transitivePeerDependencies:
       - debug
+
+  "@edifice.io/client@2.5.16-develop-pedago.20260423093600":
+    dependencies:
+      "@edifice.io/utilities": 2.5.16-develop-pedago.20260423093600
+      axios: 1.12.2
+      core-js: 3.47.0
+      ua-parser-js: 2.0.9
+    transitivePeerDependencies:
+      - debug
+
+  "@edifice.io/collect-client-rest@0.2.0-develop-pedago.0.20260427101039(@fastify/static@8.2.0)(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.0.20)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)":
+    dependencies:
+      "@edifice.io/rest-client-base": 2.5.16-develop-pedago.20260423093600
+      "@nestjs/swagger": 11.2.0(@fastify/static@8.2.0)(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.0.20)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
+    transitivePeerDependencies:
+      - "@fastify/static"
+      - "@nestjs/common"
+      - "@nestjs/core"
+      - class-transformer
+      - class-validator
+      - reflect-metadata
+
+  "@edifice.io/collect-frontend@0.2.2-develop-pedago.2(d1a8369ceea4c18dc2452fae5ccd0138)":
+    dependencies:
+      "@edifice.io/bootstrap": 2.5.16-develop-pedago.20260423093600
+      "@edifice.io/client": 2.5.16-develop-pedago.20260423093600
+      "@edifice.io/collect-client-rest": 0.2.0-develop-pedago.0.20260427101039(@fastify/static@8.2.0)(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.0.20)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
+      "@edifice.io/react": 2.5.16-develop-pedago.20260423093600(df39c6de5af1d07526c95f30e6099c15)
+      "@react-spring/web": 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      "@tanstack/react-query": 5.81.5(react@18.3.1)
+      "@uidotdev/usehooks": 2.4.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      antd: 5.27.6(luxon@3.6.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      clsx: 2.1.1
+      i18next: 23.8.1
+      i18next-http-backend: 2.4.2(encoding@0.1.13)
+      ode-explorer: 2.5.6-develop-pedago.202604230954(c0319f7bf10c97d13bed8c7f86dd49b7)
+      pdfjs-dist: 5.4.394
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-error-boundary: 4.0.13(react@18.3.1)
+      react-hook-form: 7.62.0(react@18.3.1)
+      react-i18next: 14.1.0(i18next@23.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-pdf: 10.2.0(@types/react@18.3.24)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-router-dom: 6.30.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      zustand: 4.5.7(@types/react@18.3.24)(react@18.3.1)
+    transitivePeerDependencies:
+      - "@babel/runtime"
+      - "@fastify/static"
+      - "@nestjs/common"
+      - "@nestjs/core"
+      - "@pixi/app"
+      - "@pixi/constants"
+      - "@pixi/core"
+      - "@pixi/display"
+      - "@pixi/extensions"
+      - "@pixi/graphics"
+      - "@pixi/math"
+      - "@pixi/mesh"
+      - "@pixi/mesh-extras"
+      - "@pixi/particle-container"
+      - "@pixi/sprite"
+      - "@pixi/sprite-animated"
+      - "@pixi/sprite-tiling"
+      - "@pixi/text"
+      - "@pixi/text-bitmap"
+      - "@pixi/ticker"
+      - "@types/node"
+      - "@types/react"
+      - class-transformer
+      - class-validator
+      - date-fns
+      - debug
+      - encoding
+      - immer
+      - katex
+      - less
+      - lightningcss
+      - luxon
+      - moment
+      - prop-types
+      - react-native
+      - reflect-metadata
+      - rollup
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - typescript
 
   "@edifice.io/edifice-nestjs-core@1.0.0-develop-pedago.20260326084042(61bf86961023d6eadadffc399d8c1bb5)":
     dependencies:
@@ -10383,6 +10549,226 @@ snapshots:
       - terser
       - typescript
 
+  "@edifice.io/react@2.5.16-develop-pedago.20260423093600(df39c6de5af1d07526c95f30e6099c15)":
+    dependencies:
+      "@ant-design/icons": 5.6.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      "@dnd-kit/core": 6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      "@dnd-kit/sortable": 8.0.0(@dnd-kit/core@6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+      "@dnd-kit/utilities": 3.2.2(react@18.3.1)
+      "@edifice.io/bootstrap": 2.5.16-develop-pedago.20260423093600
+      "@edifice.io/tiptap-extensions": 2.5.16-develop-pedago.20260423093600(@types/node@22.16.0)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.2)
+      "@edifice.io/utilities": 2.5.16-develop-pedago.20260423093600
+      "@floating-ui/react": 0.26.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      "@pixi/mixin-get-child-by-name": 7.4.2(@pixi/display@7.4.2(@pixi/core@7.4.2))
+      "@pixi/react": 7.1.2(377274a23b505bc69380454e30140b7e)
+      "@popperjs/core": 2.11.8
+      "@react-spring/web": 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      "@tanstack/react-query": 5.81.5(react@18.3.1)
+      "@tiptap/core": 2.11.0(@tiptap/pm@2.11.0)
+      "@tiptap/extension-blockquote": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-bullet-list": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-character-count": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-code": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-code-block": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-color": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/extension-text-style@2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0)))
+      "@tiptap/extension-dropcursor": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-focus": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-font-family": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/extension-text-style@2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0)))
+      "@tiptap/extension-gapcursor": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-hard-break": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-heading": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-highlight": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-history": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-horizontal-rule": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-image": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-italic": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-link": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-list-item": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-mathematics": 2.22.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)(katex@0.16.27)
+      "@tiptap/extension-ordered-list": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-placeholder": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-strike": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-subscript": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-superscript": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-table": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-table-cell": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-table-header": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-table-row": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-text-align": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-text-style": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-typography": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-underline": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/pm": 2.11.0
+      "@tiptap/react": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      "@tiptap/starter-kit": 2.11.0
+      "@uidotdev/usehooks": 2.4.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      antd: 5.29.1(luxon@3.6.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      clsx: 2.1.1
+      dayjs: 1.11.19
+      emoji-picker-react: 4.5.2(react@18.3.1)
+      heic-to: 1.4.2
+      html-react-parser: 4.2.1(react@18.3.1)
+      ohash: 1.1.3
+      pako: 2.1.0
+      pixi.js: 7.4.2
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-hook-form: 7.62.0(react@18.3.1)
+      react-hot-toast: 2.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-i18next: 14.1.0(i18next@23.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-intersection-observer: 9.5.3(react@18.3.1)
+      react-pdf: 10.2.0(@types/react@18.3.24)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-popper: 2.3.0(@popperjs/core@2.11.8)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-slugify: 3.0.3
+      swiper: 10.3.1
+      ua-parser-js: 1.0.41
+    transitivePeerDependencies:
+      - "@babel/runtime"
+      - "@pixi/app"
+      - "@pixi/constants"
+      - "@pixi/core"
+      - "@pixi/display"
+      - "@pixi/extensions"
+      - "@pixi/graphics"
+      - "@pixi/math"
+      - "@pixi/mesh"
+      - "@pixi/mesh-extras"
+      - "@pixi/particle-container"
+      - "@pixi/sprite"
+      - "@pixi/sprite-animated"
+      - "@pixi/sprite-tiling"
+      - "@pixi/text"
+      - "@pixi/text-bitmap"
+      - "@pixi/ticker"
+      - "@types/node"
+      - "@types/react"
+      - date-fns
+      - katex
+      - less
+      - lightningcss
+      - luxon
+      - moment
+      - prop-types
+      - rollup
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - typescript
+
+  "@edifice.io/react@2.5.16-develop-pedago.20260423093600(e48cc9d8d2a8dd65a11d3a4fbf425471)":
+    dependencies:
+      "@ant-design/icons": 5.6.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      "@dnd-kit/core": 6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      "@dnd-kit/sortable": 8.0.0(@dnd-kit/core@6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+      "@dnd-kit/utilities": 3.2.2(react@18.3.1)
+      "@edifice.io/bootstrap": 2.5.16-develop-pedago.20260423093600
+      "@edifice.io/tiptap-extensions": 2.5.16-develop-pedago.20260423093600(@types/node@22.16.0)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.2)
+      "@edifice.io/utilities": 2.5.16-develop-pedago.20260423093600
+      "@floating-ui/react": 0.26.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      "@pixi/mixin-get-child-by-name": 7.4.2(@pixi/display@7.4.2(@pixi/core@7.4.2))
+      "@pixi/react": 7.1.2(377274a23b505bc69380454e30140b7e)
+      "@popperjs/core": 2.11.8
+      "@react-spring/web": 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      "@tanstack/react-query": 5.62.7(react@18.3.1)
+      "@tiptap/core": 2.11.0(@tiptap/pm@2.11.0)
+      "@tiptap/extension-blockquote": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-bullet-list": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-character-count": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-code": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-code-block": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-color": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/extension-text-style@2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0)))
+      "@tiptap/extension-dropcursor": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-focus": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-font-family": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/extension-text-style@2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0)))
+      "@tiptap/extension-gapcursor": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-hard-break": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-heading": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-highlight": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-history": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-horizontal-rule": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-image": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-italic": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-link": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-list-item": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-mathematics": 2.22.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)(katex@0.16.27)
+      "@tiptap/extension-ordered-list": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-placeholder": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-strike": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-subscript": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-superscript": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-table": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-table-cell": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-table-header": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-table-row": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-text-align": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-text-style": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-typography": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-underline": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/pm": 2.11.0
+      "@tiptap/react": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      "@tiptap/starter-kit": 2.11.0
+      "@uidotdev/usehooks": 2.4.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      antd: 5.29.1(luxon@3.6.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      clsx: 2.1.1
+      dayjs: 1.11.19
+      emoji-picker-react: 4.5.2(react@18.3.1)
+      heic-to: 1.4.2
+      html-react-parser: 4.2.1(react@18.3.1)
+      ohash: 1.1.3
+      pako: 2.1.0
+      pixi.js: 7.4.2
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-hook-form: 7.62.0(react@18.3.1)
+      react-hot-toast: 2.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-i18next: 14.1.0(i18next@23.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-intersection-observer: 9.5.3(react@18.3.1)
+      react-pdf: 10.2.0(@types/react@18.3.24)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-popper: 2.3.0(@popperjs/core@2.11.8)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-slugify: 3.0.3
+      swiper: 10.3.1
+      ua-parser-js: 1.0.41
+    transitivePeerDependencies:
+      - "@babel/runtime"
+      - "@pixi/app"
+      - "@pixi/constants"
+      - "@pixi/core"
+      - "@pixi/display"
+      - "@pixi/extensions"
+      - "@pixi/graphics"
+      - "@pixi/math"
+      - "@pixi/mesh"
+      - "@pixi/mesh-extras"
+      - "@pixi/particle-container"
+      - "@pixi/sprite"
+      - "@pixi/sprite-animated"
+      - "@pixi/sprite-tiling"
+      - "@pixi/text"
+      - "@pixi/text-bitmap"
+      - "@pixi/ticker"
+      - "@types/node"
+      - "@types/react"
+      - date-fns
+      - katex
+      - less
+      - lightningcss
+      - luxon
+      - moment
+      - prop-types
+      - rollup
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - typescript
+
+  "@edifice.io/rest-client-base@2.5.16-develop-pedago.20260423093600": {}
+
   "@edifice.io/tiptap-extensions@2.5.15-develop-pedago.20260331093918(@types/node@22.16.0)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.2)":
     dependencies:
       "@edifice.io/utilities": 2.5.15-develop-pedago.20260331093918
@@ -10431,7 +10817,57 @@ snapshots:
       - terser
       - typescript
 
+  "@edifice.io/tiptap-extensions@2.5.16-develop-pedago.20260423093600(@types/node@22.16.0)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.2)":
+    dependencies:
+      "@edifice.io/utilities": 2.5.16-develop-pedago.20260423093600
+      "@tiptap/core": 2.11.0(@tiptap/pm@2.11.0)
+      "@tiptap/extension-blockquote": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-bold": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-bullet-list": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-code": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-code-block": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-document": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-dropcursor": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-gapcursor": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-hard-break": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-heading": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-highlight": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-history": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-horizontal-rule": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-image": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-italic": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-link": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/extension-ordered-list": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-paragraph": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-strike": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-table-cell": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-text": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/extension-text-style": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
+      "@tiptap/html": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
+      "@tiptap/pm": 2.11.0
+      "@tiptap/starter-kit": 2.11.0
+      prosemirror-model: 1.25.4
+      prosemirror-state: 1.4.4
+      prosemirror-transform: 1.10.5
+      prosemirror-view: 1.41.4
+      vite: 5.4.20(@types/node@22.16.0)(terser@5.44.1)
+      vite-plugin-dts: 4.5.4(@types/node@22.16.0)(rollup@4.53.3)(typescript@5.9.2)(vite@5.4.20(@types/node@22.16.0)(terser@5.44.1))
+    transitivePeerDependencies:
+      - "@types/node"
+      - less
+      - lightningcss
+      - rollup
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - typescript
+
   "@edifice.io/utilities@2.5.15-develop-pedago.20260331093918": {}
+
+  "@edifice.io/utilities@2.5.16-develop-pedago.20260423093600": {}
 
   "@elastic/ecs-helpers@2.1.1": {}
 
@@ -14305,6 +14741,66 @@ snapshots:
       "@edifice.io/bootstrap": 2.5.15-develop-pedago.20260331093918
       "@edifice.io/client": 2.5.15-develop-pedago.20260331093918
       "@edifice.io/react": 2.5.15-develop-pedago.20260331093918(e48cc9d8d2a8dd65a11d3a4fbf425471)
+      "@react-spring/web": 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      "@tanstack/react-query": 5.62.7(react@18.3.1)
+      clsx: 2.1.1
+      dayjs: 1.11.10
+      i18next: 23.8.1
+      i18next-http-backend: 2.4.2(encoding@0.1.13)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-error-boundary: 4.0.13(react@18.3.1)
+      react-hook-form: 7.62.0(react@18.3.1)
+      react-i18next: 14.1.0(i18next@23.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-router-dom: 6.30.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      zustand: 4.5.7(@types/react@18.3.24)(react@18.3.1)
+    transitivePeerDependencies:
+      - "@babel/runtime"
+      - "@pixi/app"
+      - "@pixi/constants"
+      - "@pixi/core"
+      - "@pixi/display"
+      - "@pixi/extensions"
+      - "@pixi/graphics"
+      - "@pixi/math"
+      - "@pixi/mesh"
+      - "@pixi/mesh-extras"
+      - "@pixi/particle-container"
+      - "@pixi/sprite"
+      - "@pixi/sprite-animated"
+      - "@pixi/sprite-tiling"
+      - "@pixi/text"
+      - "@pixi/text-bitmap"
+      - "@pixi/ticker"
+      - "@types/node"
+      - "@types/react"
+      - date-fns
+      - debug
+      - encoding
+      - immer
+      - katex
+      - less
+      - lightningcss
+      - luxon
+      - moment
+      - prop-types
+      - react-native
+      - rollup
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - typescript
+
+  ode-explorer@2.5.6-develop-pedago.202604230954(c0319f7bf10c97d13bed8c7f86dd49b7):
+    dependencies:
+      "@dnd-kit/core": 6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      "@dnd-kit/modifiers": 7.0.0(@dnd-kit/core@6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+      "@edifice.io/bootstrap": 2.5.16-develop-pedago.20260423093600
+      "@edifice.io/client": 2.5.16-develop-pedago.20260423093600
+      "@edifice.io/react": 2.5.16-develop-pedago.20260423093600(e48cc9d8d2a8dd65a11d3a4fbf425471)
       "@react-spring/web": 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@tanstack/react-query": 5.62.7(react@18.3.1)
       clsx: 2.1.1

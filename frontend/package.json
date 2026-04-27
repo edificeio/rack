@@ -27,6 +27,7 @@
     "@edifice.io/utilities": "develop-pedago",
     "@edifice.io/bootstrap": "develop-pedago",
     "@edifice.io/rack-client-rest": "workspace:*",
+    "@edifice.io/collect-frontend": "develop-pedago",
     "@edifice.io/client": "develop-pedago",
     "@edifice.io/react": "develop-pedago",
     "@react-spring/web": "9.7.5",
