@@ -4,9 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  "@edifice.io/collect-client-rest": develop-pedago
-
 importers:
   .:
     dependencies:
@@ -106,8 +103,8 @@ importers:
         specifier: develop-pedago
         version: 2.5.15-develop-pedago.20260331093918
       "@edifice.io/collect-frontend":
-        specifier: 0.2.2-develop-pedago.2
-        version: 0.2.2-develop-pedago.2(d1a8369ceea4c18dc2452fae5ccd0138)
+        specifier: feat-PEDAGO-3966
+        version: 0.2.2-develop-pedago.3.20260427143515(d1a8369ceea4c18dc2452fae5ccd0138)
       "@edifice.io/rack-client-rest":
         specifier: workspace:*
         version: link:../client/rest
@@ -715,17 +712,17 @@ packages:
         integrity: sha512-4DNfvnSJ35Y0PP6x/PTzGh9OJQkr/DFpWkcwkjEfv4oFsMikpOBsfkrQbnkkDjEJEmyB6ZSK0jnIwydGTFSQZQ==,
       }
 
-  "@edifice.io/collect-client-rest@0.2.0-develop-pedago.0.20260427101039":
+  "@edifice.io/collect-client-rest@0.2.0-develop-pedago.0.20260427141130":
     resolution:
       {
-        integrity: sha512-RVFaz/i1pCpXinBEDhaMFUatWphFhK90rgdTC47bCF+pCVap4dFuzUk8QKlrftzDw/tK7RCe0CS47dGa8TwNew==,
+        integrity: sha512-FUSw8TLFIQCQZrZmZCAr3zGD6RVdPBQs3rNcJbOPdo1/eMJ/q1SHwlKPKyF+SerPKlGfWAwZAsPOcUd5gPlZoA==,
       }
     engines: { node: ">=22", pnpm: ">=8" }
 
-  "@edifice.io/collect-frontend@0.2.2-develop-pedago.2":
+  "@edifice.io/collect-frontend@0.2.2-develop-pedago.3.20260427143515":
     resolution:
       {
-        integrity: sha512-aJiCvnJy/KMxyK5bnZqOZZ91tdCXicHpG+Fk+E3LmXx5VPmo/gl/pegnhQykWKhnur0t4UhaFFDsMHCQuMmJ+Q==,
+        integrity: sha512-0lYW0Ku7w0aaksjaLoV4NwY7bNbAzh37eUTZQnv2aPRIYDUgMvvK+v8n8GFVFGUq8j/tgp0t6YF4eZR/mAtwag==,
       }
     engines: { node: ">=20" }
 
@@ -10201,7 +10198,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  "@edifice.io/collect-client-rest@0.2.0-develop-pedago.0.20260427101039(@fastify/static@8.2.0)(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.0.20)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)":
+  "@edifice.io/collect-client-rest@0.2.0-develop-pedago.0.20260427141130(@fastify/static@8.2.0)(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.0.20)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)":
     dependencies:
       "@edifice.io/rest-client-base": 2.5.16-develop-pedago.20260423093600
       "@nestjs/swagger": 11.2.0(@fastify/static@8.2.0)(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.0.20)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
@@ -10213,11 +10210,11 @@ snapshots:
       - class-validator
       - reflect-metadata
 
-  "@edifice.io/collect-frontend@0.2.2-develop-pedago.2(d1a8369ceea4c18dc2452fae5ccd0138)":
+  "@edifice.io/collect-frontend@0.2.2-develop-pedago.3.20260427143515(d1a8369ceea4c18dc2452fae5ccd0138)":
     dependencies:
       "@edifice.io/bootstrap": 2.5.16-develop-pedago.20260423093600
       "@edifice.io/client": 2.5.16-develop-pedago.20260423093600
-      "@edifice.io/collect-client-rest": 0.2.0-develop-pedago.0.20260427101039(@fastify/static@8.2.0)(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.0.20)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
+      "@edifice.io/collect-client-rest": 0.2.0-develop-pedago.0.20260427141130(@fastify/static@8.2.0)(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.0.20)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
       "@edifice.io/react": 2.5.16-develop-pedago.20260423093600(df39c6de5af1d07526c95f30e6099c15)
       "@react-spring/web": 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@tanstack/react-query": 5.81.5(react@18.3.1)
