@@ -26,7 +26,7 @@ import actionsDefault from "~/config/Actions";
 import { TrashDocumentModal } from "~/features/modals/TrashDocumentModal";
 
 type CollectFrontendModule = {
-  CollectMenu: React.ComponentType<{ showMenu?: boolean }>;
+  CollectMenu: React.ComponentType<{ showMenu?: boolean; basePath?: string }>;
 };
 
 const CollectMenu = lazy(() =>
@@ -95,8 +95,7 @@ export function Component() {
   const { init, currentApp } = useEdificeClient();
   const { lg } = useBreakpoint();
   const { config, actions } = useLoaderData() as RootLoaderData;
-  const openedModal = useRackStore.use.openedModal();
-  // Show loading screen while initializing
+  const openedModal = useRackStore.use.openedModal(); // Show loading screen while initializing
   if (!init || !currentApp) {
     return <LoadingScreen position={false} />;
   }
@@ -126,7 +125,7 @@ export function Component() {
             as="aside"
           >
             <Suspense fallback={null}>
-              <CollectMenu showMenu={false} />
+              <CollectMenu showMenu={false} basePath="/collect" />
             </Suspense>
             <DesktopMenu />
           </Grid.Col>
