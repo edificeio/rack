@@ -86,7 +86,7 @@ importers:
     devDependencies:
       "@edifice.io/client":
         specifier: develop-pedago
-        version: 2.5.16-develop-pedago.20260423093600
+        version: 2.5.16-develop-pedago.20260429161139
       "@edifice.io/edifice-nestjs-core":
         specifier: develop-pedago
         version: 1.0.0-develop-pedago.20260326084042(0b9c9abf622cb274d1d91e6569bbea90)
@@ -101,22 +101,22 @@ importers:
     dependencies:
       "@edifice.io/bootstrap":
         specifier: develop-pedago
-        version: 2.5.16-develop-pedago.20260423093600
+        version: 2.5.16-develop-pedago.20260429161139
       "@edifice.io/client":
         specifier: develop-pedago
-        version: 2.5.16-develop-pedago.20260423093600
+        version: 2.5.16-develop-pedago.20260429161139
       "@edifice.io/collect-frontend":
         specifier: feat-PEDAGO-3966
-        version: 0.2.2-develop-pedago.3.20260429123410(069f3f82ac4171493f6c992c95061a8d)
+        version: 0.2.2-develop-pedago.3.20260429143208(069f3f82ac4171493f6c992c95061a8d)
       "@edifice.io/rack-client-rest":
         specifier: workspace:*
         version: link:../client/rest
       "@edifice.io/react":
         specifier: develop-pedago
-        version: 2.5.16-develop-pedago.20260423093600(097628f4e892cb1e74a46378d9907bf6)
+        version: 2.5.16-develop-pedago.20260429161139(097628f4e892cb1e74a46378d9907bf6)
       "@edifice.io/utilities":
         specifier: develop-pedago
-        version: 2.5.16-develop-pedago.20260423093600
+        version: 2.5.16-develop-pedago.20260429161139
       "@react-spring/web":
         specifier: 9.7.5
         version: 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -706,16 +706,16 @@ packages:
     peerDependencies:
       react: ">=16.8.0"
 
-  "@edifice.io/bootstrap@2.5.16-develop-pedago.20260423093600":
+  "@edifice.io/bootstrap@2.5.16-develop-pedago.20260429161139":
     resolution:
       {
-        integrity: sha512-5+CPd+DDzc7amHogHA5HsP+5mdSiv1iHgSDmke2uKRuSIP0QHACS1sgO2kUe5vk3ic+xq0TIUmambGHuzr4Hkw==,
+        integrity: sha512-JdFUqNBvbzxZLLB6B6lo5BJ5cFYEWVzbk3Df5G1sbRqtyqg9MDKRKjVntT7pYY5aVrMB4atsrDVjF/l3qjyzWQ==,
       }
 
-  "@edifice.io/client@2.5.16-develop-pedago.20260423093600":
+  "@edifice.io/client@2.5.16-develop-pedago.20260429161139":
     resolution:
       {
-        integrity: sha512-4DNfvnSJ35Y0PP6x/PTzGh9OJQkr/DFpWkcwkjEfv4oFsMikpOBsfkrQbnkkDjEJEmyB6ZSK0jnIwydGTFSQZQ==,
+        integrity: sha512-Q+fyoNKzVbny1Mcg4niWf4SdcJbSdMFjU3ba45kgqAfEi9C3QzY9IV5b2qeG7mvY0RaI26L8sprLS/TWbvQ5zw==,
       }
 
   "@edifice.io/collect-client-rest@0.2.0-develop-pedago.0.20260427141130":
@@ -725,10 +725,10 @@ packages:
       }
     engines: { node: ">=22", pnpm: ">=8" }
 
-  "@edifice.io/collect-frontend@0.2.2-develop-pedago.3.20260429123410":
+  "@edifice.io/collect-frontend@0.2.2-develop-pedago.3.20260429143208":
     resolution:
       {
-        integrity: sha512-b//CeiClKIQ+yfYzF2M7wgVFSfmAyfx1P3ULwwr7JtAtecR1h9cgwNSg+B5R9miKCRZ2X2hfSWXQHbWNniuYog==,
+        integrity: sha512-RvBM2do/asXKdq/WYMoyLn0SSADd9h3i1PmIEFRgBy0SbxT3w9ON1iJX48vaTIpGeXLYCz1OGxcD9B6j82HgyQ==,
       }
     engines: { node: ">=20" }
 
@@ -755,10 +755,10 @@ packages:
       reflect-metadata: 0.2.0
       rxjs: 7.8.2
 
-  "@edifice.io/react@2.5.16-develop-pedago.20260423093600":
+  "@edifice.io/react@2.5.16-develop-pedago.20260429161139":
     resolution:
       {
-        integrity: sha512-zcXFdG4cD5HV4GBLTL/phc3LRbvPXbJONIYbIFSh2Z/1qHqQYjMRHQClrwjWPpmhbxR5wbSM5iDT8NMGkpcROg==,
+        integrity: sha512-qnGFD3qkBkO9KsCdBFO0NF7Fla2e2F6pMN0oiYDbbbsbscDLsFiHhdHgUECzrrWdq/V9d9uZz/fG2IddkoOUEQ==,
       }
     peerDependencies:
       "@react-spring/web": ^9.7.5
@@ -768,23 +768,23 @@ packages:
       react-hook-form: ^7.53.0
       react-i18next: ^14.1.0
 
-  "@edifice.io/rest-client-base@2.5.16-develop-pedago.20260423093600":
+  "@edifice.io/rest-client-base@2.5.16-develop-pedago.20260429161139":
     resolution:
       {
-        integrity: sha512-1I3Ow+vH1YuPGx7zF89iNnJbbja8y3lLNzMCxRcJQ0kmaOeUg7iPXVB49wfReShvRVwYMeOeEPYyLKhAN2JcEA==,
+        integrity: sha512-L0oh6v2C4duLDzGp5aGGDr4cmEMyvFdz9YpL+LFXpkViCMFCVT9F+rHYcV3PzR9nhyakJqxOJyuAPu0lHt20CA==,
       }
     hasBin: true
 
-  "@edifice.io/tiptap-extensions@2.5.16-develop-pedago.20260423093600":
+  "@edifice.io/tiptap-extensions@2.5.16-develop-pedago.20260429161139":
     resolution:
       {
-        integrity: sha512-IEux+oWYiVg2Oj5tQI17yeggJu8K6hYEw3wPC7tDQtoWSw3ZyY//Gz3XRrbGgSGEg6IS2UvbdnAzNxNudbQXpQ==,
+        integrity: sha512-mU6XeZAp/TVdGndWyR0pUmPLwe+4/HuINWtieAvVwD7bYV8gxABCzxQi8mZj6/kAyraXpgrMdaxbTEphk7iXKQ==,
       }
 
-  "@edifice.io/utilities@2.5.16-develop-pedago.20260423093600":
+  "@edifice.io/utilities@2.5.16-develop-pedago.20260429161139":
     resolution:
       {
-        integrity: sha512-nRN8S8sSrPTbuydPaGfiO7/rVl+m2u/1a5M7atW+VMVSk/6LjDdadQAkDoryWF68rZ9VEdhImZKfirL3glXoyA==,
+        integrity: sha512-BYSzmQjgWGEEkSCBY52XQY5st5YQNPzb31zW+/CCTUgkVPYjmvFj75gG6o1A5UfRUd7wxTv6rk1hTdcjLq+1Qg==,
       }
 
   "@elastic/ecs-helpers@2.1.1":
@@ -10060,14 +10060,14 @@ snapshots:
       react: 18.3.1
       tslib: 2.8.1
 
-  "@edifice.io/bootstrap@2.5.16-develop-pedago.20260423093600":
+  "@edifice.io/bootstrap@2.5.16-develop-pedago.20260429161139":
     dependencies:
       "@popperjs/core": 2.11.8
       bootstrap: 5.3.2(@popperjs/core@2.11.8)
 
-  "@edifice.io/client@2.5.16-develop-pedago.20260423093600":
+  "@edifice.io/client@2.5.16-develop-pedago.20260429161139":
     dependencies:
-      "@edifice.io/utilities": 2.5.16-develop-pedago.20260423093600
+      "@edifice.io/utilities": 2.5.16-develop-pedago.20260429161139
       axios: 1.15.2
       core-js: 3.49.0
       ua-parser-js: 2.0.9
@@ -10076,7 +10076,7 @@ snapshots:
 
   "@edifice.io/collect-client-rest@0.2.0-develop-pedago.0.20260427141130(@fastify/static@8.2.0)(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)":
     dependencies:
-      "@edifice.io/rest-client-base": 2.5.16-develop-pedago.20260423093600
+      "@edifice.io/rest-client-base": 2.5.16-develop-pedago.20260429161139
       "@nestjs/swagger": 11.2.0(@fastify/static@8.2.0)(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
     transitivePeerDependencies:
       - "@fastify/static"
@@ -10086,12 +10086,12 @@ snapshots:
       - class-validator
       - reflect-metadata
 
-  "@edifice.io/collect-frontend@0.2.2-develop-pedago.3.20260429123410(069f3f82ac4171493f6c992c95061a8d)":
+  "@edifice.io/collect-frontend@0.2.2-develop-pedago.3.20260429143208(069f3f82ac4171493f6c992c95061a8d)":
     dependencies:
-      "@edifice.io/bootstrap": 2.5.16-develop-pedago.20260423093600
-      "@edifice.io/client": 2.5.16-develop-pedago.20260423093600
+      "@edifice.io/bootstrap": 2.5.16-develop-pedago.20260429161139
+      "@edifice.io/client": 2.5.16-develop-pedago.20260429161139
       "@edifice.io/collect-client-rest": 0.2.0-develop-pedago.0.20260427141130(@fastify/static@8.2.0)(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
-      "@edifice.io/react": 2.5.16-develop-pedago.20260423093600(097628f4e892cb1e74a46378d9907bf6)
+      "@edifice.io/react": 2.5.16-develop-pedago.20260429161139(097628f4e892cb1e74a46378d9907bf6)
       "@react-spring/web": 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@tanstack/react-query": 5.81.5(react@18.3.1)
       "@uidotdev/usehooks": 2.4.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -10204,15 +10204,15 @@ snapshots:
       - supports-color
       - tedious
 
-  "@edifice.io/react@2.5.16-develop-pedago.20260423093600(097628f4e892cb1e74a46378d9907bf6)":
+  "@edifice.io/react@2.5.16-develop-pedago.20260429161139(097628f4e892cb1e74a46378d9907bf6)":
     dependencies:
       "@ant-design/icons": 5.6.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@dnd-kit/core": 6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@dnd-kit/sortable": 8.0.0(@dnd-kit/core@6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       "@dnd-kit/utilities": 3.2.2(react@18.3.1)
-      "@edifice.io/bootstrap": 2.5.16-develop-pedago.20260423093600
-      "@edifice.io/tiptap-extensions": 2.5.16-develop-pedago.20260423093600(@types/node@22.16.0)(rollup@4.60.2)(typescript@5.9.2)
-      "@edifice.io/utilities": 2.5.16-develop-pedago.20260423093600
+      "@edifice.io/bootstrap": 2.5.16-develop-pedago.20260429161139
+      "@edifice.io/tiptap-extensions": 2.5.16-develop-pedago.20260429161139(@types/node@22.16.0)(rollup@4.60.2)(typescript@5.9.2)
+      "@edifice.io/utilities": 2.5.16-develop-pedago.20260429161139
       "@floating-ui/react": 0.26.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@pixi/mixin-get-child-by-name": 7.4.2(@pixi/display@7.4.2(@pixi/core@7.4.2))
       "@pixi/react": 7.1.2(97e714e11d21a2afc167f01e88f10c7f)
@@ -10313,15 +10313,15 @@ snapshots:
       - terser
       - typescript
 
-  "@edifice.io/react@2.5.16-develop-pedago.20260423093600(9a93c05113791375dcc7d20427eed7d0)":
+  "@edifice.io/react@2.5.16-develop-pedago.20260429161139(9a93c05113791375dcc7d20427eed7d0)":
     dependencies:
       "@ant-design/icons": 5.6.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@dnd-kit/core": 6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@dnd-kit/sortable": 8.0.0(@dnd-kit/core@6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       "@dnd-kit/utilities": 3.2.2(react@18.3.1)
-      "@edifice.io/bootstrap": 2.5.16-develop-pedago.20260423093600
-      "@edifice.io/tiptap-extensions": 2.5.16-develop-pedago.20260423093600(@types/node@22.16.0)(rollup@4.60.2)(typescript@5.9.2)
-      "@edifice.io/utilities": 2.5.16-develop-pedago.20260423093600
+      "@edifice.io/bootstrap": 2.5.16-develop-pedago.20260429161139
+      "@edifice.io/tiptap-extensions": 2.5.16-develop-pedago.20260429161139(@types/node@22.16.0)(rollup@4.60.2)(typescript@5.9.2)
+      "@edifice.io/utilities": 2.5.16-develop-pedago.20260429161139
       "@floating-ui/react": 0.26.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@pixi/mixin-get-child-by-name": 7.4.2(@pixi/display@7.4.2(@pixi/core@7.4.2))
       "@pixi/react": 7.1.2(97e714e11d21a2afc167f01e88f10c7f)
@@ -10422,11 +10422,11 @@ snapshots:
       - terser
       - typescript
 
-  "@edifice.io/rest-client-base@2.5.16-develop-pedago.20260423093600": {}
+  "@edifice.io/rest-client-base@2.5.16-develop-pedago.20260429161139": {}
 
-  "@edifice.io/tiptap-extensions@2.5.16-develop-pedago.20260423093600(@types/node@22.16.0)(rollup@4.60.2)(typescript@5.9.2)":
+  "@edifice.io/tiptap-extensions@2.5.16-develop-pedago.20260429161139(@types/node@22.16.0)(rollup@4.60.2)(typescript@5.9.2)":
     dependencies:
-      "@edifice.io/utilities": 2.5.16-develop-pedago.20260423093600
+      "@edifice.io/utilities": 2.5.16-develop-pedago.20260429161139
       "@tiptap/core": 2.11.0(@tiptap/pm@2.11.0)
       "@tiptap/extension-blockquote": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
       "@tiptap/extension-bold": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
@@ -10472,7 +10472,7 @@ snapshots:
       - terser
       - typescript
 
-  "@edifice.io/utilities@2.5.16-develop-pedago.20260423093600": {}
+  "@edifice.io/utilities@2.5.16-develop-pedago.20260429161139": {}
 
   "@elastic/ecs-helpers@2.1.1": {}
 
@@ -14350,9 +14350,9 @@ snapshots:
     dependencies:
       "@dnd-kit/core": 6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@dnd-kit/modifiers": 7.0.0(@dnd-kit/core@6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
-      "@edifice.io/bootstrap": 2.5.16-develop-pedago.20260423093600
-      "@edifice.io/client": 2.5.16-develop-pedago.20260423093600
-      "@edifice.io/react": 2.5.16-develop-pedago.20260423093600(9a93c05113791375dcc7d20427eed7d0)
+      "@edifice.io/bootstrap": 2.5.16-develop-pedago.20260429161139
+      "@edifice.io/client": 2.5.16-develop-pedago.20260429161139
+      "@edifice.io/react": 2.5.16-develop-pedago.20260429161139(9a93c05113791375dcc7d20427eed7d0)
       "@react-spring/web": 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@tanstack/react-query": 5.62.7(react@18.3.1)
       clsx: 2.1.1

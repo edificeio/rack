@@ -1,5 +1,9 @@
 import { QueryClient } from "@tanstack/react-query";
-import { RouteObject, createBrowserRouter } from "react-router-dom";
+import {
+  RouteObject,
+  createBrowserRouter,
+  useLocation,
+} from "react-router-dom";
 
 // Import your main pages and features here
 import { NotFound } from "../pages/NotFound"; // 404 page component
@@ -69,18 +73,30 @@ const routes = (queryClient: QueryClient): RouteObject[] => [
         },
       },
       {
-        path: "/collect",
+        path: "/collect/*",
         async lazy() {
           const module = (await import("@edifice.io/collect-frontend/lib")) as {
             CollectApp: React.ComponentType<{
               header?: boolean;
               showMenu?: boolean;
+              currentPath?: string;
             }>;
           };
           return {
-            Component: () => (
-              <module.CollectApp header={false} showMenu={false} />
-            ),
+            Component: () => {
+              const { pathname } = useLocation();
+              const cleanPath = pathname
+                .replace("/rack", "")
+                .replace("/collect", "");
+
+              return (
+                <module.CollectApp
+                  header={false}
+                  showMenu={false}
+                  currentPath={cleanPath}
+                />
+              );
+            },
           };
         },
       },
