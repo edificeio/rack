@@ -72,9 +72,16 @@ const routes = (queryClient: QueryClient): RouteObject[] => [
         path: "/collect",
         async lazy() {
           const module = (await import("@edifice.io/collect-frontend/lib")) as {
-            CollectApp: React.ComponentType<{ header?: boolean }>;
+            CollectApp: React.ComponentType<{
+              header?: boolean;
+              showMenu?: boolean;
+            }>;
           };
-          return { Component: () => <module.CollectApp header={false} /> };
+          return {
+            Component: () => (
+              <module.CollectApp header={false} showMenu={false} />
+            ),
+          };
         },
       },
     ],

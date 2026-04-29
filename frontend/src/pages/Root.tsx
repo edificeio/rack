@@ -8,7 +8,7 @@ import {
   useBreakpoint,
 } from "@edifice.io/react";
 import { QueryClient } from "@tanstack/react-query";
-import { Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { Outlet, useLoaderData } from "react-router-dom";
 import { rackQueryOptions } from "~/services/queries/rack.queries";
 import { UploadDocumentModal } from "~/features/modals/UploadDocumentModal";
@@ -24,6 +24,18 @@ import { Actions } from "~/config/Actions";
 import configDefault from "~/config/Config";
 import actionsDefault from "~/config/Actions";
 import { TrashDocumentModal } from "~/features/modals/TrashDocumentModal";
+
+type CollectFrontendModule = {
+  CollectMenu: React.ComponentType<{ showMenu?: boolean }>;
+};
+
+const CollectMenu = lazy(() =>
+  (
+    import("@edifice.io/collect-frontend/lib") as Promise<CollectFrontendModule>
+  ).then((m) => ({
+    default: m.CollectMenu,
+  })),
+);
 
 /**
  * Root loader data interface
@@ -113,6 +125,9 @@ export function Component() {
             className="d-none d-lg-block"
             as="aside"
           >
+            <Suspense fallback={null}>
+              <CollectMenu showMenu={false} />
+            </Suspense>
             <DesktopMenu />
           </Grid.Col>
           <Grid.Col

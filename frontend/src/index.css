@@ -28,3 +28,17 @@
   margin-left: calc(var(--edifice-gap) * -1);
   margin-right: -2.4rem;
 }
+.separator-dashed {
+  height: 1px;
+
+  /* paramètres */
+  --color: var(--edifice-gray-400);
+  --dash: 8px;
+  --gap: 6px;
+
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color) 0 var(--dash),
+    transparent var(--dash) calc(var(--dash) + var(--gap))
+  );
+}
