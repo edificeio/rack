@@ -4,26 +4,24 @@ import {
   Grid,
   Layout,
   LoadingScreen,
-  useEdificeClient,
   useBreakpoint,
+  useEdificeClient,
 } from "@edifice.io/react";
 import { QueryClient } from "@tanstack/react-query";
-import { lazy, Suspense } from "react";
-import { Outlet, useLoaderData } from "react-router-dom";
-import { rackQueryOptions } from "~/services/queries/rack.queries";
-import { UploadDocumentModal } from "~/features/modals/UploadDocumentModal";
-import { DeleteDocumentModal } from "~/features/modals/DeleteDocumentModal";
-import { RestoreDocumentModal } from "~/features/modals/RestoreDocumentModal";
-import { useRackStore } from "~/store/rackStore";
-import { useConfigStore } from "~/store/configStore";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { Outlet, useLoaderData, useLocation } from "react-router-dom";
 import { AppActionHeader } from "~/components/AppHeaderAction";
+import actionsDefault, { Actions } from "~/config/Actions";
+import configDefault, { Config } from "~/config/Config";
 import { DesktopMenu } from "~/features/menu/components/DesktopMenu";
 import { MobileMenu } from "~/features/menu/components/MobileMenu";
-import { Config } from "~/config/Config";
-import { Actions } from "~/config/Actions";
-import configDefault from "~/config/Config";
-import actionsDefault from "~/config/Actions";
+import { DeleteDocumentModal } from "~/features/modals/DeleteDocumentModal";
+import { RestoreDocumentModal } from "~/features/modals/RestoreDocumentModal";
 import { TrashDocumentModal } from "~/features/modals/TrashDocumentModal";
+import { UploadDocumentModal } from "~/features/modals/UploadDocumentModal";
+import { rackQueryOptions } from "~/services/queries/rack.queries";
+import { useConfigStore } from "~/store/configStore";
+import { useRackStore } from "~/store/rackStore";
 
 type CollectFrontendModule = {
   CollectMenu: React.ComponentType<{ showMenu?: boolean; basePath?: string }>;
@@ -36,6 +34,13 @@ const CollectMenu = lazy(() =>
     default: m.CollectMenu,
   })),
 );
+
+const COLLECT_ROUTE_CHANGE_EVENT = "collect:route-change";
+const COLLECT_MENU_ALLOWED_ROUTES = new Set([
+  "/",
+  "/list-collections",
+  "/list-submissions",
+]);
 
 /**
  * Root loader data interface
@@ -94,8 +99,35 @@ export function loader(queryClient: QueryClient) {
 export function Component() {
   const { init, currentApp } = useEdificeClient();
   const { lg } = useBreakpoint();
+  const { pathname } = useLocation();
   const { config, actions } = useLoaderData() as RootLoaderData;
+  const [isCollectMenuVisible, setIsCollectMenuVisible] = useState(true);
   const openedModal = useRackStore.use.openedModal(); // Show loading screen while initializing
+
+  const isCollectRoute = useMemo(
+    () => pathname === "/collect" || pathname.startsWith("/collect/"),
+    [pathname],
+  );
+
+  useEffect(() => {
+    const onCollectRouteChange = (event: Event) => {
+      const detail = (event as CustomEvent<{ path?: string }>).detail;
+      const path = detail?.path ?? "/";
+      setIsCollectMenuVisible(COLLECT_MENU_ALLOWED_ROUTES.has(path));
+    };
+
+    window.addEventListener(COLLECT_ROUTE_CHANGE_EVENT, onCollectRouteChange);
+
+    return () => {
+      window.removeEventListener(
+        COLLECT_ROUTE_CHANGE_EVENT,
+        onCollectRouteChange,
+      );
+    };
+  }, []);
+
+  const shouldShowDesktopMenu = !isCollectRoute || isCollectMenuVisible;
+
   if (!init || !currentApp) {
     return <LoadingScreen position={false} />;
   }
@@ -116,24 +148,26 @@ export function Component() {
 
         {/* Main content area */}
         <Grid className="flex-grow-1">
-          <Grid.Col
-            sm="3"
-            md="3"
-            lg="2"
-            xl="3"
-            className="d-none d-lg-block"
-            as="aside"
-          >
-            <Suspense fallback={null}>
-              <CollectMenu showMenu={false} basePath="/collect" />
-            </Suspense>
-            <DesktopMenu />
-          </Grid.Col>
+          {shouldShowDesktopMenu && (
+            <Grid.Col
+              sm="3"
+              md="3"
+              lg="2"
+              xl="3"
+              className="d-none d-lg-block"
+              as="aside"
+            >
+              <Suspense fallback={null}>
+                <CollectMenu showMenu={false} basePath="/collect" />
+              </Suspense>
+              <DesktopMenu />
+            </Grid.Col>
+          )}
           <Grid.Col
             sm="4"
             md="8"
-            lg="6"
-            xl="9"
+            lg={shouldShowDesktopMenu ? "6" : "12"}
+            xl={shouldShowDesktopMenu ? "9" : "12"}
             className={`overflow-y-auto ${lg ? "cancel-gap" : ""}`}
           >
             {!lg && <MobileMenu />}
