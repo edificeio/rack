@@ -137,8 +137,8 @@ export function Component() {
   }
 
   return (
-    <div className="d-flex flex-column vh-100 flex-grow-1">
-      <Layout className={lg ? "" : "p-0"}>
+    <div className="d-flex flex-column min-vh-100 flex-grow-1">
+      <Layout className={`${lg ? "" : "p-0"} d-flex flex-column flex-grow-1`}>
         {/* Header - not printed */}
         <div className={`d-print-none ${!lg ? "mx-16" : ""}`}>
           <AppHeader render={AppActionHeader}>
@@ -168,7 +168,7 @@ export function Component() {
             md="8"
             lg={shouldShowDesktopMenu ? "6" : "12"}
             xl={shouldShowDesktopMenu ? "9" : "12"}
-            className={`overflow-y-auto ${lg ? "cancel-gap" : ""}`}
+            className={`${lg ? "cancel-gap" : ""} d-flex flex-column`}
           >
             {!lg && <MobileMenu />}
             <Suspense fallback={<LoadingScreen />}>

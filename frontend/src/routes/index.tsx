@@ -6,8 +6,8 @@ import {
 } from "react-router-dom";
 
 // Import your main pages and features here
-import { NotFound } from "../pages/NotFound"; // 404 page component
 import { PageError } from "~/pages/PageError";
+import { NotFound } from "../pages/NotFound"; // 404 page component
 // Example: import FeaturePage from "../features/FeaturePage";
 
 // Example of lazy loading a feature (uncomment and use as needed)
@@ -79,6 +79,7 @@ const routes = (queryClient: QueryClient): RouteObject[] => [
             CollectApp: React.ComponentType<{
               header?: boolean;
               showMenu?: boolean;
+              className?: string;
               currentPath?: string;
             }>;
           };
@@ -93,6 +94,7 @@ const routes = (queryClient: QueryClient): RouteObject[] => [
                 <module.CollectApp
                   header={false}
                   showMenu={false}
+                  className="h-100 d-flex"
                   currentPath={cleanPath}
                 />
               );
