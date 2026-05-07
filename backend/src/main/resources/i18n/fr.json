@@ -140,5 +140,8 @@
   "tuto.text.select": "pour sélectionner et accéder au menu d'options,",
   "tuto.title": "Naviguez au sein de votre casier en vue vignettes :",
   "unsetImage": "Supprimer l'image",
-  "upload": "Envoyer"
+  "upload": "Envoyer",
+  "collection.collection": "Mes collectes",
+  "collection.submission": "Mes rendus",
+  "collection.appHeaderAction.button.newCollection": "Nouvelle collecte"
 }

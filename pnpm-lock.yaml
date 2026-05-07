@@ -107,7 +107,7 @@ importers:
         version: 2.5.16-develop-pedago.20260506150449
       "@edifice.io/collect-frontend":
         specifier: feat-PEDAGO-3966
-        version: 0.2.2-develop-pedago.3.20260507131211(699e04041c69fb78756a027478d07a6c)
+        version: 0.2.2-develop-pedago.3.20260507143308(699e04041c69fb78756a027478d07a6c)
       "@edifice.io/rack-client-rest":
         specifier: workspace:*
         version: link:../client/rest
@@ -725,10 +725,10 @@ packages:
       }
     engines: { node: ">=22", pnpm: ">=8" }
 
-  "@edifice.io/collect-frontend@0.2.2-develop-pedago.3.20260507131211":
+  "@edifice.io/collect-frontend@0.2.2-develop-pedago.3.20260507143308":
     resolution:
       {
-        integrity: sha512-CzqRGMqiR2pc094dAOv0DkbdVzSwj1/58D7qgpl8khgt8Lw5yb1XbDA2Qrs6x+m15C2jt4NN6psJPWz1bRadTw==,
+        integrity: sha512-FN4ISwzpaDMXA/GpsqacHOlqoLeisMeXz/REY9mAvHQc9NwcdZMQaS9FEO+olxm7Uh0LpCWUZGpF9FsC2uYvLg==,
       }
     engines: { node: ">=20" }
 
@@ -10058,7 +10058,7 @@ snapshots:
       - class-validator
       - reflect-metadata
 
-  "@edifice.io/collect-frontend@0.2.2-develop-pedago.3.20260507131211(699e04041c69fb78756a027478d07a6c)":
+  "@edifice.io/collect-frontend@0.2.2-develop-pedago.3.20260507143308(699e04041c69fb78756a027478d07a6c)":
     dependencies:
       "@edifice.io/bootstrap": 2.5.16-develop-pedago.20260506150449
       "@edifice.io/client": 2.5.16-develop-pedago.20260506150449
