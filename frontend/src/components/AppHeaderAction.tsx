@@ -1,8 +1,8 @@
 import { Button, useEdificeClient, useHasWorkflow } from "@edifice.io/react";
 import { IconDepositeInbox as Upload } from "@edifice.io/react/icons";
 import { useTranslation } from "react-i18next";
-import { useRackStore } from "~/store/rackStore";
 import { RACK_WORKFLOW_RIGHTS } from "~/constants/rights.constants";
+import { useRackStore } from "~/store/rackStore";
 
 export interface AppActionMenuOption {
   id: string;
@@ -30,6 +30,7 @@ export function AppActionHeader() {
       <Button
         type="button"
         color="primary"
+        variant="outline"
         leftIcon={<Upload />}
         onClick={handleUpload}
       >

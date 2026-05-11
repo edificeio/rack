@@ -25,6 +25,7 @@ import { useRackStore } from "~/store/rackStore";
 
 type CollectFrontendModule = {
   CollectMenu: React.ComponentType<{ showMenu?: boolean; basePath?: string }>;
+  CollectAppActionHeader: React.ComponentType<{ basePath?: string }>;
 };
 
 const CollectMenu = lazy(() =>
@@ -35,12 +36,25 @@ const CollectMenu = lazy(() =>
   })),
 );
 
+const CollectAppActionHeader = lazy(() =>
+  (
+    import("@edifice.io/collect-frontend/lib") as Promise<CollectFrontendModule>
+  ).then((m) => ({
+    default: m.CollectAppActionHeader,
+  })),
+);
+
 const COLLECT_ROUTE_CHANGE_EVENT = "collect:route-change";
 const COLLECT_MENU_ALLOWED_ROUTES = new Set([
   "/",
   "/list-collections",
   "/list-submissions",
 ]);
+
+const COLLECT_HEADER_ACTION_HIDDEN_ROUTES = [
+  /^\/create\/(form|members)\/?$/,
+  /^\/id\/[^/]+\/(form|members)\/?$/,
+];
 
 /**
  * Root loader data interface
@@ -102,6 +116,8 @@ export function Component() {
   const { pathname } = useLocation();
   const { config, actions } = useLoaderData() as RootLoaderData;
   const [isCollectMenuVisible, setIsCollectMenuVisible] = useState(true);
+  const [isCollectHeaderActionVisible, setIsCollectHeaderActionVisible] =
+    useState(true);
   const openedModal = useRackStore.use.openedModal(); // Show loading screen while initializing
 
   const isCollectRoute = useMemo(
@@ -113,7 +129,13 @@ export function Component() {
     const onCollectRouteChange = (event: Event) => {
       const detail = (event as CustomEvent<{ path?: string }>).detail;
       const path = detail?.path ?? "/";
+
       setIsCollectMenuVisible(COLLECT_MENU_ALLOWED_ROUTES.has(path));
+
+      const shouldHideHeaderAction = COLLECT_HEADER_ACTION_HIDDEN_ROUTES.some(
+        (routePattern) => routePattern.test(path),
+      );
+      setIsCollectHeaderActionVisible(!shouldHideHeaderAction);
     };
 
     window.addEventListener(COLLECT_ROUTE_CHANGE_EVENT, onCollectRouteChange);
@@ -128,6 +150,21 @@ export function Component() {
 
   const shouldShowDesktopMenu = !isCollectRoute || isCollectMenuVisible;
 
+  const HeaderAction = () => {
+    if (!isCollectHeaderActionVisible) {
+      return null;
+    }
+
+    return (
+      <>
+        <AppActionHeader />
+        <Suspense fallback={null}>
+          <CollectAppActionHeader basePath="/collect" />
+        </Suspense>
+      </>
+    );
+  };
+
   if (!init || !currentApp) {
     return <LoadingScreen position={false} />;
   }
@@ -141,7 +178,7 @@ export function Component() {
       <Layout className={`${lg ? "" : "p-0"} d-flex flex-column flex-grow-1`}>
         {/* Header - not printed */}
         <div className={`d-print-none ${!lg ? "mx-16" : ""}`}>
-          <AppHeader render={AppActionHeader}>
+          <AppHeader render={HeaderAction}>
             <Breadcrumb app={currentApp} />
           </AppHeader>
         </div>
