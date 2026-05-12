@@ -107,7 +107,7 @@ importers:
         version: 2.5.16-develop-pedago.20260506150449
       "@edifice.io/collect-frontend":
         specifier: feat-PEDAGO-3966
-        version: 0.2.2-develop-pedago.3.20260511142510(699e04041c69fb78756a027478d07a6c)
+        version: 0.2.2-develop-pedago.3.20260512113908(699e04041c69fb78756a027478d07a6c)
       "@edifice.io/rack-client-rest":
         specifier: workspace:*
         version: link:../client/rest
@@ -760,10 +760,10 @@ packages:
       }
     engines: { node: ">=22", pnpm: ">=8" }
 
-  "@edifice.io/collect-frontend@0.2.2-develop-pedago.3.20260511142510":
+  "@edifice.io/collect-frontend@0.2.2-develop-pedago.3.20260512113908":
     resolution:
       {
-        integrity: sha512-IKM/yBqGRDEVTKwjjWXxfYXgDpTqJrF4wF6ZOXO7vibtzMzueEooho1i7Ke+QU0Non4DjOsF0/K1xOSLR/MzYg==,
+        integrity: sha512-Ql5muwj9P6/FZGVxsOdaaKC/Jk3FiSOk+6rT+wdB2v+nmpOi6mfODalm7IrI8zceS0oW3wlOYTMw+Sc3brAZBA==,
       }
     engines: { node: ">=20" }
 
@@ -6989,10 +6989,10 @@ packages:
         integrity: sha512-QNABxbrPa3qEIfrE6GOJ7BYIuignnJw7iQ2YPbc3Nla1HzRJjXzZOiikfF8m7eAMfichLt3M4VgLOetqgDmgGQ==,
       }
 
-  node-releases@2.0.38:
+  node-releases@2.0.44:
     resolution:
       {
-        integrity: sha512-3qT/88Y3FbH/Kx4szpQQ4HzUbVrHPKTLVpVocKiLfoYvw9XSGOX2FmD2d6DrXbVYyAQTF2HeF6My8jmzx7/CRw==,
+        integrity: sha512-5WUyunoPMsvvEhS8AxHtRzP+oA8UCkJ7YRxatWKjngndhDGLiqEVAQKWjFAiAiuL8zMRGzGSJxFnLetoa43qGQ==,
       }
 
   normalize-path@3.0.0:
@@ -10141,7 +10141,7 @@ snapshots:
       - class-validator
       - reflect-metadata
 
-  "@edifice.io/collect-frontend@0.2.2-develop-pedago.3.20260511142510(699e04041c69fb78756a027478d07a6c)":
+  "@edifice.io/collect-frontend@0.2.2-develop-pedago.3.20260512113908(699e04041c69fb78756a027478d07a6c)":
     dependencies:
       "@edifice.io/bootstrap": 2.5.16-develop-pedago.20260506150449
       "@edifice.io/client": 2.5.16-develop-pedago.20260506150449
@@ -12726,7 +12726,7 @@ snapshots:
       baseline-browser-mapping: 2.10.29
       caniuse-lite: 1.0.30001792
       electron-to-chromium: 1.5.353
-      node-releases: 2.0.38
+      node-releases: 2.0.44
       update-browserslist-db: 1.2.3(browserslist@4.28.2)
 
   buffer@5.7.1:
@@ -14324,7 +14324,7 @@ snapshots:
 
   node-machine-id@1.1.12: {}
 
-  node-releases@2.0.38: {}
+  node-releases@2.0.44: {}
 
   normalize-path@3.0.0: {}
 
