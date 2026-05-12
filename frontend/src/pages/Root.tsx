@@ -8,8 +8,13 @@ import {
   useEdificeClient,
 } from "@edifice.io/react";
 import { QueryClient } from "@tanstack/react-query";
-import { lazy, Suspense, useEffect, useMemo, useState } from "react";
-import { Outlet, useLoaderData, useLocation } from "react-router-dom";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
+import {
+  Outlet,
+  useLoaderData,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { AppActionHeader } from "~/components/AppHeaderAction";
 import actionsDefault, { Actions } from "~/config/Actions";
 import configDefault, { Config } from "~/config/Config";
@@ -46,14 +51,14 @@ const CollectAppActionHeader = lazy(() =>
 
 const COLLECT_ROUTE_CHANGE_EVENT = "collect:route-change";
 const COLLECT_MENU_ALLOWED_ROUTES = new Set([
-  "/",
-  "/list-collections",
-  "/list-submissions",
+  "/collect",
+  "/collect/list-collections",
+  "/collect/list-submissions",
 ]);
 
 const COLLECT_HEADER_ACTION_HIDDEN_ROUTES = [
-  /^\/create\/(form|members)\/?$/,
-  /^\/id\/[^/]+\/(form|members)\/?$/,
+  /^\/collect\/create\/(form|members)\/?$/,
+  /^\/collect\/id\/[^/]+\/(form|members)\/?$/,
 ];
 
 /**
@@ -114,11 +119,30 @@ export function Component() {
   const { init, currentApp } = useEdificeClient();
   const { lg } = useBreakpoint();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const pathnameRef = useRef(pathname);
   const { config, actions } = useLoaderData() as RootLoaderData;
-  const [isCollectMenuVisible, setIsCollectMenuVisible] = useState(true);
+  const openedModal = useRackStore.use.openedModal();
+
+  // Fonction utilitaire pour calculer la visibilité basée sur le chemin
+  const getVisibilityState = (path: string) => {
+    const menuVisible = COLLECT_MENU_ALLOWED_ROUTES.has(path);
+    const shouldHideHeaderAction = COLLECT_HEADER_ACTION_HIDDEN_ROUTES.some(
+      (routePattern) => routePattern.test(path),
+    );
+    return {
+      menuVisible,
+      headerActionVisible: !shouldHideHeaderAction,
+    };
+  };
+
+  // Initialiser les états correctement selon la route courante
+  const initialState = getVisibilityState(pathname);
+  const [isCollectMenuVisible, setIsCollectMenuVisible] = useState(
+    initialState.menuVisible,
+  );
   const [isCollectHeaderActionVisible, setIsCollectHeaderActionVisible] =
-    useState(true);
-  const openedModal = useRackStore.use.openedModal(); // Show loading screen while initializing
+    useState(initialState.headerActionVisible);
 
   const isCollectRoute = useMemo(
     () => pathname === "/collect" || pathname.startsWith("/collect/"),
@@ -126,16 +150,22 @@ export function Component() {
   );
 
   useEffect(() => {
+    pathnameRef.current = pathname;
+  }, [pathname]);
+
+  useEffect(() => {
     const onCollectRouteChange = (event: Event) => {
       const detail = (event as CustomEvent<{ path?: string }>).detail;
       const path = detail?.path ?? "/";
+      const browserPath = path === "/" ? "/collect" : `/collect${path}`;
 
-      setIsCollectMenuVisible(COLLECT_MENU_ALLOWED_ROUTES.has(path));
+      const visibilityState = getVisibilityState(browserPath);
+      setIsCollectMenuVisible(visibilityState.menuVisible);
+      setIsCollectHeaderActionVisible(visibilityState.headerActionVisible);
 
-      const shouldHideHeaderAction = COLLECT_HEADER_ACTION_HIDDEN_ROUTES.some(
-        (routePattern) => routePattern.test(path),
-      );
-      setIsCollectHeaderActionVisible(!shouldHideHeaderAction);
+      if (pathnameRef.current !== browserPath) {
+        navigate(browserPath, { replace: true });
+      }
     };
 
     window.addEventListener(COLLECT_ROUTE_CHANGE_EVENT, onCollectRouteChange);
@@ -146,7 +176,7 @@ export function Component() {
         onCollectRouteChange,
       );
     };
-  }, []);
+  }, []); // Pas de dépendances - le listener reste stable
 
   const shouldShowDesktopMenu = !isCollectRoute || isCollectMenuVisible;
 
