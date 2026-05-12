@@ -106,8 +106,8 @@ importers:
         specifier: develop-pedago
         version: 2.5.16-develop-pedago.20260506150449
       "@edifice.io/collect-frontend":
-        specifier: feat-PEDAGO-3966
-        version: 0.2.2-develop-pedago.3.20260512113908(699e04041c69fb78756a027478d07a6c)
+        specifier: develop-pedago
+        version: 0.2.2-develop-pedago.3.20260512161220(699e04041c69fb78756a027478d07a6c)
       "@edifice.io/rack-client-rest":
         specifier: workspace:*
         version: link:../client/rest
@@ -753,17 +753,17 @@ packages:
         integrity: sha512-qj+sxQQ5/ABRgM4bNtIpNzQK8Kcz1Fc+pJC+0Uoe+mGYgBjui9RMb2ZF/0WV06IMhxJ/Gi4EZY/3bukELqS/1w==,
       }
 
-  "@edifice.io/collect-client-rest@0.2.0-develop-pedago.0.20260507123513":
+  "@edifice.io/collect-client-rest@0.2.0-develop-pedago.0.20260512161203":
     resolution:
       {
-        integrity: sha512-dybxIP58lGeQSuEenES7+duOwLQqO45uowPSGPqxg5VxmS+Qu1VpU62IsgjBNKzh3RxebAjkaXGyv7FCyLzBag==,
+        integrity: sha512-llpUYSMoO/KdUCCr16/srEw3CRqRZmU7WB7VjmCktiyVHzTeD/0tyEUMbpk7/yFgId3kgvxwsiZiS8p+qqGEEw==,
       }
     engines: { node: ">=22", pnpm: ">=8" }
 
-  "@edifice.io/collect-frontend@0.2.2-develop-pedago.3.20260512113908":
+  "@edifice.io/collect-frontend@0.2.2-develop-pedago.3.20260512161220":
     resolution:
       {
-        integrity: sha512-Ql5muwj9P6/FZGVxsOdaaKC/Jk3FiSOk+6rT+wdB2v+nmpOi6mfODalm7IrI8zceS0oW3wlOYTMw+Sc3brAZBA==,
+        integrity: sha512-J6/BXeds1FqyYZF84BnbqFxcxLdauHwUgMoptZrOBiIKHi8XrRoXNi0r//z00DUfq9JkWlxEgwV9gSLV48L3Rw==,
       }
     engines: { node: ">=20" }
 
@@ -9578,10 +9578,10 @@ packages:
         integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==,
       }
 
-  ws@8.20.0:
+  ws@8.20.1:
     resolution:
       {
-        integrity: sha512-sAt8BhgNbzCtgGbt2OxmpuryO63ZoDk/sqaB/znQm94T4fCEsy/yV+7CdC1kJhOU9lboAEU7R3kquuycDoibVA==,
+        integrity: sha512-It4dO0K5v//JtTXuPkfEOaI3uUN87iYPnqo/ZzqCoG3g8uhA66QUMs/SrM0YK7/NAu+r4LMh/9dq2A7k+rHs+w==,
       }
     engines: { node: ">=10.0.0" }
     peerDependencies:
@@ -10129,7 +10129,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  "@edifice.io/collect-client-rest@0.2.0-develop-pedago.0.20260507123513(@fastify/static@8.2.0)(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)":
+  "@edifice.io/collect-client-rest@0.2.0-develop-pedago.0.20260512161203(@fastify/static@8.2.0)(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)":
     dependencies:
       "@edifice.io/rest-client-base": 2.5.16-develop-pedago.20260506150449
       "@nestjs/swagger": 11.2.0(@fastify/static@8.2.0)(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
@@ -10141,11 +10141,11 @@ snapshots:
       - class-validator
       - reflect-metadata
 
-  "@edifice.io/collect-frontend@0.2.2-develop-pedago.3.20260512113908(699e04041c69fb78756a027478d07a6c)":
+  "@edifice.io/collect-frontend@0.2.2-develop-pedago.3.20260512161220(699e04041c69fb78756a027478d07a6c)":
     dependencies:
       "@edifice.io/bootstrap": 2.5.16-develop-pedago.20260506150449
       "@edifice.io/client": 2.5.16-develop-pedago.20260506150449
-      "@edifice.io/collect-client-rest": 0.2.0-develop-pedago.0.20260507123513(@fastify/static@8.2.0)(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
+      "@edifice.io/collect-client-rest": 0.2.0-develop-pedago.0.20260512161203(@fastify/static@8.2.0)(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
       "@edifice.io/react": 2.5.16-develop-pedago.20260506150449(ebc0f75e76bbcbd1e66c1dfe0824e20c)
       "@react-spring/web": 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@tanstack/react-query": 5.81.5(react@18.3.1)
@@ -13957,7 +13957,7 @@ snapshots:
       whatwg-encoding: 3.1.1
       whatwg-mimetype: 4.0.0
       whatwg-url: 14.2.0
-      ws: 8.20.0
+      ws: 8.20.1
       xml-name-validator: 5.0.0
     transitivePeerDependencies:
       - bufferutil
@@ -16083,7 +16083,7 @@ snapshots:
 
   wrappy@1.0.2: {}
 
-  ws@8.20.0: {}
+  ws@8.20.1: {}
 
   xml-name-validator@5.0.0: {}
 
