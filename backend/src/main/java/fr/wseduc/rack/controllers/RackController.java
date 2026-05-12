@@ -168,7 +168,7 @@ public class RackController extends MongoDbControllerHelper {
 		eventHelper.onAccess(request);
 	}
 
-	@Get("/collect")
+	@Get(value = "/collect(/.*)?", regex = true)
 	@SecuredAction(access)
 	public void viewCollect(HttpServerRequest request) {
 		renderView(request, new JsonObject(), "index.html", null);
