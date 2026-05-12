@@ -136,13 +136,10 @@ export function Component() {
     };
   };
 
-  // Initialiser les états correctement selon la route courante
   const initialState = getVisibilityState(pathname);
   const [isCollectMenuVisible, setIsCollectMenuVisible] = useState(
     initialState.menuVisible,
   );
-  const [isCollectHeaderActionVisible, setIsCollectHeaderActionVisible] =
-    useState(initialState.headerActionVisible);
 
   const isCollectRoute = useMemo(
     () => pathname === "/collect" || pathname.startsWith("/collect/"),
@@ -161,7 +158,6 @@ export function Component() {
 
       const visibilityState = getVisibilityState(browserPath);
       setIsCollectMenuVisible(visibilityState.menuVisible);
-      setIsCollectHeaderActionVisible(visibilityState.headerActionVisible);
 
       if (pathnameRef.current !== browserPath) {
         navigate(browserPath, { replace: true });
@@ -181,7 +177,7 @@ export function Component() {
   const shouldShowDesktopMenu = !isCollectRoute || isCollectMenuVisible;
 
   const HeaderAction = () => {
-    if (!isCollectHeaderActionVisible) {
+    if (!shouldShowDesktopMenu) {
       return null;
     }
 
