@@ -143,5 +143,6 @@
   "upload": "Envoyer",
   "collection.collection": "Mes collectes",
   "collection.submission": "Mes rendus",
-  "collection.appHeaderAction.button.newCollection": "Nouvelle collecte"
+  "collection.appHeaderAction.button.newCollection": "Nouvelle collecte",
+  "collection.title": "Collectes"
 }
