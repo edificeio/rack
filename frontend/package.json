@@ -24,8 +24,8 @@
     "typecheck": "tsc -b --noEmit"
   },
   "dependencies": {
-    "@edifice.io/utilities": "develop",
-    "@edifice.io/bootstrap": "develop",
+    "@edifice.io/utilities": "develop-pedago",
+    "@edifice.io/bootstrap": "develop-pedago",
     "@edifice.io/rack-client-rest": "workspace:*",
     "@edifice.io/collect-frontend": "develop",
     "@edifice.io/client": "develop",
@@ -37,7 +37,7 @@
     "clsx": "2.1.1",
     "i18next": "23.8.1",
     "i18next-http-backend": "2.4.2",
-    "ode-explorer": "develop",
+    "ode-explorer": "develop-pedago",
     "pdfjs-dist": "5.4.394",
     "react": "18.3.1",
     "react-dom": "18.3.1",
