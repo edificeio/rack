@@ -85,7 +85,7 @@
   },
   "pnpm": {
     "overrides": {
-      "@edifice.io/collect-client-rest": "develop-pedago"
+      "@edifice.io/collect-client-rest": "develop"
     }
   }
 }
