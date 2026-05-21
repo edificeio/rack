@@ -82,7 +82,7 @@ export const UploadDocumentModal = () => {
                       <strong
                         className={`user-profile-${typedOption.profile.toLowerCase()}`}
                       >
-                        {typedOption.profile}
+                        {t(typedOption.profile)}
                       </strong>
                     )}
                   </div>
