@@ -85,7 +85,7 @@
   },
   "pnpm": {
     "overrides": {
-      "@edifice.io/collect-client-rest": "develop"
+      "@edifice.io/collect-client-rest": "1.0.1"
     }
   }
 }
