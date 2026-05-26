@@ -11,7 +11,7 @@
   </parent>
   <groupId>fr.wseduc</groupId>
   <artifactId>rack</artifactId>
-  <version>3.1-SNAPSHOT</version>
+  <version>3.1-feat-separation-SNAPSHOT</version>
   <scm>
     <connection>scm:git:https://github.com/opendigitaleducation/rack.git</connection>
     <developerConnection>scm:git:https://github.com/opendigitaleducation/rack.git</developerConnection>
@@ -25,8 +25,8 @@
     </repository>
   </repositories>
   <properties>
-    <entCoreVersion>6.14-SNAPSHOT</entCoreVersion>
-    <modMongoVersion>4.1-SNAPSHOT</modMongoVersion>
+    <entCoreVersion>6.14-feat-separation-SNAPSHOT</entCoreVersion>
+    <modMongoVersion>4.1-feat-separation-SNAPSHOT</modMongoVersion>
     <modJsonSchemaValidatorVersion>2.1-separation-SNAPSHOT</modJsonSchemaValidatorVersion>
     <entCoreLibsVersion>6.14-separation-SNAPSHOT</entCoreLibsVersion>
   </properties>

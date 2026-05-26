@@ -1,6 +1,6 @@
 {
   "name": "@edifice.io/rack-client-rest",
-  "version": "2.1-separation-SNAPSHOTfeat-separation.1",
+  "version": "3.1.12-dev.1",
   "description": "",
   "author": "",
   "private": false,
@@ -63,8 +63,8 @@
     "pnpm": ">=8"
   },
   "devDependencies": {
-    "@edifice.io/client": "develop",
-    "@edifice.io/edifice-nestjs-core": "develop",
+    "@edifice.io/client": "feat-separation",
+    "@edifice.io/edifice-nestjs-core": "dev",
     "@types/uuid": "10.0.0",
     "tsc-alias": "1.8.16"
   }
