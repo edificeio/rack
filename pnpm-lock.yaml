@@ -1037,6 +1037,13 @@ packages:
       {
         integrity: sha512-Xp5luDciziSafFTVDz4LLmp6ejl2fuQT5JG+hcIDT/oSb55ZeuntUxZ7+Sn4yj5FojAx/M4SySy4cVXbD8z/7w==,
       }
+    engines: { node: "22" }
+
+  "@edifice.io/edifice-nestjs-core@1.0.4":
+    resolution:
+      {
+        integrity: sha512-TgewThlRb/Mq7V4/niDBKsTLFnXzS75n5WvKN2UCud4XebNpeArk/OBCGf+BvEGaKfabtzit3blhwkQHLHvGGQ==,
+      }
     engines: { node: ">=20", pnpm: ">=8" }
     hasBin: true
     peerDependencies:
@@ -4365,7 +4372,13 @@ packages:
         integrity: sha512-hGfVzPxthbf3+2yjg/RBs60cB0FhqBS/zvdV/4wn4/BmN0bNMMHPc4V/BbFieqf1TKAGGAHnY4eSjajCl0f2Xg==,
       }
 
-  brace-expansion@5.0.9:
+  brace-expansion@2.1.1:
+    resolution:
+      {
+        integrity: sha512-WR1cURNjuvBLMZBMbqM0UoE+WAfdUcEV1ccD8PVBVOI+Z3ND4+SZbN8RsfT2bMuG1qwz5RFvPukSZm5fF2D5eA==,
+      }
+
+  brace-expansion@5.0.6:
     resolution:
       {
         integrity: sha512-ScQ4IuvIEF1TMlP7Zt+vjJ//9zlPb2SDcxWxM3bk8s6t6GGdJ7KO1dCcTidOPJKePW30LE/2cT7wCyPho9/Wxg==,
@@ -7938,6 +7951,12 @@ packages:
     resolution:
       {
         integrity: sha512-QWg9RhnpLlogAmp3p96uEFrE5txQpFynd4vhBAELkwgOCWQs/X0yCzB3/hrHqiPwf91RG5KyWq6553zs9JqIOQ==,
+      }
+
+  prosemirror-model@1.25.7:
+    resolution:
+      {
+        integrity: sha512-A79aN8QEFUwI6cax8Yq4Rpcx1TJZ3Kagn+ii7qLo4/V8H3mMiHrhFyhTyHHvpSnOgMPpWiDGSwM3etwrxE50ug==,
       }
 
   prosemirror-schema-basic@1.2.4:
@@ -13255,7 +13274,11 @@ snapshots:
     dependencies:
       balanced-match: 1.0.2
 
-  brace-expansion@5.0.9:
+  brace-expansion@2.1.1:
+    dependencies:
+      balanced-match: 1.0.2
+
+  brace-expansion@5.0.6:
     dependencies:
       balanced-match: 4.0.4
 
@@ -15417,6 +15440,10 @@ snapshots:
       prosemirror-state: 1.4.4
 
   prosemirror-model@1.25.11:
+    dependencies:
+      orderedmap: 2.1.1
+
+  prosemirror-model@1.25.7:
     dependencies:
       orderedmap: 2.1.1
 
