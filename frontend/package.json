@@ -26,6 +26,7 @@
   "dependencies": {
     "@edifice.io/utilities": "develop-pedago",
     "@edifice.io/bootstrap": "develop-pedago",
+    "@edifice.io/collect-frontend": "develop-pedago",
     "@edifice.io/rack-client-rest": "workspace:*",
     "@edifice.io/collect-frontend": "develop",
     "@edifice.io/client": "develop",
