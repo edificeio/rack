@@ -1,6 +1,6 @@
 {
   "name": "@edifice.io/rack",
-  "version": "1.0.0",
+  "version": "3.2.0-dev.1",
   "private": true,
   "description": "Demo application",
   "author": "Edifice",
@@ -86,7 +86,7 @@
   },
   "pnpm": {
     "overrides": {
-      "@edifice.io/collect-client-rest": "1.0.1"
+      "@edifice.io/collect-client-rest": "develop"
     }
   }
 }

@@ -28,7 +28,6 @@
     "@edifice.io/bootstrap": "develop",
     "@edifice.io/collect-frontend": "develop",
     "@edifice.io/rack-client-rest": "workspace:*",
-    "@edifice.io/collect-frontend": "develop",
     "@edifice.io/client": "develop",
     "@edifice.io/react": "develop",
     "@react-spring/web": "9.7.5",
