@@ -1,6 +1,6 @@
 {
   "name": "@edifice.io/rack-client-rest-rn",
-  "version": "1.0.4-develop-pedago.1",
+  "version": "3.2.4-dev.1",
   "description": "React Native compatible version of rack-client-rest",
   "author": "",
   "private": false,
