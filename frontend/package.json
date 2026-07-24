@@ -29,6 +29,7 @@
     "@edifice.io/rack-client-rest": "workspace:*",
     "@edifice.io/client": "develop-pedago",
     "@edifice.io/react": "develop-pedago",
+    "@edifice.io/collect-frontend": "develop-pedago",
     "@react-spring/web": "9.7.5",
     "@tanstack/react-query": "5.81.5",
     "@uidotdev/usehooks": "2.4.1",
