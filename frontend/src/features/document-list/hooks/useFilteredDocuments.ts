@@ -2,7 +2,12 @@ import { useUser } from "@edifice.io/react";
 import { useEffect, useState } from "react";
 import type { RackDocumentDto } from "@edifice.io/rack-client-rest";
 
-export type DocumentFilter = "inbox" | "deposits" | "trash";
+export type DocumentFilter =
+  | "inbox"
+  | "deposits"
+  | "trash"
+  | "list-submissions"
+  | "list-collections";
 
 /**
  * Hook to filter documents based on current filter and user rights

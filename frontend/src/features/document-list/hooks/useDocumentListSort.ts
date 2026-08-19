@@ -2,10 +2,11 @@ import { useCallback, useMemo } from "react";
 import { useDocumentListStore } from "../store/documentListStore";
 import type { RackDocumentDto } from "@edifice.io/rack-client-rest";
 import type { DocumentSortField } from "../store/documentListStore";
+import type { DocumentFilter } from "./useFilteredDocuments";
 
 export const useDocumentListSort = (
   documents: RackDocumentDto[] | undefined,
-  filter: "inbox" | "deposits" | "trash",
+  filter: DocumentFilter,
 ) => {
   const sort = useDocumentListStore.use.sort();
   const handleSort = useDocumentListStore.use.handleSort();

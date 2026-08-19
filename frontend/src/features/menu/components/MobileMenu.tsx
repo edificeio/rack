@@ -1,8 +1,11 @@
-import { Dropdown, useEdificeClient } from "@edifice.io/react";
+import { WORKFLOW_RIGHTS } from "@edifice.io/collect-frontend/lib";
+import { Dropdown, useEdificeClient, useHasWorkflow } from "@edifice.io/react";
 import {
   IconInbox as Inbox,
   IconFolderAdd as FolderOpen,
   IconDelete as Trash,
+  IconSubmission,
+  IconCollect,
 } from "@edifice.io/react/icons";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -33,8 +36,37 @@ export const MobileMenu = () => {
   const setMobileMenuOpen = useMenuStore.use.setMobileMenuOpen();
   const setFilter = useDocumentListStore.use.setFilter();
   const { usageMB, quotaMB, progress } = useMenuData();
+  const hasCollectionAccessRight = useHasWorkflow(
+    WORKFLOW_RIGHTS.COLLECTION_ACCESS,
+  );
+  const hasCollectionCreateRight = useHasWorkflow(
+    WORKFLOW_RIGHTS.COLLECTION_CREATE,
+  );
 
-  const menuItems: MenuItemConfig[] = [
+  const collectMenuItems: MenuItemConfig[] = hasCollectionAccessRight
+    ? ([
+        {
+          id: "submission",
+          label: t("collection.submission"),
+          icon: <IconSubmission />,
+          path: "/collect/list-submissions",
+          filter: "list-submissions",
+        },
+        ...(hasCollectionCreateRight
+          ? ([
+              {
+                id: "collection",
+                label: t("collection.collection"),
+                icon: <IconCollect />,
+                path: "/collect/list-collections",
+                filter: "list-collections",
+              },
+            ] satisfies MenuItemConfig[])
+          : []),
+      ] satisfies MenuItemConfig[])
+    : [];
+
+  const rackMenuItems: MenuItemConfig[] = [
     {
       id: "inbox",
       label: t("rack.mine"),
@@ -57,6 +89,8 @@ export const MobileMenu = () => {
       filter: "trash",
     },
   ];
+
+  const menuItems: MenuItemConfig[] = [...collectMenuItems, ...rackMenuItems];
 
   const filter = useDocumentListStore.use.filter();
   const selectedItem = menuItems.find((item) => item.filter === filter);
@@ -90,7 +124,18 @@ export const MobileMenu = () => {
           }
         />
         <Dropdown.Menu>
-          {menuItems.map((item) => (
+          {collectMenuItems.map((item) => (
+            <Dropdown.Item
+              key={item.id}
+              onClick={() => handleItemClick(item.path, item.filter)}
+              icon={item.icon}
+              className={filter === item.filter ? "active" : ""}
+            >
+              <span>{item.label}</span>
+            </Dropdown.Item>
+          ))}
+          {collectMenuItems.length > 0 && <Dropdown.Separator />}
+          {rackMenuItems.map((item) => (
             <Dropdown.Item
               key={item.id}
               onClick={() => handleItemClick(item.path, item.filter)}
