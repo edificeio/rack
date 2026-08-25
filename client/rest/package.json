@@ -1,6 +1,6 @@
 {
   "name": "@edifice.io/rack-client-rest",
-  "version": "3.2.7-develop-pedago.0",
+  "version": "3.2.8",
   "description": "",
   "author": "",
   "private": false,
@@ -63,8 +63,8 @@
     "pnpm": ">=8"
   },
   "devDependencies": {
-    "@edifice.io/client": "develop-pedago",
-    "@edifice.io/edifice-nestjs-core": "develop-pedago",
+    "@edifice.io/client": "2.6.3",
+    "@edifice.io/edifice-nestjs-core": "1.0.5",
     "@types/uuid": "10.0.0",
     "tsc-alias": "1.8.16"
   }
