@@ -86,7 +86,7 @@
   },
   "pnpm": {
     "overrides": {
-      "@edifice.io/collect-client-rest": "develop",
+      "@edifice.io/collect-client-rest": "develop-enabling",
       "@edifice.io/react": "develop"
     }
   }
