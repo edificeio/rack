@@ -86,8 +86,8 @@
   },
   "pnpm": {
     "overrides": {
-      "@edifice.io/collect-client-rest": "1.0.8",
-      "@edifice.io/react": "2.6.4"
+      "@edifice.io/collect-client-rest": "develop",
+      "@edifice.io/react": "develop"
     }
   }
 }
