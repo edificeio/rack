@@ -1,6 +1,6 @@
 {
   "name": "@edifice.io/rack-client-rest",
-  "version": "3.2.9-dev.2",
+  "version": "3.2-develop-b2school-SNAPSHOT",
   "description": "",
   "author": "",
   "private": false,
@@ -63,7 +63,7 @@
     "pnpm": ">=8"
   },
   "devDependencies": {
-    "@edifice.io/client": "develop",
+    "@edifice.io/client": "develop-b2school",
     "@edifice.io/edifice-nestjs-core": "develop",
     "@types/uuid": "10.0.0",
     "tsc-alias": "1.8.16"
