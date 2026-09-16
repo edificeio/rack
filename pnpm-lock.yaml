@@ -5,8 +5,8 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  "@edifice.io/collect-client-rest": 1.0.7
-  "@edifice.io/react": 2.6.3
+  "@edifice.io/collect-client-rest": develop
+  "@edifice.io/react": develop
 
 importers:
   .:
@@ -83,14 +83,14 @@ importers:
     dependencies:
       "@nestjs/swagger":
         specifier: 11.2.0
-        version: 11.2.0(@fastify/static@8.2.0)(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
+        version: 11.2.0(@fastify/static@8.2.0)(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/core@11.0.20)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)
     devDependencies:
       "@edifice.io/client":
-        specifier: develop-pedago
-        version: 2.6.5-develop-pedago.20260911135210
+        specifier: develop
+        version: 2.6.5-develop.20260916104407
       "@edifice.io/edifice-nestjs-core":
-        specifier: develop-pedago
-        version: 1.0.5-develop-pedago.20260909125437(b75535b2c5a0bd9545e85e12d4b3931e)
+        specifier: develop
+        version: 1.0.5-develop.20260916090344(jk344aemhzpt2qiymqc4ipkhay)
       "@types/uuid":
         specifier: 10.0.0
         version: 10.0.0
@@ -101,23 +101,23 @@ importers:
   frontend:
     dependencies:
       "@edifice.io/bootstrap":
-        specifier: develop-pedago
-        version: 2.6.5-develop-pedago.20260911135210
+        specifier: develop
+        version: 2.6.5-develop.20260916104407
       "@edifice.io/client":
-        specifier: develop-pedago
-        version: 2.6.5-develop-pedago.20260911135210
+        specifier: develop
+        version: 2.6.5-develop.20260916104407
       "@edifice.io/collect-frontend":
-        specifier: 1.0.7
-        version: 1.0.7(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)(@nestjs/platform-fastify@11.2.5(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5))(@types/node@22.16.0)(@types/react@18.3.24)(class-transformer@0.5.1)(class-validator@0.14.2)(katex@0.16.47)(luxon@3.6.1)(reflect-metadata@0.2.2)(rollup@4.63.3)(rxjs@7.8.2)(typescript@5.9.3)
+        specifier: develop
+        version: 1.0.9-develop.2.20260916101816(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)(@nestjs/platform-fastify@11.2.5(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5))(@types/node@22.16.0)(@types/react@18.3.24)(class-transformer@0.5.1)(class-validator@0.14.2)(katex@0.16.47)(luxon@3.6.1)(reflect-metadata@0.2.2)(rollup@4.63.3)(rxjs@7.8.2)(typescript@5.9.3)
       "@edifice.io/rack-client-rest":
         specifier: workspace:*
         version: link:../client/rest
       "@edifice.io/react":
-        specifier: 2.6.3
-        version: 2.6.3(@react-spring/web@9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@tanstack/react-query@5.81.5(react@18.3.1))(@types/node@22.16.0)(@types/react@18.3.24)(katex@0.16.47)(luxon@3.6.1)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.62.0(react@18.3.1))(react-i18next@14.1.0(i18next@23.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(rollup@4.63.3)(typescript@5.9.3)
+        specifier: develop
+        version: 2.6.5-develop.20260916104407(@react-spring/web@9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@tanstack/react-query@5.81.5(react@18.3.1))(@types/node@22.16.0)(@types/react@18.3.24)(katex@0.16.47)(luxon@3.6.1)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.71.1(react@18.3.1))(react-i18next@14.1.0(i18next@23.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(rollup@4.63.3)(typescript@5.9.3)
       "@edifice.io/utilities":
-        specifier: develop-pedago
-        version: 2.6.5-develop-pedago.20260911135210
+        specifier: develop
+        version: 2.6.5-develop.20260916104407
       "@react-spring/web":
         specifier: 9.7.5
         version: 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -140,8 +140,8 @@ importers:
         specifier: 2.4.2
         version: 2.4.2
       ode-explorer:
-        specifier: 2.6.7
-        version: 2.6.7(@types/node@22.16.0)(@types/react@18.3.24)(katex@0.16.47)(luxon@3.6.1)(rollup@4.63.3)(typescript@5.9.3)
+        specifier: develop
+        version: 2.6.10-develop.202609161153(@types/node@22.16.0)(@types/react@18.3.24)(katex@0.16.47)(luxon@3.6.1)(rollup@4.63.3)(typescript@5.9.3)
       pdfjs-dist:
         specifier: 5.4.394
         version: 5.4.394
@@ -155,8 +155,8 @@ importers:
         specifier: 4.0.13
         version: 4.0.13(react@18.3.1)
       react-hook-form:
-        specifier: 7.62.0
-        version: 7.62.0(react@18.3.1)
+        specifier: 7.71.1
+        version: 7.71.1(react@18.3.1)
       react-i18next:
         specifier: 14.1.0
         version: 14.1.0(i18next@23.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1006,65 +1006,41 @@ packages:
     peerDependencies:
       react: ">=16.8.0"
 
-  "@edifice.io/bootstrap@2.6.2":
+  "@edifice.io/bootstrap@2.6.5-develop.20260916104407":
     resolution:
       {
-        integrity: sha512-dfTC63Rk6ZJw+DeGDrYbG3HU79BGLd6Ty5a1eUFrIEQ9Cq06wLoWGhf6U+0Vbz1XNPQTLxg9JTluRH4RNw2QRA==,
+        integrity: sha512-ItRMkD1dMc9Ay7C0M0o+GIPIwM1Qop9QTjXlLG/S6Qh/qYUaWdIR5T6OAp1y03uaijriKwkyvE9i4yK1iGV5LA==,
       }
 
-  "@edifice.io/bootstrap@2.6.3":
+  "@edifice.io/client@2.6.5-develop.20260916104407":
     resolution:
       {
-        integrity: sha512-LY7kEUGrgPZXwhIWnU9HAe6fzdlIV5IV/7Yx0YW/P1v9UZByUUdFxTc2El/Gb5cxfTDw/8tDyewH7rpWzeM6aQ==,
+        integrity: sha512-J97w0Ia03i/8/d6+tG1Rr9OFpsDqLjhlr2SYt3uRC3FDc8FYRTLVCJgwj+pRT+2TnVvr0PGmdf8rrgz+homN1g==,
       }
 
-  "@edifice.io/bootstrap@2.6.5-develop-pedago.20260911135210":
+  "@edifice.io/collect-client-rest@1.0.9-develop.2.20260916101754":
     resolution:
       {
-        integrity: sha512-hBhA7xy3uSC66IxuHFTt6iYgwvGoXRZ+0LZpTn5r0P4luNcNrNiQs29L0gfs++e76SNO+XDzPaLn2ektE7J59w==,
-      }
-
-  "@edifice.io/client@2.6.2":
-    resolution:
-      {
-        integrity: sha512-S61C36Dz7enUpsPdcIKyaZpLkyjoJjNEQDco/hQYbDYix3H8rggvWPVuDzkJuV2uv9VlZwvBDkbq4OMLCkhehw==,
-      }
-
-  "@edifice.io/client@2.6.3":
-    resolution:
-      {
-        integrity: sha512-KKjkUPHIu2O2c+WCvlTr7GSb95Ly488kygr6izSOVGkroxmRERl4rFKmQ7cLbq48s1mA71mfqnJ8FJqaXWSocw==,
-      }
-
-  "@edifice.io/client@2.6.5-develop-pedago.20260911135210":
-    resolution:
-      {
-        integrity: sha512-/g/PjmQI8myI/4Lptodb6W3kzwwpxAepsgQwA1rIrkLIQ50pdnPF8mvShmvYL1KzpoYNPJ2iBIENkdIt8xOyag==,
-      }
-
-  "@edifice.io/collect-client-rest@1.0.7":
-    resolution:
-      {
-        integrity: sha512-xRZCSR19ERqs1UkIV33alnyNNStb/Jf8gzYsT6vb8+72AQsPFmxDq2yENS4kZVkC4u43ICzZZUW7scrnki/gPw==,
+        integrity: sha512-4HBRTmUc3C/CGje17tlWbaUjre6HutBbHiYLjmcvNHHKnWMI/iYUtULj/NuPY06g1QLdaaq3hRl65UivooO4XA==,
       }
     engines: { node: ">=22", pnpm: ">=8" }
 
-  "@edifice.io/collect-frontend@1.0.7":
+  "@edifice.io/collect-frontend@1.0.9-develop.2.20260916101816":
     resolution:
       {
-        integrity: sha512-h/vhgbiblzPy0/sc56t/czfgDpZ/Q3zplahZko8a4huk4KiaOaN++fczNPAetz2Bt2cz5NQj6rTUmOX2acGzEQ==,
+        integrity: sha512-kcheLvxUykqbzUGYma/GsMXtZ99yUr9Kbs0g3CTKwoOo81C2xL6xn4yWZ1FJRINlcaAhaXjSySp6ZqLRWovCOQ==,
       }
     engines: { node: ">=20" }
 
-  "@edifice.io/edifice-nestjs-core@1.0.5-develop-pedago.20260909125437":
+  "@edifice.io/edifice-nestjs-core@1.0.5-develop.20260916090344":
     resolution:
       {
-        integrity: sha512-GhGbu9JeAqYr1pVYIRb+uvvrjpZro1xgbrU8OSLGjCLdECr5PKwWRWBmqimpTBRG0Qb9opToA4p8xCE092IpCA==,
+        integrity: sha512-uVXSMfG0E8WYaUtgXh9gDcXFi5LyKrCkZLxUkRTngZCmMlK206qf8IKOrs/t7a2DyamZk0KksCroBiTlODt+Vg==,
       }
     engines: { node: ">=20", pnpm: ">=8" }
     hasBin: true
     peerDependencies:
-      "@edifice.io/edifice-ent-client": develop-pedago
+      "@edifice.io/edifice-ent-client": develop
       "@mikro-orm/core": 6.6.10
       "@mikro-orm/nestjs": 6.1.1
       "@mikro-orm/postgresql": 6.6.10
@@ -1079,10 +1055,10 @@ packages:
       reflect-metadata: 0.2.0
       rxjs: 7.8.2
 
-  "@edifice.io/react@2.6.3":
+  "@edifice.io/react@2.6.5-develop.20260916104407":
     resolution:
       {
-        integrity: sha512-OKP2YuVtYErNatx5U76MhRfQkcww40SDdeqIGc4+ZZi006Xx+5r94ibGGZI3BIrOI0I9DjIXt5RCrX6oIgKyWQ==,
+        integrity: sha512-VCqJ/K0TTqui7DXQOYYi906OfTy7S4sId+yRqqq7YeyEv9eHNoS5QIHX9vA+DMpuPOByxYPtDjYkSvSgVRFHsA==,
       }
     peerDependencies:
       "@react-spring/web": 9.7.5
@@ -1092,35 +1068,23 @@ packages:
       react-hook-form: 7.71.1
       react-i18next: 14.1.3
 
-  "@edifice.io/rest-client-base@2.6.2":
+  "@edifice.io/rest-client-base@2.6.5-develop.20260916104407":
     resolution:
       {
-        integrity: sha512-aCXKaFLqKYlW2XsfWNSm3vdeeqXGkFJKpk4dCyjbefqLXKKwVMx06sEwwHm7esvIdtnp+qMvvEOQWnI24JsMWA==,
+        integrity: sha512-7hfx3axcWq+IujaK1v3ARktn0Jg4t5s81H1zg374FdiUbNS1oacLe7Gqz3BUbi6iGXLwEY3EJ+4MhkYerbxFzg==,
       }
     hasBin: true
 
-  "@edifice.io/tiptap-extensions@2.6.3":
+  "@edifice.io/tiptap-extensions@2.6.5-develop.20260916104407":
     resolution:
       {
-        integrity: sha512-lKRyohmB2Nxb1ISy4UB+O3Y/j+nzetlkjycNCUWmeyZDZRFn6JnMPm8iymn1N7fj+0titoPAvZf3pO9vtsWd1A==,
+        integrity: sha512-zTCIZ4ZYHTtyuJB5EaPMRio0bGlSCRUPupAXoyO5BqChxwLHBriu8tlkWfzb83vayiRTsj/UmSoIHul9duKtXw==,
       }
 
-  "@edifice.io/utilities@2.6.2":
+  "@edifice.io/utilities@2.6.5-develop.20260916104407":
     resolution:
       {
-        integrity: sha512-SIYtRfKFdSNiq6sHGq95QN18clnz3lM4MYNXvKK/e3P3/2yyKMLPgOC/+WF5761bD1gjSDFm700+ML+/FcUYzg==,
-      }
-
-  "@edifice.io/utilities@2.6.3":
-    resolution:
-      {
-        integrity: sha512-2GPqmzHoJJ7VJcuvO/EjEvbevSVEt8dH2cXdvb98K8/e4eWQBFKgqPsAdO7s58dBLI+3jfZ8iiFQ3I0rnYo0oA==,
-      }
-
-  "@edifice.io/utilities@2.6.5-develop-pedago.20260911135210":
-    resolution:
-      {
-        integrity: sha512-qLnE3h55Z0UxprpJUmNcfNW2mHNK+OS5PU13lSioN2071P3aWCxNrYsneXRH9RKetET8s5yxr4eg0EF3uhFHZg==,
+        integrity: sha512-6mUtGfLp/91xKgfG0ao8c2VgTqe7IxYack/5bNMd+3j2jvVnvSe3zJt640RG3cknbufeLgUJvQ/9deX984wEtQ==,
       }
 
   "@elastic/ecs-helpers@2.1.1":
@@ -1465,6 +1429,12 @@ packages:
       }
     engines: { node: ">=14" }
 
+  "@fastify/cors@11.0.1":
+    resolution:
+      {
+        integrity: sha512-dmZaE7M1f4SM8ZZuk5RhSsDJ+ezTgI7v3HHRj8Ow9CneczsPLZV6+2j2uwdaSLn8zhTv6QV0F4ZRcqdalGx1pQ==,
+      }
+
   "@fastify/cors@11.3.0":
     resolution:
       {
@@ -1513,10 +1483,10 @@ packages:
         integrity: sha512-dd8phTnVWzx3iKPBKSvtRUT8+Igvy/MP+P5HcY2tjejEyeVbyjkD4HgzKessUObue5RRM5J6PZdxtAqgbn84yw==,
       }
 
-  "@fastify/proxy-addr@5.1.0":
+  "@fastify/proxy-addr@5.1.1":
     resolution:
       {
-        integrity: sha512-INS+6gh91cLUjB+PVHfu1UqcB76Sqtpyp7bnL+FYojhjygvOPA9ctiD/JDKsyD9Xgu4hUhCSJBPig/w7duNajw==,
+        integrity: sha512-zv07Y9GEuDsJPegZoDFd4SDWaZOW8N2pa0GSrYmKpId/tjt1Hgo3BjZBVjdVpfVrHaA+Qv5jawtS2O50J5xM9g==,
       }
 
   "@fastify/send@4.1.1":
@@ -1765,10 +1735,10 @@ packages:
     engines: { node: ">=20.9.0" }
     hasBin: true
 
-  "@microsoft/tsdoc-config@0.18.1":
+  "@microsoft/tsdoc-config@0.18.2":
     resolution:
       {
-        integrity: sha512-9brPoVdfN9k9g0dcWkFeA7IH9bbcttzDJlXvkf8b2OBzd5MueR1V2wkKBL0abn0otvmkHJC6aapBOTJDDeMCZg==,
+        integrity: sha512-4ymuLTQ9lFwJXK15f41iPcNHflymjk02Ltq5f5wo3fA02O1nHIGSc1TIZwzTSQZep+jXHM644jobt4Q8O3vtqg==,
       }
 
   "@microsoft/tsdoc@0.15.1":
@@ -1781,6 +1751,12 @@ packages:
     resolution:
       {
         integrity: sha512-xgAyonlVVS+q7Vc7qLW0UrJU7rSFcETRWsqdXZtjzRU8dF+6CkozTK4V4y1LwOX7j8r/vHphjDeMeGI4tNGeGA==,
+      }
+
+  "@microsoft/tsdoc@0.17.0":
+    resolution:
+      {
+        integrity: sha512-p68VexhnH7ojf3U27RdryUDqnKJgKaWUbCL96vJR7N0mqDuhKG5OIECk3sCPPdynxjk+yoVhRkScqtv5KQjzsw==,
       }
 
   "@mikro-orm/core@6.6.10":
@@ -1985,6 +1961,22 @@ packages:
       "@nestjs/platform-fastify": ^9.0.0 || ^10.0.0 || ^11.0.0
       rxjs: ^7.0.0
 
+  "@nestjs/common@11.0.20":
+    resolution:
+      {
+        integrity: sha512-/GH8NDCczjn6+6RNEtSNAts/nq/wQE8L1qZ9TRjqjNqEsZNE1vpFuRIhmcO2isQZ0xY5rySnpaRdrOAul3gQ3A==,
+      }
+    peerDependencies:
+      class-transformer: "*"
+      class-validator: "*"
+      reflect-metadata: ^0.1.12 || ^0.2.0
+      rxjs: ^7.1.0
+    peerDependenciesMeta:
+      class-transformer:
+        optional: true
+      class-validator:
+        optional: true
+
   "@nestjs/common@11.2.5":
     resolution:
       {
@@ -2009,6 +2001,27 @@ packages:
     peerDependencies:
       "@nestjs/common": ^10.0.0 || ^11.0.0
       rxjs: ^7.1.0
+
+  "@nestjs/core@11.0.20":
+    resolution:
+      {
+        integrity: sha512-yUkEzBGiRNSEThVl6vMCXgoA9sDGWoRbJsTLdYdCC7lg7PE1iXBnna1FiBfQjT995pm0fjyM1e3WsXmyWeJXbw==,
+      }
+    engines: { node: ">= 20" }
+    peerDependencies:
+      "@nestjs/common": ^11.0.0
+      "@nestjs/microservices": ^11.0.0
+      "@nestjs/platform-express": ^11.0.0
+      "@nestjs/websockets": ^11.0.0
+      reflect-metadata: ^0.1.12 || ^0.2.0
+      rxjs: ^7.1.0
+    peerDependenciesMeta:
+      "@nestjs/microservices":
+        optional: true
+      "@nestjs/platform-express":
+        optional: true
+      "@nestjs/websockets":
+        optional: true
 
   "@nestjs/core@11.2.5":
     resolution:
@@ -2093,6 +2106,22 @@ packages:
       mqtt:
         optional: true
       nats:
+        optional: true
+
+  "@nestjs/platform-fastify@11.0.20":
+    resolution:
+      {
+        integrity: sha512-MZnjO77N/XesVzXhn8qnSEcnjXVIHxkh5zTz8SEIr6K2yWgGJZbTlNm7ul6l7QBeaCeNZtZJlvY/F+4Dbx8yCQ==,
+      }
+    peerDependencies:
+      "@fastify/static": ^8.0.0
+      "@fastify/view": ^10.0.0 || ^11.0.0
+      "@nestjs/common": ^11.0.0
+      "@nestjs/core": ^11.0.0
+    peerDependenciesMeta:
+      "@fastify/static":
+        optional: true
+      "@fastify/view":
         optional: true
 
   "@nestjs/platform-fastify@11.2.5":
@@ -2236,6 +2265,14 @@ packages:
       {
         integrity: sha512-DlFtKjPtOv401XnRjnIxMaaKUcdyGulCINmQGlrnqJuUA7ABr2uFSuOqOFJS6uGA1QFa+vKU1GhxhefUiTHOaw==,
       }
+    hasBin: true
+
+  "@nuxt/opencollective@0.4.1":
+    resolution:
+      {
+        integrity: sha512-GXD3wy50qYbxCJ652bDrDzgMr3NFEkIS374+IgFQKkCvk9yiYcLvX2XDYr7UyQxf4wK0e+yqDYRubZ0DtOxnmQ==,
+      }
+    engines: { node: ^14.18.0 || >=16.10.0, npm: ">=5.10.0" }
     hasBin: true
 
   "@nx/nx-darwin-arm64@19.6.0":
@@ -3142,12 +3179,6 @@ packages:
       }
     engines: { node: ">=18.0.0" }
 
-  "@tanstack/query-core@5.62.7":
-    resolution:
-      {
-        integrity: sha512-fgpfmwatsrUal6V+8EC2cxZIQVl9xvL7qYa03gsdsCy985UTUlS4N+/3hCzwR0PclYDqisca2AqR1BVgJGpUDA==,
-      }
-
   "@tanstack/query-core@5.81.5":
     resolution:
       {
@@ -3167,14 +3198,6 @@ packages:
       }
     peerDependencies:
       "@tanstack/react-query": ^5.81.5
-      react: ^18 || ^19
-
-  "@tanstack/react-query@5.62.7":
-    resolution:
-      {
-        integrity: sha512-+xCtP4UAFDTlRTYyEjLx0sRtWyr5GIk7TZjZwBu4YaNahi3Rt2oMyRqfpfVrtwsqY2sayP4iXVCwmC+ZqqFmuw==,
-      }
-    peerDependencies:
       react: ^18 || ^19
 
   "@tanstack/react-query@5.81.5":
@@ -3625,6 +3648,13 @@ packages:
       {
         integrity: sha512-lrYmkeaAFiuUjN5nGnCowdjponrsR7eRmeTf/15/5oZsNrMN7t/fvPb014AqhG/anNasa0ism4CKZns3D+4pKQ==,
       }
+
+  "@tokenizer/inflate@0.2.7":
+    resolution:
+      {
+        integrity: sha512-MADQgmZT1eKjp06jpI2yozxaU9uVs4GzzgSL+uEq7bVcJ9V1ZXQkeGNql1fsSI0gMy1vhvNTNbUqrx+pZfJVmg==,
+      }
+    engines: { node: ">=18" }
 
   "@tokenizer/inflate@0.4.1":
     resolution:
@@ -4353,10 +4383,10 @@ packages:
         integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==,
       }
 
-  baseline-browser-mapping@2.11.23:
+  baseline-browser-mapping@2.11.24:
     resolution:
       {
-        integrity: sha512-le521dGVfxM7yRX0EikCoSz+rOK+hHzdDt/E7mG1jOJB/6WAAUuwVroLwaB7ApaUsz5Q0kFlDXLSA9MheUIfRQ==,
+        integrity: sha512-hYrgxie335U08WqICoGqKRzV1HFXv6zdxwJE4ekCb80CM9a0SVVsN4QPwT67RraRo+9h8IATk6uxHJw7QSkdOg==,
       }
     engines: { node: ">=6.0.0" }
     hasBin: true
@@ -4421,10 +4451,10 @@ packages:
       }
     engines: { node: ">=8" }
 
-  browserslist@4.28.9:
+  browserslist@4.29.0:
     resolution:
       {
-        integrity: sha512-EWazOblFYUvlGZcfGhPUPmYh3nikUxBVb+y9MJun5f3hBi812X+8MSQTujLBtgK3cf51fJWbWfOjyeO954d+Eg==,
+        integrity: sha512-3GSvyjvDI4Dur1Meg2BekJquu5uF+9R9a1+5M1Mde192eZoXbeXjzgOsgqPS2V8D5wrrip0gR5Hf/GhWQ9ZzaA==,
       }
     engines: { node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7 }
     hasBin: true
@@ -4775,6 +4805,13 @@ packages:
       {
         integrity: sha512-cKUSoKa8YxFZZSmraVi7onONx3amu77ngK3kGpsYHDH7drPwCRkQE1RYMPlLRrMtnciRj274XNRxcHxnKmDSnA==,
       }
+
+  consola@3.4.2:
+    resolution:
+      {
+        integrity: sha512-5IKcdX0nnYavi6G7TtOhwkYzyjfJlatbjMjuLSfE2kYT5pMDOilZ4OvMhi637CcDICTmz3wARPoyhqyX1Y+XvA==,
+      }
+    engines: { node: ^14.18.0 || >=16.10.0 }
 
   content-disposition@0.5.4:
     resolution:
@@ -5215,10 +5252,10 @@ packages:
         integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==,
       }
 
-  electron-to-chromium@1.5.428:
+  electron-to-chromium@1.5.430:
     resolution:
       {
-        integrity: sha512-1JxbaFJj1bRKurj1uY3l4xxpU9kOUAUjcIgApj0qu1Pao5GhoIWI8iL0BeMYJ2njig1hBx0A7eKD9VGjH9wlHw==,
+        integrity: sha512-e1QEj72Y4zd8RlNZVmoTg+iCOSVwpk05IOiiQwdrkwCSVlZfPthevErhE+nckGd2YbsXfp1SkisznhGVIXP2NQ==,
       }
 
   emittery@0.13.1:
@@ -5461,7 +5498,6 @@ packages:
         integrity: sha512-QePbBFMJFjgmlE+cXAlbHZbHpdFVS2E/6vzCy7aKlebddvl1vadiC4JFV5u/wqTkNUwEV8WrQi257jf5f06hrg==,
       }
     engines: { node: ^18.18.0 || ^20.9.0 || >=21.1.0 }
-    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: "*"
@@ -5607,6 +5643,12 @@ packages:
         integrity: sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==,
       }
 
+  fast-json-stringify@6.4.0:
+    resolution:
+      {
+        integrity: sha512-ibRCQ0GZKJIQ+P3Et1h0LhPgp3PMTYk0MH8O+kW3lNYsvmaQww5Nn3f1jf73Q0jR1Yz3a1CDP4/NZD3vOajWJQ==,
+      }
+
   fast-json-stringify@7.0.1:
     resolution:
       {
@@ -5681,6 +5723,18 @@ packages:
         integrity: sha512-W6hzDP8s0iSeL7LGwY6Oc/ZxuXWOvFEMs6p2L0Si415YRo27W5pBKdOTXxhemBDeSTAcpYf5evRA9onF2OYhPA==,
       }
 
+  fastify@5.3.0:
+    resolution:
+      {
+        integrity: sha512-vDpCJa4KRkHrdDMpDNtyPaIDi/ptCwoJ0M8RiefuIMvyXTgG63xYGe9DYYiCpydjh0ETIaLoSyKBNKkh7ew1eA==,
+      }
+
+  fastify@5.6.0:
+    resolution:
+      {
+        integrity: sha512-9j2r9TnwNsfGiCKGYT0Voqy244qwcoYM9qvNi/i+F8sNNWDnqUEVuGYNc9GyjldhXmMlJmVPS6gI1LdvjYGRJw==,
+      }
+
   fastq@1.20.3:
     resolution:
       {
@@ -5718,6 +5772,13 @@ packages:
         integrity: sha512-XXTUwCvisa5oacNGRP9SfNtYBNAMi+RPwBFmblZEF7N7swHYQS6/Zfk7SRwx4D5j3CH211YNRco1DEMNVfZCnQ==,
       }
     engines: { node: ">=16.0.0" }
+
+  file-type@20.4.1:
+    resolution:
+      {
+        integrity: sha512-hw9gNZXUfZ02Jo0uafWLaFVPter5/k2rfcrjFJJHX/77xtSDOfJuEFb6oKlFV86FLP1SuyHMW1PSk0U9M5tKkQ==,
+      }
+    engines: { node: ">=18" }
 
   file-type@21.3.4:
     resolution:
@@ -6860,6 +6921,13 @@ packages:
       }
     engines: { node: ">=20.0.0" }
 
+  load-esm@1.0.2:
+    resolution:
+      {
+        integrity: sha512-nVAvWk/jeyrWyXEAs84mpQCYccxRqgKY4OznLuJhJCa0XsPSfdOIr2zvBZEj3IHEHbX97jjscKRRV539bW0Gpw==,
+      }
+    engines: { node: ">=13.2.0" }
+
   load-esm@1.0.3:
     resolution:
       {
@@ -7371,17 +7439,10 @@ packages:
       "@swc/core":
         optional: true
 
-  ode-explorer@2.6.6:
+  ode-explorer@2.6.10-develop.202609161153:
     resolution:
       {
-        integrity: sha512-7SifAtZgDXg1nRudJcpUPksmoowSE90QqQx/nSfaAsWUmzKJWCx5EwS8QhUw4yHHY6aWCWixD1w9EYUQD+Za/A==,
-      }
-    engines: { node: 18 || 20 }
-
-  ode-explorer@2.6.7:
-    resolution:
-      {
-        integrity: sha512-0WCRxj5tW4mkQ8mPqLOGX9UX2kyKPQKI7xZ2g0B3c8QIeIQGmrKiGtCgfWnldZMtI2kFDd0s8cQewImQMwY2sQ==,
+        integrity: sha512-2FESukEhbf2EJUiSzd1f129hz4pEPP33j41gaLjhc3gsfqqJEQhRm9jH+duGDTrkzaL4foRlT2yO2VStW3Rupg==,
       }
     engines: { node: 18 || 20 }
 
@@ -7771,6 +7832,13 @@ packages:
     resolution:
       {
         integrity: sha512-r34yH/GlQpKZbU1BvFFqOjhISRo1MNx1tWYsYvmj6KIRHSPMT2+yHOEb1SG6NMvRoHRF0a07kCOox/9yakl1vg==,
+      }
+    hasBin: true
+
+  pino@9.14.0:
+    resolution:
+      {
+        integrity: sha512-8OEwKp5juEvb/MjpIc4hjqfgCNysrS94RIOMXYvpYCdm/jglrKEiAYmiumbmGhCvs+IcInsphYDFwqrjr7398w==,
       }
     hasBin: true
 
@@ -8448,10 +8516,10 @@ packages:
         integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==,
       }
 
-  react-hook-form@7.62.0:
+  react-hook-form@7.71.1:
     resolution:
       {
-        integrity: sha512-7KWFejc98xqG/F4bAxpL41NB3o1nnvQO1RWZT3TqRZYL8RryQETGfEdVnJN2fy1crCiBLLjkRBVK05j24FxJGA==,
+        integrity: sha512-9SUJKCGKo8HUSsCO+y0CtqkqI5nNuaDqTxyqPsZPqIwudpj4rCrAz/jZV+jn57bx5gtZKOh3neQu94DXMc+w5w==,
       }
     engines: { node: ">=18.0.0" }
     peerDependencies:
@@ -8624,6 +8692,13 @@ packages:
         integrity: sha512-6tDA8g98We0zd0GvVeMT9arEOnTw9qM03L9cJXaCjrip1OO764RDBLBfrB4cwzNGDj5OA5ioymC9GkizgWJDUg==,
       }
     engines: { node: ">=8" }
+
+  reflect-metadata@0.2.0:
+    resolution:
+      {
+        integrity: sha512-vUN0wuk3MuhSVMfU/ImnPQAK8QZcXJ339DtVsP3jDscxCe6dT+PsOe3J1BYS9Ec2Fd4oC6ry6bCBebzTya0IYw==,
+      }
+    deprecated: This version has a critical bug in fallback handling. Please upgrade to reflect-metadata@0.2.2 or newer.
 
   reflect-metadata@0.2.2:
     resolution:
@@ -10494,7 +10569,7 @@ snapshots:
     dependencies:
       "@babel/compat-data": 7.29.7
       "@babel/helper-validator-option": 7.29.7
-      browserslist: 4.28.9
+      browserslist: 4.29.0
       lru-cache: 5.1.1
       semver: 6.3.1
 
@@ -10790,53 +10865,25 @@ snapshots:
       react: 18.3.1
       tslib: 2.8.1
 
-  "@edifice.io/bootstrap@2.6.2":
+  "@edifice.io/bootstrap@2.6.5-develop.20260916104407":
     dependencies:
       "@popperjs/core": 2.11.8
       bootstrap: 5.3.8(@popperjs/core@2.11.8)
 
-  "@edifice.io/bootstrap@2.6.3":
+  "@edifice.io/client@2.6.5-develop.20260916104407":
     dependencies:
-      "@popperjs/core": 2.11.8
-      bootstrap: 5.3.8(@popperjs/core@2.11.8)
-
-  "@edifice.io/bootstrap@2.6.5-develop-pedago.20260911135210":
-    dependencies:
-      "@popperjs/core": 2.11.8
-      bootstrap: 5.3.8(@popperjs/core@2.11.8)
-
-  "@edifice.io/client@2.6.2":
-    dependencies:
-      "@edifice.io/utilities": 2.6.2
+      "@edifice.io/utilities": 2.6.5-develop.20260916104407
       axios: 1.13.4
       core-js: 3.48.0
       ua-parser-js: 2.0.9
     transitivePeerDependencies:
       - debug
 
-  "@edifice.io/client@2.6.3":
+  "@edifice.io/collect-client-rest@1.0.9-develop.2.20260916101754(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)(@nestjs/platform-fastify@11.2.5(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5))(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)":
     dependencies:
-      "@edifice.io/utilities": 2.6.3
-      axios: 1.13.4
-      core-js: 3.48.0
-      ua-parser-js: 2.0.9
-    transitivePeerDependencies:
-      - debug
-
-  "@edifice.io/client@2.6.5-develop-pedago.20260911135210":
-    dependencies:
-      "@edifice.io/utilities": 2.6.5-develop-pedago.20260911135210
-      axios: 1.13.4
-      core-js: 3.48.0
-      ua-parser-js: 2.0.9
-    transitivePeerDependencies:
-      - debug
-
-  "@edifice.io/collect-client-rest@1.0.7(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)(@nestjs/platform-fastify@11.2.5(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5))(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)":
-    dependencies:
-      "@edifice.io/rest-client-base": 2.6.2
+      "@edifice.io/rest-client-base": 2.6.5-develop.20260916104407
       "@nest-lab/fastify-multer": 1.3.0(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-fastify@11.2.5(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5))(rxjs@7.8.2)
-      "@nestjs/swagger": 11.2.0(@fastify/static@8.2.0)(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
+      "@nestjs/swagger": 11.2.0(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
     transitivePeerDependencies:
       - "@fastify/static"
       - "@nestjs/common"
@@ -10847,12 +10894,12 @@ snapshots:
       - reflect-metadata
       - rxjs
 
-  "@edifice.io/collect-frontend@1.0.7(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)(@nestjs/platform-fastify@11.2.5(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5))(@types/node@22.16.0)(@types/react@18.3.24)(class-transformer@0.5.1)(class-validator@0.14.2)(katex@0.16.47)(luxon@3.6.1)(reflect-metadata@0.2.2)(rollup@4.63.3)(rxjs@7.8.2)(typescript@5.9.3)":
+  "@edifice.io/collect-frontend@1.0.9-develop.2.20260916101816(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)(@nestjs/platform-fastify@11.2.5(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5))(@types/node@22.16.0)(@types/react@18.3.24)(class-transformer@0.5.1)(class-validator@0.14.2)(katex@0.16.47)(luxon@3.6.1)(reflect-metadata@0.2.2)(rollup@4.63.3)(rxjs@7.8.2)(typescript@5.9.3)":
     dependencies:
-      "@edifice.io/bootstrap": 2.6.2
-      "@edifice.io/client": 2.6.2
-      "@edifice.io/collect-client-rest": 1.0.7(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)(@nestjs/platform-fastify@11.2.5(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5))(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      "@edifice.io/react": 2.6.3(@react-spring/web@9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@tanstack/react-query@5.81.5(react@18.3.1))(@types/node@22.16.0)(@types/react@18.3.24)(katex@0.16.47)(luxon@3.6.1)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.62.0(react@18.3.1))(react-i18next@14.1.0(i18next@23.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(rollup@4.63.3)(typescript@5.9.3)
+      "@edifice.io/bootstrap": 2.6.5-develop.20260916104407
+      "@edifice.io/client": 2.6.5-develop.20260916104407
+      "@edifice.io/collect-client-rest": 1.0.9-develop.2.20260916101754(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)(@nestjs/platform-fastify@11.2.5(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5))(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      "@edifice.io/react": 2.6.5-develop.20260916104407(@react-spring/web@9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@tanstack/react-query@5.81.5(react@18.3.1))(@types/node@22.16.0)(@types/react@18.3.24)(katex@0.16.47)(luxon@3.6.1)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.71.1(react@18.3.1))(react-i18next@14.1.0(i18next@23.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(rollup@4.63.3)(typescript@5.9.3)
       "@react-spring/web": 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@tanstack/react-query": 5.81.5(react@18.3.1)
       "@uidotdev/usehooks": 2.4.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -10860,12 +10907,12 @@ snapshots:
       clsx: 2.1.1
       i18next: 23.8.1
       i18next-http-backend: 2.4.2
-      ode-explorer: 2.6.6(@types/node@22.16.0)(@types/react@18.3.24)(katex@0.16.47)(luxon@3.6.1)(rollup@4.63.3)(typescript@5.9.3)
+      ode-explorer: 2.6.10-develop.202609161153(@types/node@22.16.0)(@types/react@18.3.24)(katex@0.16.47)(luxon@3.6.1)(rollup@4.63.3)(typescript@5.9.3)
       pdfjs-dist: 5.4.394
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       react-error-boundary: 4.0.13(react@18.3.1)
-      react-hook-form: 7.62.0(react@18.3.1)
+      react-hook-form: 7.71.1(react@18.3.1)
       react-i18next: 14.1.0(i18next@23.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-pdf: 10.2.0(@types/react@18.3.24)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-router-dom: 6.30.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -10900,7 +10947,7 @@ snapshots:
       - terser
       - typescript
 
-  "@edifice.io/edifice-nestjs-core@1.0.5-develop-pedago.20260909125437(b75535b2c5a0bd9545e85e12d4b3931e)":
+  "@edifice.io/edifice-nestjs-core@1.0.5-develop.20260916090344(jk344aemhzpt2qiymqc4ipkhay)":
     dependencies:
       "@aws-sdk/client-s3": 3.1033.0
       "@elastic/ecs-pino-format": 1.5.0
@@ -10909,30 +10956,30 @@ snapshots:
       "@mikro-orm/core": 6.6.10
       "@mikro-orm/entity-generator": 6.6.10(@mikro-orm/core@6.6.10)(pg@8.19.0)
       "@mikro-orm/migrations": 6.6.10(@mikro-orm/core@6.6.10)(@types/node@22.16.0)(pg@8.19.0)
-      "@mikro-orm/nestjs": 6.1.1(@mikro-orm/core@6.6.10)(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)
+      "@mikro-orm/nestjs": 6.1.1(@mikro-orm/core@6.6.10)(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/core@11.0.20)
       "@mikro-orm/postgresql": 6.6.10(@mikro-orm/core@6.6.10)
-      "@nestjs/common": 11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      "@nestjs/config": 4.0.0(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(rxjs@7.8.2)
-      "@nestjs/core": 11.2.5(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/microservices@11.0.20)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      "@nestjs/event-emitter": 3.0.1(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)
-      "@nestjs/microservices": 11.0.20(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)(nats@2.29.3)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      "@nestjs/platform-fastify": 11.2.5(@fastify/static@8.2.0)(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)
-      "@nestjs/schedule": 6.0.0(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)
-      "@nestjs/serve-static": 5.0.3(@fastify/static@8.2.0)(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)(fastify@5.11.3)
-      "@nestjs/swagger": 11.2.0(@fastify/static@8.2.0)(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
-      "@nestjs/terminus": 11.0.0(@mikro-orm/core@6.6.10)(@mikro-orm/nestjs@6.1.1(@mikro-orm/core@6.6.10)(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5))(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)(@nestjs/microservices@11.0.20)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      "@nestjs/common": 11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2)
+      "@nestjs/config": 4.0.0(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(rxjs@7.8.2)
+      "@nestjs/core": 11.0.20(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/microservices@11.0.20)(reflect-metadata@0.2.0)(rxjs@7.8.2)
+      "@nestjs/event-emitter": 3.0.1(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/core@11.0.20)
+      "@nestjs/microservices": 11.0.20(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/core@11.0.20)(nats@2.29.3)(reflect-metadata@0.2.0)(rxjs@7.8.2)
+      "@nestjs/platform-fastify": 11.0.20(@fastify/static@8.2.0)(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/core@11.0.20)
+      "@nestjs/schedule": 6.0.0(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/core@11.0.20)
+      "@nestjs/serve-static": 5.0.3(@fastify/static@8.2.0)(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/core@11.0.20)(fastify@5.6.0)
+      "@nestjs/swagger": 11.2.0(@fastify/static@8.2.0)(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/core@11.0.20)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)
+      "@nestjs/terminus": 11.0.0(@mikro-orm/core@6.6.10)(@mikro-orm/nestjs@6.1.1(@mikro-orm/core@6.6.10)(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/core@11.0.20))(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/core@11.0.20)(@nestjs/microservices@11.0.20)(reflect-metadata@0.2.0)(rxjs@7.8.2)
       class-transformer: 0.5.1
       class-validator: 0.14.2
-      fastify: 5.11.3
+      fastify: 5.6.0
       js-yaml: 4.1.0
       json5: 2.2.3
       kleur: 4.1.5
       nats: 2.29.3
-      nestjs-pino: 4.4.0(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(pino-http@10.5.0)(pino@9.9.5)(rxjs@7.8.2)
+      nestjs-pino: 4.4.0(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(pino-http@10.5.0)(pino@9.9.5)(rxjs@7.8.2)
       pino: 9.9.5
       pino-http: 10.5.0
       pino-pretty: 13.1.1
-      reflect-metadata: 0.2.2
+      reflect-metadata: 0.2.0
       rxjs: 7.8.2
       uuid: 11.1.0
       yaml: 2.8.1
@@ -10950,108 +10997,15 @@ snapshots:
       - supports-color
       - tedious
 
-  "@edifice.io/react@2.6.3(@react-spring/web@9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@tanstack/react-query@5.62.7(react@18.3.1))(@types/node@22.16.0)(@types/react@18.3.24)(katex@0.16.47)(luxon@3.6.1)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.62.0(react@18.3.1))(react-i18next@14.1.0(i18next@23.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(rollup@4.63.3)(typescript@5.9.3)":
+  "@edifice.io/react@2.6.5-develop.20260916104407(@react-spring/web@9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@tanstack/react-query@5.81.5(react@18.3.1))(@types/node@22.16.0)(@types/react@18.3.24)(katex@0.16.47)(luxon@3.6.1)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.71.1(react@18.3.1))(react-i18next@14.1.0(i18next@23.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(rollup@4.63.3)(typescript@5.9.3)":
     dependencies:
       "@ant-design/icons": 5.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@dnd-kit/core": 6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@dnd-kit/sortable": 8.0.0(@dnd-kit/core@6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       "@dnd-kit/utilities": 3.2.2(react@18.3.1)
-      "@edifice.io/bootstrap": 2.6.3
-      "@edifice.io/tiptap-extensions": 2.6.3(@types/node@22.16.0)(rollup@4.63.3)(typescript@5.9.3)
-      "@edifice.io/utilities": 2.6.3
-      "@floating-ui/react": 0.26.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      "@popperjs/core": 2.11.8
-      "@react-spring/web": 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      "@screeb/sdk-browser": 0.5.0
-      "@screeb/sdk-react": 0.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      "@tanstack/react-query": 5.62.7(react@18.3.1)
-      "@tiptap/core": 2.11.0(@tiptap/pm@2.11.0)
-      "@tiptap/extension-blockquote": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
-      "@tiptap/extension-bullet-list": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
-      "@tiptap/extension-character-count": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
-      "@tiptap/extension-code": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
-      "@tiptap/extension-code-block": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
-      "@tiptap/extension-color": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/extension-text-style@2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0)))
-      "@tiptap/extension-dropcursor": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
-      "@tiptap/extension-focus": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
-      "@tiptap/extension-font-family": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/extension-text-style@2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0)))
-      "@tiptap/extension-gapcursor": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
-      "@tiptap/extension-hard-break": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
-      "@tiptap/extension-heading": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
-      "@tiptap/extension-highlight": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
-      "@tiptap/extension-history": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
-      "@tiptap/extension-horizontal-rule": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
-      "@tiptap/extension-image": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
-      "@tiptap/extension-italic": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
-      "@tiptap/extension-link": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
-      "@tiptap/extension-list-item": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
-      "@tiptap/extension-mathematics": 2.22.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)(katex@0.16.47)
-      "@tiptap/extension-ordered-list": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
-      "@tiptap/extension-placeholder": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
-      "@tiptap/extension-strike": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
-      "@tiptap/extension-subscript": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
-      "@tiptap/extension-superscript": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
-      "@tiptap/extension-table": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)
-      "@tiptap/extension-table-cell": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
-      "@tiptap/extension-table-header": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
-      "@tiptap/extension-table-row": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
-      "@tiptap/extension-text-align": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
-      "@tiptap/extension-text-style": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
-      "@tiptap/extension-typography": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
-      "@tiptap/extension-underline": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
-      "@tiptap/pm": 2.11.0
-      "@tiptap/react": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))(@tiptap/pm@2.11.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      "@tiptap/starter-kit": 2.11.0
-      "@uidotdev/usehooks": 2.4.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      antd: 5.29.1(luxon@3.6.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      clsx: 2.1.1
-      dayjs: 1.11.19
-      emoji-picker-react: 4.17.4(react@18.3.1)
-      heic-to: 1.4.2
-      html-react-parser: 4.2.1(react@18.3.1)
-      ohash: 1.1.3
-      pako: 2.1.0
-      pixi.js: 8.15.0
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      react-hook-form: 7.62.0(react@18.3.1)
-      react-hot-toast: 2.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-i18next: 14.1.0(i18next@23.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-intersection-observer: 9.5.3(react@18.3.1)
-      react-pdf: 10.3.0(@types/react@18.3.24)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-popper: 2.3.0(@popperjs/core@2.11.8)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-slugify: 3.0.3
-      swiper: 10.1.0
-      ua-parser-js: 1.0.36
-      zustand: 4.5.7(@types/react@18.3.24)(react@18.3.1)
-    transitivePeerDependencies:
-      - "@types/node"
-      - "@types/react"
-      - date-fns
-      - immer
-      - katex
-      - less
-      - lightningcss
-      - luxon
-      - moment
-      - rollup
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - typescript
-
-  "@edifice.io/react@2.6.3(@react-spring/web@9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@tanstack/react-query@5.81.5(react@18.3.1))(@types/node@22.16.0)(@types/react@18.3.24)(katex@0.16.47)(luxon@3.6.1)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.62.0(react@18.3.1))(react-i18next@14.1.0(i18next@23.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(rollup@4.63.3)(typescript@5.9.3)":
-    dependencies:
-      "@ant-design/icons": 5.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      "@dnd-kit/core": 6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      "@dnd-kit/sortable": 8.0.0(@dnd-kit/core@6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
-      "@dnd-kit/utilities": 3.2.2(react@18.3.1)
-      "@edifice.io/bootstrap": 2.6.3
-      "@edifice.io/tiptap-extensions": 2.6.3(@types/node@22.16.0)(rollup@4.63.3)(typescript@5.9.3)
-      "@edifice.io/utilities": 2.6.3
+      "@edifice.io/bootstrap": 2.6.5-develop.20260916104407
+      "@edifice.io/tiptap-extensions": 2.6.5-develop.20260916104407(@types/node@22.16.0)(rollup@4.63.3)(typescript@5.9.3)
+      "@edifice.io/utilities": 2.6.5-develop.20260916104407
       "@floating-ui/react": 0.26.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@popperjs/core": 2.11.8
       "@react-spring/web": 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -11107,7 +11061,7 @@ snapshots:
       pixi.js: 8.15.0
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      react-hook-form: 7.62.0(react@18.3.1)
+      react-hook-form: 7.71.1(react@18.3.1)
       react-hot-toast: 2.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-i18next: 14.1.0(i18next@23.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-intersection-observer: 9.5.3(react@18.3.1)
@@ -11136,11 +11090,11 @@ snapshots:
       - terser
       - typescript
 
-  "@edifice.io/rest-client-base@2.6.2": {}
+  "@edifice.io/rest-client-base@2.6.5-develop.20260916104407": {}
 
-  "@edifice.io/tiptap-extensions@2.6.3(@types/node@22.16.0)(rollup@4.63.3)(typescript@5.9.3)":
+  "@edifice.io/tiptap-extensions@2.6.5-develop.20260916104407(@types/node@22.16.0)(rollup@4.63.3)(typescript@5.9.3)":
     dependencies:
-      "@edifice.io/utilities": 2.6.3
+      "@edifice.io/utilities": 2.6.5-develop.20260916104407
       "@tiptap/core": 2.11.0(@tiptap/pm@2.11.0)
       "@tiptap/extension-blockquote": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
       "@tiptap/extension-bold": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
@@ -11183,11 +11137,7 @@ snapshots:
       - terser
       - typescript
 
-  "@edifice.io/utilities@2.6.2": {}
-
-  "@edifice.io/utilities@2.6.3": {}
-
-  "@edifice.io/utilities@2.6.5-develop-pedago.20260911135210": {}
+  "@edifice.io/utilities@2.6.5-develop.20260916104407": {}
 
   "@elastic/ecs-helpers@2.1.1": {}
 
@@ -11344,6 +11294,11 @@ snapshots:
     dependencies:
       text-decoding: 1.0.0
 
+  "@fastify/cors@11.0.1":
+    dependencies:
+      fastify-plugin: 5.1.0
+      toad-cache: 3.7.4
+
   "@fastify/cors@11.3.0":
     dependencies:
       fastify-plugin: 6.0.0
@@ -11377,11 +11332,11 @@ snapshots:
     dependencies:
       "@fastify/error": 4.2.0
       fastify-plugin: 6.0.0
-      find-my-way: 9.9.0
+      find-my-way: 9.7.0
       path-to-regexp: 8.4.2
       reusify: 1.1.0
 
-  "@fastify/proxy-addr@5.1.0":
+  "@fastify/proxy-addr@5.1.1":
     dependencies:
       "@fastify/forwarded": 3.0.2
       ipaddr.js: 2.5.0
@@ -11526,7 +11481,7 @@ snapshots:
   "@microsoft/api-extractor-model@7.33.12(@types/node@22.16.0)":
     dependencies:
       "@microsoft/tsdoc": 0.16.0
-      "@microsoft/tsdoc-config": 0.18.1
+      "@microsoft/tsdoc-config": 0.18.2
       "@rushstack/node-core-library": 5.24.1(@types/node@22.16.0)
     transitivePeerDependencies:
       - "@types/node"
@@ -11535,7 +11490,7 @@ snapshots:
     dependencies:
       "@microsoft/api-extractor-model": 7.33.12(@types/node@22.16.0)
       "@microsoft/tsdoc": 0.16.0
-      "@microsoft/tsdoc-config": 0.18.1
+      "@microsoft/tsdoc-config": 0.18.2
       "@rushstack/node-core-library": 5.24.1(@types/node@22.16.0)
       "@rushstack/rig-package": 0.7.3
       "@rushstack/terminal": 0.24.4(@types/node@22.16.0)
@@ -11549,9 +11504,9 @@ snapshots:
     transitivePeerDependencies:
       - "@types/node"
 
-  "@microsoft/tsdoc-config@0.18.1":
+  "@microsoft/tsdoc-config@0.18.2":
     dependencies:
-      "@microsoft/tsdoc": 0.16.0
+      "@microsoft/tsdoc": 0.17.0
       ajv: 8.18.0
       jju: 1.4.0
       resolve: 1.22.12
@@ -11559,6 +11514,8 @@ snapshots:
   "@microsoft/tsdoc@0.15.1": {}
 
   "@microsoft/tsdoc@0.16.0": {}
+
+  "@microsoft/tsdoc@0.17.0": {}
 
   "@mikro-orm/core@6.6.10":
     dependencies:
@@ -11621,11 +11578,11 @@ snapshots:
       - supports-color
       - tedious
 
-  "@mikro-orm/nestjs@6.1.1(@mikro-orm/core@6.6.10)(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)":
+  "@mikro-orm/nestjs@6.1.1(@mikro-orm/core@6.6.10)(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/core@11.0.20)":
     dependencies:
       "@mikro-orm/core": 6.6.10
-      "@nestjs/common": 11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      "@nestjs/core": 11.2.5(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/microservices@11.0.20)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      "@nestjs/common": 11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2)
+      "@nestjs/core": 11.0.20(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/microservices@11.0.20)(reflect-metadata@0.2.0)(rxjs@7.8.2)
 
   "@mikro-orm/postgresql@6.6.10(@mikro-orm/core@6.6.10)":
     dependencies:
@@ -11715,9 +11672,24 @@ snapshots:
   "@nest-lab/fastify-multer@1.3.0(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-fastify@11.2.5(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5))(rxjs@7.8.2)":
     dependencies:
       "@nestjs/common": 11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      "@nestjs/platform-fastify": 11.2.5(@fastify/static@8.2.0)(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)
+      "@nestjs/platform-fastify": 11.2.5(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)
       fastify-multer: 2.0.3
       rxjs: 7.8.2
+
+  "@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2)":
+    dependencies:
+      file-type: 20.4.1
+      iterare: 1.2.1
+      load-esm: 1.0.2
+      reflect-metadata: 0.2.0
+      rxjs: 7.8.2
+      tslib: 2.8.1
+      uid: 2.0.2
+    optionalDependencies:
+      class-transformer: 0.5.1
+      class-validator: 0.14.2
+    transitivePeerDependencies:
+      - supports-color
 
   "@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)":
     dependencies:
@@ -11734,13 +11706,27 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  "@nestjs/config@4.0.0(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(rxjs@7.8.2)":
+  "@nestjs/config@4.0.0(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(rxjs@7.8.2)":
     dependencies:
-      "@nestjs/common": 11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      "@nestjs/common": 11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2)
       dotenv: 16.4.7
       dotenv-expand: 12.0.1
       lodash: 4.17.21
       rxjs: 7.8.2
+
+  "@nestjs/core@11.0.20(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/microservices@11.0.20)(reflect-metadata@0.2.0)(rxjs@7.8.2)":
+    dependencies:
+      "@nestjs/common": 11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2)
+      "@nuxt/opencollective": 0.4.1
+      fast-safe-stringify: 2.1.1
+      iterare: 1.2.1
+      path-to-regexp: 8.2.0
+      reflect-metadata: 0.2.0
+      rxjs: 7.8.2
+      tslib: 2.8.1
+      uid: 2.0.2
+    optionalDependencies:
+      "@nestjs/microservices": 11.0.20(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/core@11.0.20)(nats@2.29.3)(reflect-metadata@0.2.0)(rxjs@7.8.2)
 
   "@nestjs/core@11.2.5(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/microservices@11.0.20)(reflect-metadata@0.2.2)(rxjs@7.8.2)":
     dependencies:
@@ -11755,11 +11741,19 @@ snapshots:
     optionalDependencies:
       "@nestjs/microservices": 11.0.20(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)(nats@2.29.3)(reflect-metadata@0.2.2)(rxjs@7.8.2)
 
-  "@nestjs/event-emitter@3.0.1(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)":
+  "@nestjs/event-emitter@3.0.1(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/core@11.0.20)":
     dependencies:
-      "@nestjs/common": 11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      "@nestjs/core": 11.2.5(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/microservices@11.0.20)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      "@nestjs/common": 11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2)
+      "@nestjs/core": 11.0.20(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/microservices@11.0.20)(reflect-metadata@0.2.0)(rxjs@7.8.2)
       eventemitter2: 6.4.9
+
+  "@nestjs/mapped-types@2.1.0(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)":
+    dependencies:
+      "@nestjs/common": 11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2)
+      reflect-metadata: 0.2.0
+    optionalDependencies:
+      class-transformer: 0.5.1
+      class-validator: 0.14.2
 
   "@nestjs/mapped-types@2.1.0(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)":
     dependencies:
@@ -11768,6 +11762,17 @@ snapshots:
     optionalDependencies:
       class-transformer: 0.5.1
       class-validator: 0.14.2
+
+  "@nestjs/microservices@11.0.20(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/core@11.0.20)(nats@2.29.3)(reflect-metadata@0.2.0)(rxjs@7.8.2)":
+    dependencies:
+      "@nestjs/common": 11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2)
+      "@nestjs/core": 11.0.20(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/microservices@11.0.20)(reflect-metadata@0.2.0)(rxjs@7.8.2)
+      iterare: 1.2.1
+      reflect-metadata: 0.2.0
+      rxjs: 7.8.2
+      tslib: 2.8.1
+    optionalDependencies:
+      nats: 2.29.3
 
   "@nestjs/microservices@11.0.20(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)(nats@2.29.3)(reflect-metadata@0.2.2)(rxjs@7.8.2)":
     dependencies:
@@ -11779,8 +11784,24 @@ snapshots:
       tslib: 2.8.1
     optionalDependencies:
       nats: 2.29.3
+    optional: true
 
-  "@nestjs/platform-fastify@11.2.5(@fastify/static@8.2.0)(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)":
+  "@nestjs/platform-fastify@11.0.20(@fastify/static@8.2.0)(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/core@11.0.20)":
+    dependencies:
+      "@fastify/cors": 11.0.1
+      "@fastify/formbody": 8.0.2
+      "@fastify/middie": 9.0.3
+      "@nestjs/common": 11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2)
+      "@nestjs/core": 11.0.20(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/microservices@11.0.20)(reflect-metadata@0.2.0)(rxjs@7.8.2)
+      fast-querystring: 1.1.2
+      fastify: 5.3.0
+      light-my-request: 6.6.0
+      path-to-regexp: 8.2.0
+      tslib: 2.8.1
+    optionalDependencies:
+      "@fastify/static": 8.2.0
+
+  "@nestjs/platform-fastify@11.2.5(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)":
     dependencies:
       "@fastify/cors": 11.3.0
       "@fastify/formbody": 8.0.2
@@ -11793,25 +11814,39 @@ snapshots:
       light-my-request: 6.6.0
       path-to-regexp: 8.4.2
       tslib: 2.8.1
-    optionalDependencies:
-      "@fastify/static": 8.2.0
 
-  "@nestjs/schedule@6.0.0(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)":
+  "@nestjs/schedule@6.0.0(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/core@11.0.20)":
     dependencies:
-      "@nestjs/common": 11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      "@nestjs/core": 11.2.5(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/microservices@11.0.20)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      "@nestjs/common": 11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2)
+      "@nestjs/core": 11.0.20(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/microservices@11.0.20)(reflect-metadata@0.2.0)(rxjs@7.8.2)
       cron: 4.3.0
 
-  "@nestjs/serve-static@5.0.3(@fastify/static@8.2.0)(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)(fastify@5.11.3)":
+  "@nestjs/serve-static@5.0.3(@fastify/static@8.2.0)(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/core@11.0.20)(fastify@5.6.0)":
     dependencies:
-      "@nestjs/common": 11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      "@nestjs/core": 11.2.5(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/microservices@11.0.20)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      "@nestjs/common": 11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2)
+      "@nestjs/core": 11.0.20(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/microservices@11.0.20)(reflect-metadata@0.2.0)(rxjs@7.8.2)
       path-to-regexp: 8.2.0
     optionalDependencies:
       "@fastify/static": 8.2.0
-      fastify: 5.11.3
+      fastify: 5.6.0
 
-  "@nestjs/swagger@11.2.0(@fastify/static@8.2.0)(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)":
+  "@nestjs/swagger@11.2.0(@fastify/static@8.2.0)(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/core@11.0.20)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)":
+    dependencies:
+      "@microsoft/tsdoc": 0.15.1
+      "@nestjs/common": 11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2)
+      "@nestjs/core": 11.0.20(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/microservices@11.0.20)(reflect-metadata@0.2.0)(rxjs@7.8.2)
+      "@nestjs/mapped-types": 2.1.0(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)
+      js-yaml: 4.1.0
+      lodash: 4.17.21
+      path-to-regexp: 8.2.0
+      reflect-metadata: 0.2.0
+      swagger-ui-dist: 5.21.0
+    optionalDependencies:
+      "@fastify/static": 8.2.0
+      class-transformer: 0.5.1
+      class-validator: 0.14.2
+
+  "@nestjs/swagger@11.2.0(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)":
     dependencies:
       "@microsoft/tsdoc": 0.15.1
       "@nestjs/common": 11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -11823,22 +11858,21 @@ snapshots:
       reflect-metadata: 0.2.2
       swagger-ui-dist: 5.21.0
     optionalDependencies:
-      "@fastify/static": 8.2.0
       class-transformer: 0.5.1
       class-validator: 0.14.2
 
-  "@nestjs/terminus@11.0.0(@mikro-orm/core@6.6.10)(@mikro-orm/nestjs@6.1.1(@mikro-orm/core@6.6.10)(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5))(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)(@nestjs/microservices@11.0.20)(reflect-metadata@0.2.2)(rxjs@7.8.2)":
+  "@nestjs/terminus@11.0.0(@mikro-orm/core@6.6.10)(@mikro-orm/nestjs@6.1.1(@mikro-orm/core@6.6.10)(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/core@11.0.20))(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/core@11.0.20)(@nestjs/microservices@11.0.20)(reflect-metadata@0.2.0)(rxjs@7.8.2)":
     dependencies:
-      "@nestjs/common": 11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      "@nestjs/core": 11.2.5(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/microservices@11.0.20)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      "@nestjs/common": 11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2)
+      "@nestjs/core": 11.0.20(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/microservices@11.0.20)(reflect-metadata@0.2.0)(rxjs@7.8.2)
       boxen: 5.1.2
       check-disk-space: 3.4.0
-      reflect-metadata: 0.2.2
+      reflect-metadata: 0.2.0
       rxjs: 7.8.2
     optionalDependencies:
       "@mikro-orm/core": 6.6.10
-      "@mikro-orm/nestjs": 6.1.1(@mikro-orm/core@6.6.10)(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)
-      "@nestjs/microservices": 11.0.20(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.5)(nats@2.29.3)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      "@mikro-orm/nestjs": 6.1.1(@mikro-orm/core@6.6.10)(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/core@11.0.20)
+      "@nestjs/microservices": 11.0.20(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(@nestjs/core@11.0.20)(nats@2.29.3)(reflect-metadata@0.2.0)(rxjs@7.8.2)
 
   "@nodelib/fs.scandir@2.1.5":
     dependencies:
@@ -11861,6 +11895,10 @@ snapshots:
       - "@swc/core"
       - debug
       - supports-color
+
+  "@nuxt/opencollective@0.4.1":
+    dependencies:
+      consola: 3.4.2
 
   "@nx/nx-darwin-arm64@19.6.0":
     optional: true
@@ -12114,7 +12152,7 @@ snapshots:
       ajv: 8.13.0
       ajv-draft-04: 1.0.0(ajv@8.13.0)
       ajv-formats: 3.0.1(ajv@8.13.0)
-      fs-extra: 11.3.6
+      fs-extra: 11.3.3
       import-lazy: 4.0.0
       jju: 1.4.0
       resolve: 1.22.12
@@ -12391,8 +12429,6 @@ snapshots:
       "@smithy/core": 3.34.1
       tslib: 2.8.1
 
-  "@tanstack/query-core@5.62.7": {}
-
   "@tanstack/query-core@5.81.5": {}
 
   "@tanstack/query-devtools@5.81.2": {}
@@ -12401,11 +12437,6 @@ snapshots:
     dependencies:
       "@tanstack/query-devtools": 5.81.2
       "@tanstack/react-query": 5.81.5(react@18.3.1)
-      react: 18.3.1
-
-  "@tanstack/react-query@5.62.7(react@18.3.1)":
-    dependencies:
-      "@tanstack/query-core": 5.62.7
       react: 18.3.1
 
   "@tanstack/react-query@5.81.5(react@18.3.1)":
@@ -12705,6 +12736,14 @@ snapshots:
       "@tiptap/extension-text": 2.27.3(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
       "@tiptap/extension-text-style": 2.11.0(@tiptap/core@2.11.0(@tiptap/pm@2.11.0))
       "@tiptap/pm": 2.11.0
+
+  "@tokenizer/inflate@0.2.7":
+    dependencies:
+      debug: 4.4.3
+      fflate: 0.8.3
+      token-types: 6.1.2
+    transitivePeerDependencies:
+      - supports-color
 
   "@tokenizer/inflate@0.4.1":
     dependencies:
@@ -13301,7 +13340,7 @@ snapshots:
 
   base64-js@1.5.1: {}
 
-  baseline-browser-mapping@2.11.23: {}
+  baseline-browser-mapping@2.11.24: {}
 
   binary-extensions@2.3.0: {}
 
@@ -13345,13 +13384,13 @@ snapshots:
     dependencies:
       fill-range: 7.1.1
 
-  browserslist@4.28.9:
+  browserslist@4.29.0:
     dependencies:
-      baseline-browser-mapping: 2.11.23
+      baseline-browser-mapping: 2.11.24
       caniuse-lite: 1.0.30001810
-      electron-to-chromium: 1.5.428
+      electron-to-chromium: 1.5.430
       node-releases: 2.0.55
-      update-browserslist-db: 1.3.3(browserslist@4.28.9)
+      update-browserslist-db: 1.3.3(browserslist@4.29.0)
 
   buffer-from@1.1.2: {}
 
@@ -13538,6 +13577,8 @@ snapshots:
   confbox@0.1.8: {}
 
   confbox@0.3.1: {}
+
+  consola@3.4.2: {}
 
   content-disposition@0.5.4:
     dependencies:
@@ -13751,7 +13792,7 @@ snapshots:
 
   ee-first@1.1.1: {}
 
-  electron-to-chromium@1.5.428: {}
+  electron-to-chromium@1.5.430: {}
 
   emittery@0.13.1: {}
 
@@ -13985,6 +14026,15 @@ snapshots:
 
   fast-json-stable-stringify@2.1.0: {}
 
+  fast-json-stringify@6.4.0:
+    dependencies:
+      "@fastify/merge-json-schemas": 0.2.1
+      ajv: 8.20.0
+      ajv-formats: 3.0.1(ajv@8.20.0)
+      fast-uri: 3.1.8
+      json-schema-ref-resolver: 3.0.0
+      rfdc: 1.4.1
+
   fast-json-stringify@7.0.1:
     dependencies:
       "@fastify/merge-json-schemas": 0.2.1
@@ -14032,13 +14082,49 @@ snapshots:
       "@fastify/ajv-compiler": 4.0.6
       "@fastify/error": 4.2.0
       "@fastify/fast-json-stringify-compiler": 5.1.0
-      "@fastify/proxy-addr": 5.1.0
+      "@fastify/proxy-addr": 5.1.1
       abstract-logging: 2.0.1
       avvio: 9.3.0
       fast-json-stringify: 7.0.1
-      find-my-way: 9.9.0
+      find-my-way: 9.7.0
       light-my-request: 6.6.0
       pino: 10.3.1
+      process-warning: 5.1.0
+      rfdc: 1.4.1
+      secure-json-parse: 4.1.0
+      semver: 7.8.5
+      toad-cache: 3.7.4
+
+  fastify@5.3.0:
+    dependencies:
+      "@fastify/ajv-compiler": 4.0.6
+      "@fastify/error": 4.2.0
+      "@fastify/fast-json-stringify-compiler": 5.1.0
+      "@fastify/proxy-addr": 5.1.1
+      abstract-logging: 2.0.1
+      avvio: 9.3.0
+      fast-json-stringify: 6.4.0
+      find-my-way: 9.9.0
+      light-my-request: 6.6.0
+      pino: 9.14.0
+      process-warning: 5.1.0
+      rfdc: 1.4.1
+      secure-json-parse: 4.1.0
+      semver: 7.8.5
+      toad-cache: 3.7.4
+
+  fastify@5.6.0:
+    dependencies:
+      "@fastify/ajv-compiler": 4.0.6
+      "@fastify/error": 4.2.0
+      "@fastify/fast-json-stringify-compiler": 5.1.0
+      "@fastify/proxy-addr": 5.1.1
+      abstract-logging: 2.0.1
+      avvio: 9.3.0
+      fast-json-stringify: 6.4.0
+      find-my-way: 9.9.0
+      light-my-request: 6.6.0
+      pino: 9.14.0
       process-warning: 5.1.0
       rfdc: 1.4.1
       secure-json-parse: 4.1.0
@@ -14062,6 +14148,15 @@ snapshots:
   file-entry-cache@8.0.0:
     dependencies:
       flat-cache: 4.0.1
+
+  file-type@20.4.1:
+    dependencies:
+      "@tokenizer/inflate": 0.2.7
+      strtok3: 10.3.5
+      token-types: 6.1.2
+      uint8array-extras: 1.5.0
+    transitivePeerDependencies:
+      - supports-color
 
   file-type@21.3.4:
     dependencies:
@@ -14742,6 +14837,8 @@ snapshots:
       rfdc: 1.4.1
       wrap-ansi: 9.0.2
 
+  load-esm@1.0.2: {}
+
   load-esm@1.0.3: {}
 
   local-pkg@1.2.1:
@@ -14977,9 +15074,9 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  nestjs-pino@4.4.0(@nestjs/common@11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(pino-http@10.5.0)(pino@9.9.5)(rxjs@7.8.2):
+  nestjs-pino@4.4.0(@nestjs/common@11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2))(pino-http@10.5.0)(pino@9.9.5)(rxjs@7.8.2):
     dependencies:
-      "@nestjs/common": 11.2.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      "@nestjs/common": 11.0.20(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.0)(rxjs@7.8.2)
       pino: 9.9.5
       pino-http: 10.5.0
       rxjs: 7.8.2
@@ -15060,15 +15157,15 @@ snapshots:
       - debug
       - supports-color
 
-  ode-explorer@2.6.6(@types/node@22.16.0)(@types/react@18.3.24)(katex@0.16.47)(luxon@3.6.1)(rollup@4.63.3)(typescript@5.9.3):
+  ode-explorer@2.6.10-develop.202609161153(@types/node@22.16.0)(@types/react@18.3.24)(katex@0.16.47)(luxon@3.6.1)(rollup@4.63.3)(typescript@5.9.3):
     dependencies:
       "@dnd-kit/core": 6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@dnd-kit/modifiers": 7.0.0(@dnd-kit/core@6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
-      "@edifice.io/bootstrap": 2.6.2
-      "@edifice.io/client": 2.6.2
-      "@edifice.io/react": 2.6.3(@react-spring/web@9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@tanstack/react-query@5.62.7(react@18.3.1))(@types/node@22.16.0)(@types/react@18.3.24)(katex@0.16.47)(luxon@3.6.1)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.62.0(react@18.3.1))(react-i18next@14.1.0(i18next@23.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(rollup@4.63.3)(typescript@5.9.3)
+      "@edifice.io/bootstrap": 2.6.5-develop.20260916104407
+      "@edifice.io/client": 2.6.5-develop.20260916104407
+      "@edifice.io/react": 2.6.5-develop.20260916104407(@react-spring/web@9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@tanstack/react-query@5.81.5(react@18.3.1))(@types/node@22.16.0)(@types/react@18.3.24)(katex@0.16.47)(luxon@3.6.1)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.71.1(react@18.3.1))(react-i18next@14.1.0(i18next@23.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(rollup@4.63.3)(typescript@5.9.3)
       "@react-spring/web": 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      "@tanstack/react-query": 5.62.7(react@18.3.1)
+      "@tanstack/react-query": 5.81.5(react@18.3.1)
       clsx: 2.1.1
       dayjs: 1.11.10
       i18next: 23.8.1
@@ -15076,49 +15173,7 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       react-error-boundary: 4.0.13(react@18.3.1)
-      react-hook-form: 7.62.0(react@18.3.1)
-      react-i18next: 14.1.0(i18next@23.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-router-dom: 6.30.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      zustand: 4.5.7(@types/react@18.3.24)(react@18.3.1)
-    transitivePeerDependencies:
-      - "@types/node"
-      - "@types/react"
-      - date-fns
-      - debug
-      - encoding
-      - immer
-      - katex
-      - less
-      - lightningcss
-      - luxon
-      - moment
-      - react-native
-      - rollup
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - typescript
-
-  ode-explorer@2.6.7(@types/node@22.16.0)(@types/react@18.3.24)(katex@0.16.47)(luxon@3.6.1)(rollup@4.63.3)(typescript@5.9.3):
-    dependencies:
-      "@dnd-kit/core": 6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      "@dnd-kit/modifiers": 7.0.0(@dnd-kit/core@6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
-      "@edifice.io/bootstrap": 2.6.3
-      "@edifice.io/client": 2.6.3
-      "@edifice.io/react": 2.6.3(@react-spring/web@9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@tanstack/react-query@5.62.7(react@18.3.1))(@types/node@22.16.0)(@types/react@18.3.24)(katex@0.16.47)(luxon@3.6.1)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.62.0(react@18.3.1))(react-i18next@14.1.0(i18next@23.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(rollup@4.63.3)(typescript@5.9.3)
-      "@react-spring/web": 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      "@tanstack/react-query": 5.62.7(react@18.3.1)
-      clsx: 2.1.1
-      dayjs: 1.11.10
-      i18next: 23.8.1
-      i18next-http-backend: 2.4.2
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      react-error-boundary: 4.0.13(react@18.3.1)
-      react-hook-form: 7.62.0(react@18.3.1)
+      react-hook-form: 7.71.1(react@18.3.1)
       react-i18next: 14.1.0(i18next@23.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-router-dom: 6.30.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       zustand: 4.5.7(@types/react@18.3.24)(react@18.3.1)
@@ -15376,6 +15431,20 @@ snapshots:
       safe-stable-stringify: 2.5.0
       sonic-boom: 4.2.1
       thread-stream: 4.2.0
+
+  pino@9.14.0:
+    dependencies:
+      "@pinojs/redact": 0.4.0
+      atomic-sleep: 1.0.0
+      on-exit-leak-free: 2.1.2
+      pino-abstract-transport: 2.0.0
+      pino-std-serializers: 7.1.0
+      process-warning: 5.1.0
+      quick-format-unescaped: 4.0.4
+      real-require: 0.2.0
+      safe-stable-stringify: 2.5.0
+      sonic-boom: 4.2.1
+      thread-stream: 3.2.0
 
   pino@9.9.5:
     dependencies:
@@ -15948,7 +16017,7 @@ snapshots:
 
   react-fast-compare@3.2.2: {}
 
-  react-hook-form@7.62.0(react@18.3.1):
+  react-hook-form@7.71.1(react@18.3.1):
     dependencies:
       react: 18.3.1
 
@@ -16058,6 +16127,8 @@ snapshots:
     dependencies:
       indent-string: 4.0.0
       strip-indent: 3.0.0
+
+  reflect-metadata@0.2.0: {}
 
   reflect-metadata@0.2.2: {}
 
@@ -16546,9 +16617,9 @@ snapshots:
 
   universalify@2.0.1: {}
 
-  update-browserslist-db@1.3.3(browserslist@4.28.9):
+  update-browserslist-db@1.3.3(browserslist@4.29.0):
     dependencies:
-      browserslist: 4.28.9
+      browserslist: 4.29.0
       escalade: 3.2.0
       picocolors: 1.1.1
 
