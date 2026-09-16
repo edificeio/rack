@@ -63,7 +63,7 @@
     "pnpm": ">=8"
   },
   "devDependencies": {
-    "@edifice.io/client": "develop-b2school",
+    "@edifice.io/client": "2.6.5",
     "@edifice.io/edifice-nestjs-core": "develop",
     "@types/uuid": "10.0.0",
     "tsc-alias": "1.8.16"
