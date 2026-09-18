@@ -535,11 +535,11 @@ public class RackController extends MongoDbControllerHelper {
 							.onSuccess( visibles -> {
 								List<JsonObject> users = visibles.stream()
 															.map(JsonObject.class::cast)
-															.filter( u -> "true".equals(u.getString("isUser")))
+															.filter( u -> u.getBoolean("isUser"))
 															.collect(Collectors.toList());
 								List<JsonObject> groups = visibles.stream()
 										.map(JsonObject.class::cast)
-										.filter( u -> !"true".equals(u.getString("isUser")))
+										.filter( u -> !u.getBoolean("isUser"))
 										.collect(Collectors.toList());
 								toRackUsers(users);
 								groups.forEach( group -> UserUtils.groupDisplayName(group, I18n.acceptLanguage(request)));
