@@ -22,6 +22,7 @@
 
 package fr.wseduc.rack.controllers;
 
+import com.google.common.collect.Lists;
 import fr.wseduc.mongodb.MongoDb;
 import fr.wseduc.mongodb.MongoQueryBuilder;
 import fr.wseduc.rack.Rack;
@@ -60,6 +61,7 @@ import org.entcore.common.notification.TimelineHelper;
 import org.entcore.common.storage.Storage;
 import org.entcore.common.user.UserInfos;
 import org.entcore.common.user.UserUtils;
+import org.entcore.common.user.dto.VisibleIdentityRequest;
 import org.entcore.common.utils.StringUtils;
 import org.vertx.java.core.http.RouteMatcher;
 
@@ -71,6 +73,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static fr.wseduc.webutils.Utils.getOrElse;
 import static org.entcore.common.http.response.DefaultResponseHandler.arrayResponseHandler;
@@ -97,6 +100,9 @@ public class RackController extends MongoDbControllerHelper {
 	private final static Logger logger = LoggerFactory.getLogger(RackController.class);
 
 	private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
+	private static final List<String> USER_FIELD_LIST = Lists.newArrayList("id", "username", "name", "profile");
+	private static final List<String> GROUP_FIELD_LIST = Lists.newArrayList("id", "groupDisplayName", "name", "structureName");
+	private static final Comparator<JsonObject> BY_NAME = Comparator.comparing(visible -> visible.getString("name", ""));
 
 	//Statistics
 	private EventHelper eventHelper;
@@ -516,38 +522,54 @@ public class RackController extends MongoDbControllerHelper {
 	/* Userlist & Grouplist */
 
 	private void getVisibleRackUsers(final HttpServerRequest request, final String search, final Handler<JsonObject> handler){
-		final String customReturn =
-				"MATCH visibles-[:IN]->(:Group)-[:AUTHORIZED]->(:Role)-[:AUTHORIZE]->(a:Action) " +
-				"USING INDEX a:Action(name) " +
-				"WHERE has(a.name) AND a.name={action} AND NOT has(visibles.activationCode) " +
-				"RETURN distinct visibles.id as id, visibles.displayName as username, visibles.lastName as name, HEAD(visibles.profiles) as profile " +
-				"ORDER BY name ";
-		String searchTerm = null;
-		if (search != null && !search.trim().isEmpty()) {
-			searchTerm = normalize(search);
-		}
-		final String prefilter = searchTerm == null ? null : " AND m.displayNameSearchField CONTAINS {searchTerm}";
-		final JsonObject params = new JsonObject().put("action", "fr.wseduc.rack.controllers.RackController|listRack");
-		if (searchTerm != null) {
-			params.put("searchTerm", searchTerm);
-		}
-		final String queryGroups =
-				"RETURN distinct profileGroup.id as id, profileGroup.name as name, " +
-				"profileGroup.groupDisplayName as groupDisplayName, profileGroup.structureName as structureName " +
-				"ORDER BY name ";
-		UserUtils.findVisibleProfilsGroups(eb, request, queryGroups, new JsonObject(), visibleGroups -> {
-			for (Object u : visibleGroups) {
-				if (!(u instanceof JsonObject)) continue;
-				JsonObject group = (JsonObject) u;
-				UserUtils.groupDisplayName(group, I18n.acceptLanguage(request));
-			}
-			UserUtils.findVisibleUsers(eb, request, false, false, prefilter, customReturn, params, visibleUsers -> {
-				JsonObject visibles = new JsonObject()
-						.put("groups", visibleGroups)
-						.put("users", visibleUsers);
-				handler.handle(visibles);
-			});
+
+		UserUtils.getAuthenticatedUserInfos(eb, request)
+				.onSuccess( uinfo -> {
+					VisibleIdentityRequest visibleIdentityRequest = new VisibleIdentityRequest()
+							.setUserId(uinfo.getUserId())
+							.setPublicDetails(true)
+							.setWorkflowRightFilter("fr.wseduc.rack.controllers.RackController|listRack")
+							.setOnlyActivatedUsers(true)
+							.setSearch( normalize(search));
+					UserUtils.findVisibleIdentities(eb, visibleIdentityRequest)
+							.onSuccess( visibles -> {
+								List<JsonObject> users = visibles.stream()
+															.map(JsonObject.class::cast)
+															.filter( u -> u.getBoolean("isUser"))
+															.collect(Collectors.toList());
+								List<JsonObject> groups = visibles.stream()
+										.map(JsonObject.class::cast)
+										.filter( u -> !u.getBoolean("isUser"))
+										.collect(Collectors.toList());
+								toRackUsers(users);
+								groups.forEach( group -> UserUtils.groupDisplayName(group, I18n.acceptLanguage(request)));
+								groups.sort(BY_NAME);
+								groups.forEach( group -> keepOnly(group, GROUP_FIELD_LIST));
+								JsonObject result = new JsonObject()
+														.put("users", users)
+														.put("groups", groups);
+								handler.handle(result);
+							})
+							.onFailure(t -> {log.error("Error while requesting visibles", t); renderError(request); });
+				})
+				.onFailure(t -> {log.error("User not connected anymore"); forbidden(request); });
+	}
+
+	/**
+	 * Maps visible identities to the rack user payload : id, username, name, profile, sorted by name.
+	 * The list is modified in place.
+	 */
+	private static void toRackUsers(List<JsonObject> users) {
+		users.forEach( user -> {
+			user.put("username", user.getString("displayName"));
+			user.put("name", user.getString("lastName"));
+			keepOnly(user, USER_FIELD_LIST);
 		});
+		users.sort(BY_NAME);
+	}
+
+	private static void keepOnly(JsonObject visible, List<String> fields) {
+		visible.getMap().entrySet().removeIf(entry -> !fields.contains(entry.getKey()));
 	}
 
 	/**
@@ -557,12 +579,7 @@ public class RackController extends MongoDbControllerHelper {
 	@Get("/users/available")
 	@SecuredAction(list_users)
 	public void listUsers(final HttpServerRequest request) {
-		getVisibleRackUsers(request, null, new Handler<JsonObject>() {
-			@Override
-			public void handle(JsonObject users) {
-				renderJson(request, users);
-			}
-		});
+		getVisibleRackUsers(request, null, users -> renderJson(request, users));
 	}
 
 	/**
@@ -582,32 +599,31 @@ public class RackController extends MongoDbControllerHelper {
 				search = encodedSearch; // fallback
 			}
 		}
-		getVisibleRackUsers(request, search, new Handler<JsonObject>() {
-			@Override
-			public void handle(JsonObject users) {
-				renderJson(request, users);
-			}
-		});
+		getVisibleRackUsers(request, search, users -> renderJson(request, users));
 	}
 
 	@Get("/users/group/:groupId")
 	@SecuredAction(value = "", type = ActionType.AUTHENTICATED)
 	public void listUsersInGroup(final HttpServerRequest request) {
 		final String groupId = request.params().get("groupId");
-		final String customReturn =
-				"MATCH visibles-[:IN]->(:Group {id : {groupId}}) " +
-				"RETURN distinct visibles.id as id, visibles.displayName as username, visibles.lastName as name, HEAD(visibles.profiles) as profile " +
-				"ORDER BY name ";
-		final JsonObject params = new JsonObject()
-				.put("groupId", groupId);
+		UserUtils.getAuthenticatedUserInfos(eb, request)
+				.onSuccess( ui -> {
+					VisibleIdentityRequest request1 = new VisibleIdentityRequest()
+							.setExpectedVisiblesIds(Lists.newArrayList(groupId))
+							.setUserId(ui.getUserId())
+							.setPublicDetails(true)
+							.setVisibleIdFilter(VisibleIdentityRequest.VisibleIdFilter.GROUPS);
 
-		UserUtils.findVisibleUsers(eb, request, false, false, null, customReturn, params, new Handler<JsonArray>() {
-			@Override
-			public void handle(JsonArray users) {
-				renderJson(request, users);
-			}
-		});
-
+					UserUtils.findVisibleIdentities(eb, request1)
+							.onSuccess( visibles -> {
+								List<JsonObject> users = visibles.getList();
+								toRackUsers(users);
+								renderJson(request, new JsonArray(users));
+							}).onFailure(t -> {
+								log.error("error while retrieving visible ", t );
+								renderError(request, new JsonObject().put("error", t.getMessage()));});
+				})
+				.onFailure(t -> {log.error("error while retrieving userInfo " + t.getMessage()); unauthorized(request);});
 	}
 
 	/* Quota bus communication & utilities */
