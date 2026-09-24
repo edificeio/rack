@@ -42,3 +42,11 @@
     transparent var(--dash) calc(var(--dash) + var(--gap))
   );
 }
+
+.collectionDescription .tiptap {
+  min-height: 150px;
+}
+
+#submissionEdit .tiptap {
+  min-height: 350px;
+}
