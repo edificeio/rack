@@ -55,6 +55,15 @@ export default ({ mode }: { mode: string }) => {
           "node_modules/@edifice.io/bootstrap/dist/images",
         ),
       },
+      dedupe: [
+        "react",
+        "react-dom",
+        "@edifice.io/react",
+        "@edifice.io/client",
+        "@tanstack/react-query",
+        "react-hook-form",
+        "react-i18next",
+      ],
     },
 
     server: {

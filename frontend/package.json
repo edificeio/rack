@@ -37,7 +37,6 @@
     "clsx": "2.1.1",
     "i18next": "23.8.1",
     "i18next-http-backend": "2.4.2",
-    "ode-explorer": "develop-pedago",
     "pdfjs-dist": "5.4.394",
     "react": "18.3.1",
     "react-dom": "18.3.1",
@@ -47,9 +46,6 @@
     "react-pdf": "10.2.0",
     "react-router-dom": "6.30.3",
     "zustand": "4.5.7"
-  },
-  "resolutions": {
-    "@tanstack/react-query": "5.81.5"
   },
   "devDependencies": {
     "@axe-core/react": "4.10.2",
