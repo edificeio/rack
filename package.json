@@ -32,6 +32,7 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,yaml,yml}\"",
     "pre-commit": "lint-staged && pnpm run build",
     "pre-push": "true",
+    "postinstall": "edifice-cli check-singletons",
     "prepare": "[ \"$HUSKY\" = \"0\" ] || husky",
     "prune:prod": "pnpm -r prune:prod && CI=true NPM_CONFIG_IGNORE_SCRIPTS=true pnpm prune --prod --production --loglevel verbose",
     "docs:swagger:pdf": "generate-swagger-pdf --host=${SWAGGER_HOST:-127.0.0.1} --port=${SWAGGER_PORT:-3002}",
@@ -44,6 +45,7 @@
   "devDependencies": {
     "@commitlint/cli": "20.1.0",
     "@commitlint/config-conventional": "20.0.0",
+    "@edifice.io/cli": "develop-pedago",
     "cz-conventional-changelog": "3.3.0",
     "@eslint/js": "9.35.0",
     "@eslint/json": "0.13.2",
