@@ -1,6 +1,6 @@
 {
   "name": "@edifice.io/rack-frontend",
-  "version": "3.2.11",
+  "version": "3.2.11-dev.0",
   "private": true,
   "license": "GPL-3.0",
   "author": "Edifice",
@@ -24,12 +24,12 @@
     "typecheck": "tsc -b --noEmit"
   },
   "dependencies": {
-    "@edifice.io/utilities": "2.6.9",
-    "@edifice.io/bootstrap": "2.6.9",
+    "@edifice.io/utilities": "develop",
+    "@edifice.io/bootstrap": "develop",
     "@edifice.io/rack-client-rest": "workspace:*",
-    "@edifice.io/client": "2.6.9",
-    "@edifice.io/react": "2.6.9",
-    "@edifice.io/collect-frontend": "1.0.11",
+    "@edifice.io/client": "develop",
+    "@edifice.io/react": "develop",
+    "@edifice.io/collect-frontend": "develop",
     "@react-spring/web": "9.7.5",
     "@tanstack/react-query": "5.62.7",
     "@uidotdev/usehooks": "2.4.1",
