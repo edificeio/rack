@@ -608,15 +608,16 @@ public class RackController extends MongoDbControllerHelper {
 		final String groupId = request.params().get("groupId");
 		UserUtils.getAuthenticatedUserInfos(eb, request)
 				.onSuccess( ui -> {
-					VisibleIdentityRequest request1 = new VisibleIdentityRequest()
-							.setExpectedVisiblesIds(Lists.newArrayList(groupId))
-							.setUserId(ui.getUserId())
-							.setPublicDetails(true)
-							.setVisibleIdFilter(VisibleIdentityRequest.VisibleIdFilter.USERS_OF_GROUPS);
-
-					UserUtils.findVisibleIdentities(eb, request1)
-							.onSuccess( visibles -> {
-								List<JsonObject> users = visibles.getList();
+					// The group is a set : its visible members, whatever the path they are visible through
+					UserUtils.findVisibleMembersOfGroups(eb, ui.getUserId(), Lists.newArrayList(groupId), false)
+							.onSuccess( members -> {
+								List<JsonObject> users = members.stream()
+										.map(JsonObject.class::cast)
+										.collect(Collectors.toList());
+								users.forEach(member -> {
+									final JsonArray profiles = member.getJsonArray("profiles", new JsonArray());
+									member.put("profile", profiles.isEmpty() ? null : profiles.getString(0));
+								});
 								toRackUsers(users);
 								renderJson(request, new JsonArray(users));
 							}).onFailure(t -> {
