@@ -4,6 +4,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
+import type { CopyToNextcloudRequestDto } from "@edifice.io/rack-client-rest";
 import { rackService } from "../api/rack.service";
 import { useTranslation } from "react-i18next";
 import { useEdificeClient, useToast } from "@edifice.io/react";
@@ -124,6 +125,42 @@ export const usePostRackDocuments = () => {
     },
     onError: (error) => {
       toast.error(error?.message || t("rack.toast.error"));
+    },
+  });
+};
+
+/**
+ * Mutation to copy documents to the user's Nextcloud
+ */
+export const useCopyRackDocumentsToNextcloud = () => {
+  const toast = useToast();
+  const { appCode } = useEdificeClient();
+  const { t } = useTranslation(appCode);
+
+  return useMutation({
+    mutationFn: (request: CopyToNextcloudRequestDto) =>
+      rackService.copyToNextcloud(request),
+    onSuccess: ({ data }) => {
+      const succeeded = data.filter((result) => result.status === "ok").length;
+      const failed = data.length - succeeded;
+      if (succeeded === 0) {
+        toast.error(t("rack.toast.copyToNextcloudFailed", { count: failed }));
+      } else if (failed > 0) {
+        toast.warning(
+          t("rack.toast.copyToNextcloudPartialFailed", { succeeded, failed }),
+        );
+      } else {
+        toast.success(
+          t(
+            succeeded === 1
+              ? "rack.toast.copyToNextcloudSuccess"
+              : "rack.toast.copyToNextcloudSuccess_plural",
+          ),
+        );
+      }
+    },
+    onError: () => {
+      toast.error(t("rack.toast.error"));
     },
   });
 };

@@ -8,6 +8,7 @@ import { DocumentListTableHead } from "./DocumentListTableHead";
 import { DocumentListTableToolbar } from "./DocumentListTableToolbar";
 import { DocumentListTableBody } from "./DocumentListTableBody";
 import { AddRackDocumentToWorkspaceModal } from "./AddRackDocumentToWorkspaceModal";
+import { AddRackDocumentToNextcloudModal } from "./AddRackDocumentToNextcloudModal";
 import { useDocumentActionStore } from "~/store/documentActionStore";
 
 export const DocumentListTable = () => {
@@ -24,6 +25,10 @@ export const DocumentListTable = () => {
     useDocumentActionStore.use.openCopyToWorkspaceModal();
   const setOpenCopyToWorkspaceModal =
     useDocumentActionStore.use.setOpenCopyToWorkspaceModal();
+  const openCopyToNextcloudModal =
+    useDocumentActionStore.use.openCopyToNextcloudModal();
+  const setOpenCopyToNextcloudModal =
+    useDocumentActionStore.use.setOpenCopyToNextcloudModal();
   const selectedDocuments = useDocumentListStore.use.selectedDocuments();
 
   const selectedDocs = sortedDocuments.filter((doc) =>
@@ -72,6 +77,14 @@ export const DocumentListTable = () => {
         isOpen={openCopyToWorkspaceModal}
         onModalClose={() => setOpenCopyToWorkspaceModal(false)}
       />
+
+      {/* Mounted only when open: the folder picker checks the Nextcloud connection as soon as it renders. */}
+      {openCopyToNextcloudModal && (
+        <AddRackDocumentToNextcloudModal
+          documents={selectedDocs}
+          onModalClose={() => setOpenCopyToNextcloudModal(false)}
+        />
+      )}
     </>
   );
 };

@@ -6,10 +6,12 @@ interface DocumentActionState {
   openDeleteModal: boolean;
   openRestoreModal: boolean;
   openCopyToWorkspaceModal: boolean;
+  openCopyToNextcloudModal: boolean;
   setOpenTrashModal: (open: boolean) => void;
   setOpenDeleteModal: (open: boolean) => void;
   setOpenRestoreModal: (open: boolean) => void;
   setOpenCopyToWorkspaceModal: (open: boolean) => void;
+  setOpenCopyToNextcloudModal: (open: boolean) => void;
 }
 
 const useDocumentActionStoreBase = create<DocumentActionState>((set) => ({
@@ -17,11 +19,14 @@ const useDocumentActionStoreBase = create<DocumentActionState>((set) => ({
   openDeleteModal: false,
   openRestoreModal: false,
   openCopyToWorkspaceModal: false,
+  openCopyToNextcloudModal: false,
   setOpenTrashModal: (open: boolean) => set({ openTrashModal: open }),
   setOpenDeleteModal: (open: boolean) => set({ openDeleteModal: open }),
   setOpenRestoreModal: (open: boolean) => set({ openRestoreModal: open }),
   setOpenCopyToWorkspaceModal: (open: boolean) =>
     set({ openCopyToWorkspaceModal: open }),
+  setOpenCopyToNextcloudModal: (open: boolean) =>
+    set({ openCopyToNextcloudModal: open }),
 }));
 
 export const useDocumentActionStore = createSelectors(

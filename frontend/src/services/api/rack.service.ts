@@ -1,6 +1,7 @@
 import { odeServices } from "@edifice.io/client";
 import { RackClient } from "@edifice.io/rack-client-rest";
 import {
+  CopyToNextcloudRequestDto,
   CopyToWorkspaceRequestDto,
   SearchUsersQueryDto,
   GetRackQueryDto,
@@ -41,6 +42,8 @@ export const rackService = {
   recoverRack: (id: string) => getRackClient().recoverRack(id),
   copyToWorkspace: (request: CopyToWorkspaceRequestDto) =>
     getRackClient().copyToWorkspace(request),
+  copyToNextcloud: (request: CopyToNextcloudRequestDto) =>
+    getRackClient().copyToNextcloud(request),
   listUsers: () => getRackClient().listUsers(),
   searchUsers: (query: SearchUsersQueryDto) =>
     getRackClient().searchUsers(query),

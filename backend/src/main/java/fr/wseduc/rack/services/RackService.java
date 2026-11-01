@@ -36,6 +36,7 @@ public interface RackService {
 	//CRUD
 	public void getRack(String id, Handler<Either<String, JsonObject>> handler);
 	public void listRack(UserInfos user, Handler<Either<String, JsonArray>> handler);
+	public void listUserRacks(UserInfos user, JsonArray ids, Handler<Either<String, JsonArray>> handler);
 	public void deleteRack(String id, Handler<Either<String, JsonObject>> handler);
 
 	//TRASHBIN
