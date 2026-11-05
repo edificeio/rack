@@ -61,6 +61,15 @@ public class RackServiceMongoImpl extends MongoDbCrudService implements RackServ
 		mongo.find(collection, MongoQueryBuilder.build(query), MongoDbResult.validResultsHandler(handler));
 	}
 
+	public void listUserRacks(UserInfos user, JsonArray ids, Handler<Either<String, JsonArray>> handler) {
+		Bson query = and(in("_id", ids.getList()), or(
+					eq("to", user.getUserId()),
+					eq("from", user.getUserId())
+				), exists("file", true));
+
+		mongo.find(collection, MongoQueryBuilder.build(query), MongoDbResult.validResultsHandler(handler));
+	}
+
 	public void getRack(String id, Handler<Either<String, JsonObject>> handler) {
 		mongo.findOne(collection, MongoQueryBuilder.build(eq("_id", id)), MongoDbResult.validResultHandler(handler));
 	}

@@ -7,6 +7,8 @@ import {
   RackDocumentDto,
   PostRackResponseDto,
   ListUsersResponseDto,
+  CopyToNextcloudRequestDto,
+  CopyToNextcloudResponseDto,
   CopyToWorkspaceRequestDto,
   SearchUsersQueryDto,
   GetRackQueryDto,
@@ -124,6 +126,24 @@ export class RackClient extends BaseApiClient {
     options?: RequestOptions,
   ): Promise<unknown> {
     return this.post("/copy", request, undefined, options);
+  }
+
+  /**
+   * Copy documents from rack to the user's Nextcloud
+   * @param request Copy request data
+   * @param options Additional request options
+   * @returns Copy status of each document
+   */
+  async copyToNextcloud(
+    request: CopyToNextcloudRequestDto,
+    options?: RequestOptions,
+  ): Promise<CopyToNextcloudResponseDto> {
+    return this.post<CopyToNextcloudResponseDto>(
+      "/copy/nextcloud",
+      request,
+      undefined,
+      options,
+    );
   }
 
   /**

@@ -28,6 +28,7 @@ import fr.wseduc.mongodb.MongoQueryBuilder;
 import fr.wseduc.rack.Rack;
 import fr.wseduc.rack.services.RackService;
 import fr.wseduc.rack.services.RackServiceMongoImpl;
+import fr.wseduc.rack.utils.NextcloudUtils;
 import fr.wseduc.rs.Delete;
 import fr.wseduc.rs.Get;
 import fr.wseduc.rs.Post;
@@ -43,7 +44,9 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.Message;
+import io.vertx.core.eventbus.ReplyException;
 import io.vertx.core.http.HttpServerFileUpload;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonArray;
@@ -70,6 +73,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -97,6 +101,9 @@ public class RackController extends MongoDbControllerHelper {
 	private final static String QUOTA_BUS_ADDRESS = "org.entcore.workspace.quota";
 	private final static String WORKSPACE_NAME = "WORKSPACE";
 	private final static String WORKSPACE_COLLECTION ="documents";
+	private final static String NEXTCLOUD_BUS_ADDRESS = "fr.openent.nextcloud";
+	// Files are uploaded one after the other to Nextcloud: a large selection takes longer than the default 30s.
+	private final static long NEXTCLOUD_COPY_TIMEOUT = TimeUnit.MINUTES.toMillis(5);
 	private final static Logger logger = LoggerFactory.getLogger(RackController.class);
 
 	private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
@@ -710,6 +717,69 @@ public class RackController extends MongoDbControllerHelper {
 					badRequest(request);
 				}
 			}
+		});
+	}
+
+	/**
+	 * Copy documents from the rack to the user's Nextcloud.
+	 * @param request Client request with document ids and destination folder path (optional) in the body using json format.
+	 */
+	@Post("/copy/nextcloud")
+	@SecuredAction(value = "", type = ActionType.AUTHENTICATED)
+	public void rackToNextcloud(final HttpServerRequest request) {
+		UserUtils.getUserInfos(eb, request, user -> {
+			if (user == null) {
+				unauthorized(request);
+				return;
+			}
+			if (!NextcloudUtils.hasNextcloudViewRight(user)) {
+				forbidden(request);
+				return;
+			}
+			RequestUtils.bodyToJson(request, pathPrefix + "rackToNextcloud", body -> {
+				final String path = body.getString("path");
+				final JsonArray ids = new JsonArray(new ArrayList<>(new LinkedHashSet<>(body.getJsonArray("ids").getList())));
+				rackService.listUserRacks(user, ids, racks -> {
+					if (racks.isLeft()) {
+						logger.error("[Rack@rackToNextcloud] Failed to list the documents of user " + user.getUserId() + ": " + racks.left().getValue());
+						renderError(request);
+					} else if (racks.right().getValue().size() < ids.size()) {
+						// Deleted since the list was loaded, or not the user's: copy nothing rather than part of the selection.
+						notFound(request);
+					} else {
+						copyToNextcloud(request, user, racks.right().getValue(), path);
+					}
+				});
+			});
+		});
+	}
+
+	private void copyToNextcloud(HttpServerRequest request, UserInfos user, JsonArray racks, String path) {
+		JsonObject message = new JsonObject()
+				.put("action", "copyFromStorage")
+				.put("userId", user.getUserId())
+				.put("host", getHost(request))
+				.put("path", path)
+				.put("files", NextcloudUtils.toNextcloudFiles(racks));
+		DeliveryOptions options = new DeliveryOptions().setSendTimeout(NEXTCLOUD_COPY_TIMEOUT);
+		eb.request(NEXTCLOUD_BUS_ADDRESS, message, options, (AsyncResult<Message<JsonObject>> reply) -> {
+			if (reply.succeeded()) {
+				renderJson(request, reply.result().body());
+				return;
+			}
+			int failureCode = reply.cause() instanceof ReplyException
+					? ((ReplyException) reply.cause()).failureCode() : -1;
+			if (failureCode == 401) {
+				renderJson(request, new JsonObject().put("error", "nextcloud.session.missing"), 401);
+				return;
+			}
+			// Nextcloud validates the request, e.g. refuses a path leaving the user's root.
+			if (failureCode == 400) {
+				badRequest(request, reply.cause().getMessage());
+				return;
+			}
+			logger.error("[Rack@copyToNextcloud] Copy of " + racks.size() + " document(s) failed for user " + user.getUserId(), reply.cause());
+			renderJson(request, new JsonObject().put("error", "nextcloud.copy.failed"), 500);
 		});
 	}
 
