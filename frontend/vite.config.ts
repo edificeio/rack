@@ -58,6 +58,7 @@ export default ({ mode }: { mode: string }) => {
       dedupe: [
         "react",
         "react-dom",
+        "react-router-dom",
         "@edifice.io/react",
         "@edifice.io/client",
         "@tanstack/react-query",
