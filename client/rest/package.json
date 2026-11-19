@@ -59,8 +59,8 @@
     "testEnvironment": "node"
   },
   "engines": {
-    "node": ">=22",
-    "pnpm": ">=8"
+    "node": ">=24 <25",
+    "pnpm": ">=10"
   },
   "devDependencies": {
     "@edifice.io/client": "develop-pedago",
