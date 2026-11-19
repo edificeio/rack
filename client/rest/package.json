@@ -39,7 +39,7 @@
     "test:watch": "vitest --watch"
   },
   "dependencies": {
-    "@nestjs/swagger": "11.2.0"
+    "@nestjs/swagger": "11.4.8"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -66,6 +66,6 @@
     "@edifice.io/client": "develop-pedago",
     "@edifice.io/edifice-nestjs-core": "develop-pedago",
     "@types/uuid": "10.0.0",
-    "tsc-alias": "1.8.16"
+    "tsc-alias": "1.9.10"
   }
 }
