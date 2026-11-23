@@ -9,7 +9,7 @@ services:
     environment:
       MAVEN_CONFIG: /var/maven/.m2
   node:
-    image: opendigitaleducation/node:22-alpine-pnpm
+    image: opendigitaleducation/node:24-alpine-pnpm
     working_dir: /home/node/app
     environment:
       - NPM_TOKEN
